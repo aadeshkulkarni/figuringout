@@ -16,12 +16,12 @@ const Blog = () => {
         </div>
       ) : (
         <div className="grid grid-cols-12 p-4 px-10">
-          <div className="col-span-8 p-4 border-r">
+          <div className="order-2 md:order-1 col-span-12 md:col-span-8 p-4 md:border-r">
             <div className="text-5xl font-extrabold">{blog?.title}</div>
             <div className="text-lg font-light text-slate-500 py-4">Post on 3rd December, 2024</div>
             <div className="py-4">{blog?.content}</div>
           </div>
-          <div className="col-span-4 p-4">
+          <div className="order-1 md:order-2 col-span-12 md:col-span-4 p-4">
             Author
             <div className="flex items-center gap-4 py-4">
               <Avatar name={blog?.author?.name || "Anonymous"} />

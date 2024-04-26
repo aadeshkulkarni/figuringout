@@ -15,7 +15,7 @@ const Publish = () => {
   return (
     <>
       <Appbar />
-      <div className="flex flex-col gap-8 justify-center p-10">
+      <div className="flex flex-col gap-8 justify-center p-4 md:p-10">
         <div className="w-full">
           <input
             type="text"

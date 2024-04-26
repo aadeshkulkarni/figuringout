@@ -9,12 +9,12 @@ const Appbar = () => {
     navigate("/signin");
   }
   return (
-    <div className="border-b border-slate-100 flex justify-between items-center p-4 px-16">
+    <div className="border-b border-slate-100 flex justify-between items-center p-4 md:px-16">
       <Link to="/blogs" className="text-xl font-bold">
         Medium
       </Link>
       {isUserLoggedIn && (
-        <div className="flex gap-8">
+        <div className="flex gap-4 md:gap-8">
           <Link to="/publish">
             <button
               type="button"
@@ -39,7 +39,7 @@ function ProfileBox() {
     navigate("/");
   };
   return (
-    <div className="relative cursor-pointer">
+    <div className="relative cursor-pointer shadow-lg shadow-yellow-800">
       <Avatar name="Aadesh Kulkarni" onClick={() => setShow(!show)} />
       {show && (
         <div className="absolute -bottom-16 -left-16 shadow-lg p-4 bg-gray-50 border border-gray-100 z-50 w-[160px]">

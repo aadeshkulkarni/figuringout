@@ -14,6 +14,40 @@ export const blogRouter = new Hono<{
   };
 }>();
 
+/* 
+This route should be kept above app.use("/*") middleware as it is unprotected
+*/
+// TODO: add pagination
+blogRouter.get("/bulk", async (c) => {
+  try {
+    const prisma = new PrismaClient({
+      datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate());
+    const posts = await prisma.post.findMany({
+      select: {
+        content: true,
+        title: true,
+        id: true,
+        author: {
+          select: {
+            name: true,
+          },
+        },
+        published: true,
+      },
+    });
+    return c.json({
+      posts: posts,
+    });
+  } catch (e) {
+    console.log(e);
+    c.status(411);
+    return c.json({
+      message: "Error while fetching post",
+    });
+  }
+});
+
 blogRouter.use("/*", async (c, next) => {
   try {
     const header = c.req.header("authorization") || "";
@@ -95,38 +129,6 @@ blogRouter.put("/", async (c) => {
   }
 });
 
-// TODO: add pagination
-blogRouter.get("/bulk", async (c) => {
-  try {
-    console.log("/bulk route reached");
-    const prisma = new PrismaClient({
-      datasourceUrl: c.env.DATABASE_URL,
-    }).$extends(withAccelerate());
-    const posts = await prisma.post.findMany({
-      select: {
-        content: true,
-        title: true,
-        id: true,
-        author: {
-          select: {
-            name: true,
-          },
-        },
-        published: true,
-      },
-    });
-    return c.json({
-      posts: posts,
-    });
-  } catch (e) {
-    console.log(e);
-    c.status(411);
-    return c.json({
-      message: "Error while fetching post",
-    });
-  }
-});
-
 blogRouter.get("/:id", async (c) => {
   try {
     const prisma = new PrismaClient({
@@ -141,12 +143,12 @@ blogRouter.get("/:id", async (c) => {
         title: true,
         content: true,
         author: {
-            select: {
-                name: true
-            }
+          select: {
+            name: true,
+          },
         },
-        id: true
-      }
+        id: true,
+      },
     });
     return c.json({
       post: post,
