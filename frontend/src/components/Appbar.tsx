@@ -39,7 +39,7 @@ function ProfileBox() {
     navigate("/");
   };
   return (
-    <div className="relative cursor-pointer shadow-lg shadow-yellow-800">
+    <div className="relative cursor-pointer">
       <Avatar name="Aadesh Kulkarni" onClick={() => setShow(!show)} />
       {show && (
         <div className="absolute -bottom-16 -left-16 shadow-lg p-4 bg-gray-50 border border-gray-100 z-50 w-[160px]">
