@@ -10,11 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@aadeshk/medium-common": "^1.0.1",
+    "@aadeshk/medium-common": "^1.0.2",
     "axios": "^1.6.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.23.0"
+    "react-quill": "^2.0.0",
+    "react-router-dom": "^6.23.0",
+    "react-toastify": "^10.0.5"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",

@@ -21,7 +21,7 @@ userRouter.post("/signup", async (c) => {
   if (!success) {
     c.status(411);
     return c.json({
-      message: "Inputs incorrect",
+      message: "Invalid email or password.",
     });
   }
   try {
@@ -38,6 +38,7 @@ userRouter.post("/signup", async (c) => {
       data: {
         email: body.email,
         password: body.password,
+        name: body.name
       },
     });
     c.status(200);
@@ -59,7 +60,7 @@ userRouter.post("/signin", async (c) => {
   if (!success) {
     c.status(411);
     return c.json({
-      message: "Inputs incorrect",
+      message: "Invalid email or password.",
     });
   }
   try {
@@ -71,7 +72,7 @@ userRouter.post("/signin", async (c) => {
     });
     if (!user) {
       c.status(403);
-      return c.json({ error: "Account does not exist" });
+      return c.json({ error: "Account with this email & password does not exist." });
     }
 
     const token = await sign({ id: user.id }, c.env.JWT_SECRET);

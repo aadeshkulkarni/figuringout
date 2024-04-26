@@ -4,6 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 import InputField from "./InputField";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -15,15 +17,18 @@ const Register = () => {
 
   async function sendRequest() {
     try {
-      await axios.post(`${BACKEND_URL}/api/v1/user/signup`, authInputs);
-      navigate("/signin");
+      if (authInputs.name && authInputs.email && authInputs.password) {
+        await axios.post(`${BACKEND_URL}/api/v1/user/signup`, authInputs);
+        navigate("/signin");
+      }
+      toast.error("Name, Email & Password are mandatory fields.");
     } catch (ex) {
       console.log(ex);
-      // Alert the user
+      toast.error("Something went wrong");
     }
   }
   return (
-    <div className="text-center flex flex-col justify-center items-center">
+    <div className="text-center flex flex-col justify-center items-center h-screen md:h-auto">
       <h1 className="text-4xl font-bold ">Create an account</h1>
       <h6>
         Already have an account?{" "}
@@ -59,6 +64,7 @@ const Register = () => {
           Sign up
         </button>
       </div>
+      <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" />
     </div>
   );
 };

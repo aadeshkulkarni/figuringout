@@ -39,6 +39,7 @@ export const useBlog = ({ id }: { id: string }) => {
     id: "",
     title: "",
     content: "",
+    publishedDate: "",
     author: {
       name: "",
     },
