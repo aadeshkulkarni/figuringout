@@ -27,7 +27,7 @@
 ## Frontend
 - cd frontend
 - npm install
-- npm start 
+- npm run dev 
 
 # Technologies & Libraries
 - Serverless Backend using [Cloudfare](https://www.cloudflare.com/)
