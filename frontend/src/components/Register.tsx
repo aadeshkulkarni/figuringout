@@ -15,8 +15,7 @@ const Register = () => {
 
   async function sendRequest() {
     try {
-      const response = await axios.post(`${BACKEND_URL}/api/v1/user/signup`, authInputs);
-      console.log(response.data);
+      await axios.post(`${BACKEND_URL}/api/v1/user/signup`, authInputs);
       navigate("/signin");
     } catch (ex) {
       console.log(ex);

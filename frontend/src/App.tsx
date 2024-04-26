@@ -1,10 +1,10 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import "./App.css";
 import Signup from "./pages/Signup";
 import Signin from "./pages/Signin";
 import Blog from "./pages/Blog";
 import Blogs from "./pages/Blogs";
 import Publish from "./pages/Publish";
+import Home from "./pages/Home";
 
 function App() {
   return (
@@ -15,7 +15,7 @@ function App() {
         <Route path="/blogs" element={<Blogs />} />
         <Route path="/blog/:id" element={<Blog />} />
         <Route path="/publish" element={<Publish />} />
-        <Route path="/" element={<Signup />} />
+        <Route path="/" element={<Home />} />
       </Routes>
     </BrowserRouter>
   );

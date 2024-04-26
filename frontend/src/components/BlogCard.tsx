@@ -1,3 +1,4 @@
+import { MouseEventHandler } from "react";
 import { Link } from "react-router-dom";
 
 interface BlogCardProps {
@@ -28,9 +29,9 @@ const BlogCard = ({ author, title, content, publishedDate, id }: BlogCardProps) 
 
 export default BlogCard;
 
-export function Avatar({ name }: { name: string }) {
+export function Avatar({ name, onClick }: { name: string, onClick?: MouseEventHandler<HTMLDivElement> }) {
   return (
-    <div className="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+    <div onClick={onClick} className="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 hover:bg-gray-50 rounded-full dark:bg-gray-600">
       <span className="font-medium text-gray-600 dark:text-gray-300">
         {name.split(" ")?.[0]?.[0]}
         {name?.split(" ")?.[1]?.[0]}
