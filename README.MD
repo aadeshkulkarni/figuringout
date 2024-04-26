@@ -1,3 +1,20 @@
+# Application
+(Medium-app)[https://medium-app-zeta.vercel.app]
+
+# App features
+- User Signup (Token Auth) ✅
+- User Signin (Token Auth) ✅
+
+- See all articles ✅
+- Create a new article ✅
+- Edit a article 
+- Delete a article
+- See a specific article ✅
+
+- Search for article
+- Filter articles
+- Paginate articles
+
 # Stack
 
 - React in the frontend
