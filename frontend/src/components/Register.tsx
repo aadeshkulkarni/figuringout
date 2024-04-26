@@ -4,8 +4,12 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 import InputField from "./InputField";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Spinner from "./Spinner";
 
 const Register = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [authInputs, setAuthInputs] = useState<SignupInput>({
     name: "",
@@ -15,15 +19,19 @@ const Register = () => {
 
   async function sendRequest() {
     try {
-      await axios.post(`${BACKEND_URL}/api/v1/user/signup`, authInputs);
-      navigate("/signin");
+      setIsLoading(true);
+      if (authInputs.name && authInputs.email && authInputs.password) {
+        await axios.post(`${BACKEND_URL}/api/v1/user/signup`, authInputs);
+        navigate("/signin");
+      }
+      toast.error("Name, Email & Password are mandatory fields.");
     } catch (ex) {
       console.log(ex);
-      // Alert the user
+      toast.error("Something went wrong");
     }
   }
   return (
-    <div className="text-center flex flex-col justify-center items-center">
+    <div className="text-center flex flex-col justify-center items-center h-screen md:h-auto">
       <h1 className="text-4xl font-bold ">Create an account</h1>
       <h6>
         Already have an account?{" "}
@@ -55,10 +63,25 @@ const Register = () => {
             setAuthInputs({ ...authInputs, password: event.target.value });
           }}
         />
-        <button onClick={sendRequest} className="w-full bg-black text-white p-4 rounded-md">
-          Sign up
+        <button
+          onClick={sendRequest}
+          className="w-full bg-black text-white p-4 rounded-md"
+          disabled={isLoading}>
+          {isLoading ? <Spinner /> : "Sign In"}
         </button>
       </div>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </div>
   );
 };

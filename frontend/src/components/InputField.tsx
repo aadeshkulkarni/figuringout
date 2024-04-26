@@ -7,10 +7,18 @@ interface InputFieldType {
   placeholder: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
-const InputField = ({ id, label, type, placeholder, onChange }: InputFieldType) => {
+const InputField = ({
+  id,
+  label,
+  type,
+  placeholder,
+  onChange,
+}: InputFieldType) => {
   return (
     <div className="w-full text-left my-4">
-      <label htmlFor={id} className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+      <label
+        htmlFor={id}
+        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
         {label}
       </label>
       <input
