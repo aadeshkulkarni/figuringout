@@ -6,6 +6,7 @@ import { BACKEND_URL } from "../config";
 import InputField from "./InputField";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 import Spinner from "./Spinner";
 
 const Register = () => {
