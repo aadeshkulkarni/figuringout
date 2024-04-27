@@ -1,10 +1,10 @@
 const Quote = () => {
   return (
-    <div className="bg-gray-100 flex justify-center items-center">
+    <div className="bg-gray-100 flex justify-center items-center text-center h-screen md:h-auto">
       <div>
-        <h1 className="text-2xl w-[400px] font-semibold">"The customer service I recieved was exceptional. The support team went above and beyond to address my concerns"</h1>
-        <h6 className="font-bold mt-4">Jules Winnfield</h6>
-        <h6>CEO, Avenue Code</h6>
+        <h1 className="text-md md:text-2xl md:w-[500px] text-center font-light md:tracking-wide leading-6 md:leading-8">" To laugh often and much: To win the respect of intelligent people and the affection of children, to earn the appreciation of honest critics and endure the betrayal of false friends; to appreciate beauty, to find the best in others, to leave the world a bit better whether by a healthy child, a garden patch, or a redeemed social condition; to know even one life has breathed easier because you lived. This is to have succeeded."</h1>
+        <h6 className="font-bold mt-4 ">Ralph Waldo Emerson</h6>
+        <h6>artofpoets.com</h6>
       </div>
     </div>
   );

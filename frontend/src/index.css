@@ -4,6 +4,23 @@
 @tailwind components;
 @tailwind utilities;
 
+
+.ql-editor{
+    @apply text-lg p-0 md:p-4
+}
+
 body {
     font-family: "Noto Sans", sans-serif;;
+}
+
+.quill {
+    min-height: 500px;
+}
+
+.blog-card .quill {
+    min-height: 100px;
+    max-height: 100px;
+}
+.blog-card .ql-editor {
+    padding: 0;
 }

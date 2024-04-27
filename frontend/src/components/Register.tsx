@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import Spinner from "./Spinner";
 
+
 const Register = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -84,6 +85,7 @@ const Register = () => {
         pauseOnHover
         theme="dark"
       />
+      <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" />
     </div>
   );
 };
