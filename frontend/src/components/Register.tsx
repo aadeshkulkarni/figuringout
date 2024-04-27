@@ -20,6 +20,7 @@ const Register = () => {
   async function sendRequest() {
     try {
       setIsLoading(true);
+
       if (authInputs.name && authInputs.email && authInputs.password) {
         await axios.post(`${BACKEND_URL}/api/v1/user/signup`, authInputs);
         navigate("/signin");
@@ -83,6 +84,7 @@ const Register = () => {
         pauseOnHover
         theme="dark"
       />
+      <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" />
     </div>
   );
 };

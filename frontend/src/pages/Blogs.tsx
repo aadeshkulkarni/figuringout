@@ -7,6 +7,7 @@ export interface BlogType {
   id: string;
   title: string;
   content: string;
+  publishedDate: string;
   author: {
     name: string;
   };
@@ -22,8 +23,8 @@ const Blogs = () => {
           <Spinner />
         </div>
       ) : (
-        <div className="flex flex-col justify-center items-center">
-          {blogs.length > 0 && blogs.map((blog: BlogType) => <BlogCard id={blog?.id} author={blog?.author} publishedDate="Dec 3, 2024" title={blog.title} content={blog.content} />)}
+        <div className="flex flex-col justify-center items-center bg-gray-100">
+          {blogs.length > 0 && blogs.map((blog: BlogType) => <BlogCard id={blog?.id} author={blog?.author} publishedDate={blog?.publishedDate} title={blog.title} content={blog.content} />)}
         </div>
       )}
     </>

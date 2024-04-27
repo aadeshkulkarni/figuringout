@@ -3,6 +3,7 @@ import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import { Hono } from "hono";
 import { verify } from "hono/jwt";
+import { getFormattedDate } from "../utils";
 
 export const blogRouter = new Hono<{
   Bindings: {
@@ -28,6 +29,7 @@ blogRouter.get("/bulk", async (c) => {
         content: true,
         title: true,
         id: true,
+        publishedDate: true,
         author: {
           select: {
             name: true,
@@ -82,11 +84,13 @@ blogRouter.post("/", async (c) => {
   }
   const authorId = c.get("userId");
   try {
+    
     const post = await prisma.post.create({
       data: {
         title: body.title,
         content: body.content,
         authorId: authorId,
+        publishedDate: getFormattedDate()
       },
     });
     return c.json({
@@ -118,6 +122,7 @@ blogRouter.put("/", async (c) => {
       data: {
         title: body.title,
         content: body.content,
+        publishedDate: getFormattedDate()
       },
     });
     return c.json({
@@ -142,6 +147,7 @@ blogRouter.get("/:id", async (c) => {
       select: {
         title: true,
         content: true,
+        publishedDate: true,
         author: {
           select: {
             name: true,
