@@ -34,11 +34,13 @@
 
 #### Backend
 - cd backend
-- Add Postgres DATABASE_URL in .env
-- Add Prisma connection pool DATABASE_URL in wrangler.toml file
-- Add JWT Secret JWT_SECRET in wrangler.toml file
+- Add Postgres DATABASE_URL in .env (You can get a postgres connection string for free from https://aiven.io/)
+- Add Prisma connection pool DATABASE_URL in wrangler.toml file (You can get the Prisma connection string for free from https://www.prisma.io/data-platform/accelerate)
+- Add JWT Secret JWT_SECRET in wrangler.toml file (This can be any value)
 - npm install
 - npm run dev 
+
+> wrangler.toml is the environment configuration file for the serverless backend. .env is also used by Prisma for connection pooling. So, ensure you are configuring both env files.
 
 #### Frontend
 - cd frontend
