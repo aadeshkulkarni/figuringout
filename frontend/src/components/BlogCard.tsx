@@ -37,8 +37,8 @@ export default BlogCard;
 
 export function Avatar({ name, onClick }: { name: string; onClick?: MouseEventHandler<HTMLDivElement> }) {
   return (
-    <div onClick={onClick} className="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-200 hover:bg-gray-50 rounded-full dark:bg-gray-600">
-      <span className="font-medium text-gray-600 dark:text-gray-300">
+    <div onClick={onClick} className="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-200 hover:bg-gray-50 rounded-full">
+      <span className="font-medium text-gray-600">
         {name.split(" ")?.[0]?.[0]}
         {name?.split(" ")?.[1]?.[0]}
       </span>
