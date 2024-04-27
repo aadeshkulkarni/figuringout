@@ -63,6 +63,7 @@ const Register = () => {
             setAuthInputs({ ...authInputs, password: event.target.value });
           }}
         />
+        {/*  */}
         <button
           onClick={sendRequest}
           className="w-full bg-black text-white p-4 rounded-md"
