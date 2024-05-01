@@ -19,6 +19,7 @@ const Login = () => {
         const response = await axios.post(`${BACKEND_URL}/api/v1/user/signin`, authInputs);
         const token = response.data.jwt;
         localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(response?.data?.user || {}));
         navigate("/blogs");
       }
       toast.error("Email & Password are mandatory fields.");

@@ -14,10 +14,10 @@ interface BlogCardProps {
 }
 
 const BlogCard = ({ author, title, content, publishedDate, id }: BlogCardProps) => {
-  const quillContent = content.slice(0, 200).replaceAll('<br>','').replaceAll('<p></p>','').replaceAll('<strong>','').replaceAll('</strong>','').replaceAll("</p><p>","")+" ..."
+  const quillContent = content.slice(0, 400).replaceAll('<br>','').replaceAll('<p></p>','').replaceAll('<strong>','').replaceAll('</strong>','').replaceAll("</p><p>","").replaceAll("<ul>","").replaceAll("</ul>","")+" ..."
 
   return (
-    <Link to={`/blog/${id}`} className="blog-card p-4 border-b border-slate-200 w-full md:w-3/6 md:border md:border-gray-50 bg-white shadow-lg">
+    <Link to={`/blog/${id}`} className="blog-card px-4 py-8 border-b border-slate-200 w-full md:w-3/6 md:border md:border-gray-50 bg-white shadow-sm">
       <div className="flex items-center gap-4">
         <Avatar name={author?.name || ""} />
         <div>

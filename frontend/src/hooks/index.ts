@@ -41,6 +41,7 @@ export const useBlog = ({ id }: { id: string }) => {
     content: "",
     publishedDate: "",
     author: {
+      id: "",
       name: "",
     },
   });
@@ -62,8 +63,23 @@ export const useBlog = ({ id }: { id: string }) => {
     fetchBlogs();
   }, [id]);
 
+
+  async function deleteBlog(blogId: string) {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/signin");
+    }
+    const response = await axios.delete(`${BACKEND_URL}/api/v1/blog/${blogId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data.message
+  }
+
   return {
     loading,
     blog,
+    deleteBlog
   };
 };
