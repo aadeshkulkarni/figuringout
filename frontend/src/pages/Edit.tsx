@@ -13,7 +13,13 @@ const Edit = () => {
 
   const { blog, loading, editBlog } = useBlog({ id: id || "" });
 
-  async function finishEdit({ title, content }) {
+  async function finishEdit({
+    title,
+    content,
+  }: {
+    title: string;
+    content: string;
+  }) {
     if (title.trim() && content.trim()) {
       const response = await editBlog({ id: blog.id, title, content });
       if (response) {

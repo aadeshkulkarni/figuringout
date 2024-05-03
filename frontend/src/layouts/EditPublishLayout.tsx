@@ -1,15 +1,22 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const EditPublishLayout = ({
+interface EditPublishLayoutProps {
+  defaultTitle?: string;
+  defaultContent?: string;
+  submitFunctionName: string;
+  submitFunction: (data: { title: string; content: string }) => void;
+}
+
+const EditPublishLayout: React.FC<EditPublishLayoutProps> = ({
   defaultTitle = "",
   defaultContent = "",
   submitFunctionName,
   submitFunction,
-}) => {
+}: EditPublishLayoutProps) => {
   const [title, setTitle] = useState(defaultTitle);
   const [content, setContent] = useState(defaultContent);
   return (
