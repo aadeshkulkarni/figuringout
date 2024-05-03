@@ -84,13 +84,12 @@ blogRouter.post("/", async (c) => {
   }
   const authorId = c.get("userId");
   try {
-    
     const post = await prisma.post.create({
       data: {
         title: body.title,
         content: body.content,
         authorId: authorId,
-        publishedDate: getFormattedDate()
+        publishedDate: getFormattedDate(),
       },
     });
     return c.json({
@@ -122,7 +121,7 @@ blogRouter.put("/", async (c) => {
       data: {
         title: body.title,
         content: body.content,
-        publishedDate: getFormattedDate()
+        publishedDate: getFormattedDate(),
       },
     });
     return c.json({
@@ -151,6 +150,7 @@ blogRouter.get("/:id", async (c) => {
         author: {
           select: {
             name: true,
+            id: true,
           },
         },
         id: true,
@@ -164,6 +164,29 @@ blogRouter.get("/:id", async (c) => {
     c.status(411);
     return c.json({
       message: "Error while fetching post",
+    });
+  }
+});
+
+blogRouter.delete("/:id", async (c) => {
+  try {
+    const prisma = new PrismaClient({
+      datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate());
+    const postId = await c.req.param("id");
+    const post = await prisma.post.delete({
+      where: {
+        id: postId,
+      },
+    });
+    return c.json({
+      message: "Post deleted successfully",
+    });
+  } catch (e) {
+    console.log(e);
+    c.status(411);
+    return c.json({
+      message: "Error while deleting post",
     });
   }
 });

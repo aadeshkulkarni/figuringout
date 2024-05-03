@@ -7,8 +7,8 @@
 - User Signin (Token Auth) ✅
 - See all articles ✅
 - Create a new article ✅
-- Edit a article 
-- Delete a article
+- Edit a article ✅
+- Delete a article ✅
 - See a specific article ✅
 - Search for article
 - Filter articles
