@@ -20,6 +20,10 @@ const Blog = () => {
       navigate("/blogs");
     }
   };
+
+  const beginEditStory = () => {
+    navigate(`/edit/${blog.id}`);
+  };
   return (
     <>
       <Appbar />
@@ -31,21 +35,36 @@ const Blog = () => {
         <div className="grid grid-cols-12 p-4 md:px-10">
           <div className="md:col-span-1"></div>
           <div className="order-2 md:order-1 col-span-12 md:col-span-7 md:p-4 md:border-r">
-            <div className="text-xl md:text-5xl font-extrabold">{blog?.title}</div>
+            <div className="text-xl md:text-5xl font-extrabold">
+              {blog?.title}
+            </div>
             <div className="text-lg font-light text-slate-500 py-4 items-center justify-center">
               Post on {blog?.publishedDate}
               {isAuthor && (
-                <button
-                  onClick={deleteStory}
-                  type="button"
-                  className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 mx-12"
-                >
-                  Delete story
-                </button>
+                <>
+                  <button
+                    onClick={beginEditStory}
+                    type="button"
+                    className="focus:outline-none text-white  bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 mx-12"
+                  >
+                    Edit story
+                  </button>
+                  <button
+                    onClick={deleteStory}
+                    type="button"
+                    className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 mx-12"
+                  >
+                    Delete story
+                  </button>
+                </>
               )}
             </div>
             <div className="py-4">
-              <ReactQuill value={blog?.content} readOnly={true} theme={"bubble"} />
+              <ReactQuill
+                value={blog?.content}
+                readOnly={true}
+                theme={"bubble"}
+              />
             </div>
           </div>
           <div className="order-1 md:order-2 col-span-12 md:col-span-2 p-4">
@@ -53,7 +72,9 @@ const Blog = () => {
             <div className="flex items-center gap-4 py-4">
               <Avatar name={blog?.author?.name || "Anonymous"} />
               <div>
-                <div className="font-bold">{blog?.author?.name || "Anonymous"}</div>
+                <div className="font-bold">
+                  {blog?.author?.name || "Anonymous"}
+                </div>
                 <div>An artist at living. My work of art is my life.</div>
               </div>
             </div>

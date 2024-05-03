@@ -77,9 +77,45 @@ export const useBlog = ({ id }: { id: string }) => {
     return response.data.message
   }
 
+  async function editBlog({
+    id,
+    title,
+    content,
+  }: {
+    id: string;
+    title: string;
+    content: string;
+  }) {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/signin");
+    }
+    setLoading(true);
+    try {
+      const response = await axios.put(
+        `${BACKEND_URL}/api/v1/blog`,
+        {
+          id: id,
+          title: title,
+          content: content,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (e) {
+      return { error: "An error has occured trying to edit the blog" };
+    } finally {
+      setLoading(false);
+    }
+  }
   return {
     loading,
     blog,
-    deleteBlog
+    deleteBlog,
+    editBlog,
   };
 };
