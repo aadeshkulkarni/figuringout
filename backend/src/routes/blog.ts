@@ -139,6 +139,7 @@ blogRouter.get("/:id", async (c) => {
       datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate());
     const postId = await c.req.param("id");
+    const userId = c.get("userId");
     const post = await prisma.post.findFirst({
       where: {
         id: postId,
@@ -154,10 +155,28 @@ blogRouter.get("/:id", async (c) => {
           },
         },
         id: true,
+        bookmarks: {
+          select: {
+            id: true,
+            user: {
+              select: {
+                id: true,
+              },
+            },
+          },
+        },
       },
     });
+
+    const userBookmarked = post.bookmarks.some(
+      (bookmark) => bookmark.user.id === userId
+    );
+
     return c.json({
-      post: post,
+      post: {
+        ...post,
+        userBookmarked,
+      },
     });
   } catch (e) {
     console.log(e);
@@ -188,5 +207,67 @@ blogRouter.delete("/:id", async (c) => {
     return c.json({
       message: "Error while deleting post",
     });
+  }
+});
+
+blogRouter.post("/bookmark", async (c) => {
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL,
+  }).$extends(withAccelerate());
+  const body = await c.req.json();
+  const userId = c.get("userId");
+  const blogId = body.id;
+  if (!userId || !blogId) {
+    c.status(400);
+    return c.json({
+      message: "Inputs incorrect",
+    });
+  }
+
+  try {
+    const bookmark = await prisma.bookmark.create({
+      data: {
+        userId,
+        postId: blogId,
+      },
+    });
+    return c.json({
+      id: bookmark.id,
+    });
+  } catch (ex) {
+    console.log("ERROR ", ex);
+    c.status(500);
+    return c.json({ error: "Something went wrong " });
+  }
+});
+
+blogRouter.post("/unbookmark", async (c) => {
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL,
+  }).$extends(withAccelerate());
+  const body = await c.req.json();
+  const userId = c.get("userId");
+  const blogId = body.id;
+  if (!userId || !blogId) {
+    c.status(411);
+    return c.json({
+      message: "Inputs incorrect",
+    });
+  }
+
+  try {
+    const bookmark = await prisma.bookmark.delete({
+      where: {
+        userId,
+        postId: blogId,
+      },
+    });
+    return c.json({
+      id: bookmark.id,
+    });
+  } catch (ex) {
+    console.log("ERROR ", ex);
+    c.status(500);
+    return c.json({ error: "Something went wrong " });
   }
 });

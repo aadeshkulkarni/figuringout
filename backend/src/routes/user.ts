@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import { Hono } from "hono";
-import { sign } from "hono/jwt";
+import { sign, verify } from "hono/jwt";
 import { signinInput, signupInput } from "@aadeshk/medium-common";
 
 export const userRouter = new Hono<{
@@ -96,6 +96,46 @@ userRouter.get("/", async (c) => {
     return c.json({
       payload: users,
       message: "All users",
+    });
+  } catch (ex) {
+    return c.status(403);
+  }
+});
+
+userRouter.get("/bookmarks", async (c) => {
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL,
+  }).$extends(withAccelerate());
+
+  const header = c.req.header("authorization") || "";
+  const token = header.split(" ")[1];
+  const user = await verify(token, c.env.JWT_SECRET);
+
+  if (!user) {
+    c.status(403);
+    return c.json({ error: "Unauthorized " });
+  }
+
+  const userId = user.id;
+  try {
+    const bookmarks = await prisma.bookmark.findMany({
+      where: { userId },
+      include: {
+        post: {
+          select: {
+            id: true,
+            title: true,
+            content: true,
+            publishedDate: true,
+            published: true,
+            author: true,
+          },
+        },
+      },
+    });
+    return c.json({
+      payload: bookmarks.map((bookmark) => bookmark.post),
+      message: "All posts bookmarked by user",
     });
   } catch (ex) {
     return c.status(403);
