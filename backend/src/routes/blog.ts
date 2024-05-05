@@ -249,7 +249,7 @@ blogRouter.post("/unbookmark", async (c) => {
   const userId = c.get("userId");
   const blogId = body.id;
   if (!userId || !blogId) {
-    c.status(411);
+    c.status(400);
     return c.json({
       message: "Inputs incorrect",
     });
