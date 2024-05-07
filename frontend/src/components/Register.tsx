@@ -19,7 +19,7 @@ const Register = () => {
     try {
       if (authInputs.name && authInputs.email && authInputs.password) {
         await axios.post(`${BACKEND_URL}/api/v1/user/signup`, authInputs);
-        navigate("/signin");
+        navigate("/blogs");
       }
       toast.error("Name, Email & Password are mandatory fields.");
     } catch (ex) {
