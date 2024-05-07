@@ -4,7 +4,8 @@ import axios from "axios";
 import { SigninInput } from "@aadeshk/medium-common";
 import InputField from "./InputField";
 import { BACKEND_URL } from "../config";
-import { ToastContainer, toast } from "react-toastify";
+import {  toast } from "react-toastify";
+import ToastWrapper from "./ToastWrapper";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -61,7 +62,7 @@ const Login = () => {
           Sign In
         </button>
       </div>
-      <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" />
+      <ToastWrapper /> 
     </div>
   );
 };
