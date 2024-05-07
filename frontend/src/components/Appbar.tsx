@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Avatar } from "./BlogCard";
 import { Link, useNavigate } from "react-router-dom";
+import WriteIcon from "./icons/Write";
 
 const Appbar = () => {
   const navigate = useNavigate();
@@ -18,9 +19,9 @@ const Appbar = () => {
           <Link to="/publish">
             <button
               type="button"
-              className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 mx-12"
+              className="focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium flex items-center gap-2 rounded-lg text-sm px-5 py-2.5 me-2 mb-2 mx-12"
             >
-              Write
+              <WriteIcon /> Write
             </button>
           </Link>
           <ProfileBox />
