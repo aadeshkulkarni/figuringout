@@ -168,14 +168,14 @@ blogRouter.get("/:id", async (c) => {
       },
     });
 
-    const userBookmarked = post.bookmarks.some(
+    const userBookmarkId = post.bookmarks.find(
       (bookmark) => bookmark.user.id === userId
     );
 
     return c.json({
       post: {
         ...post,
-        userBookmarked,
+        bookmarkId: userBookmarkId?.id,
       },
     });
   } catch (e) {

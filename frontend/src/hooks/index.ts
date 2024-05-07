@@ -124,9 +124,9 @@ export const useBlog = ({ id }: { id: string }) => {
     setLoading(true);
     try {
       const response = await axios.post(
-        `${BACKEND_URL}/api/v1/blog/bookmark`,
+        `${BACKEND_URL}/api/v1/bookmark`,
         {
-          id,
+          blogId: id,
         },
         {
           headers: {
@@ -143,18 +143,15 @@ export const useBlog = ({ id }: { id: string }) => {
     }
   }
 
-  async function unbookmarkBlog() {
+  async function unbookmarkBlog(bookmarkId: string) {
     const token = localStorage.getItem("token");
     if (!token) {
       navigate("/signin");
     }
     setLoading(true);
     try {
-      const response = await axios.post(
-        `${BACKEND_URL}/api/v1/blog/unbookmark`,
-        {
-          id,
-        },
+      const response = await axios.delete(
+        `${BACKEND_URL}/api/v1/bookmark/${bookmarkId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -179,7 +176,7 @@ export const useBlog = ({ id }: { id: string }) => {
   };
 };
 
-export const useUserBookmarks = () => {
+export const useBookmarks = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [bookmarks, setBookmarks] = useState([]);
@@ -190,7 +187,7 @@ export const useUserBookmarks = () => {
       if (!token) {
         navigate("/signin");
       }
-      const response = await axios.get(`${BACKEND_URL}/api/v1/user/bookmarks`, {
+      const response = await axios.get(`${BACKEND_URL}/api/v1/bookmark`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -39,7 +39,7 @@ const Blog = () => {
   };
 
   const onConfirmUnbookmark = () => {
-    unbookmarkBlog();
+    unbookmarkBlog(blog.bookmarkId);
     setOpenUnbookmarkModal(false);
   };
 
@@ -78,7 +78,7 @@ const Blog = () => {
                   >
                     Delete story
                   </button>
-                  {!blog.userBookmarked ? (
+                  {!blog.bookmarkId ? (
                     <Tooltip message="Bookmark post">
                       <BookmarkIcon
                         onClickIcon={bookmarkPost}

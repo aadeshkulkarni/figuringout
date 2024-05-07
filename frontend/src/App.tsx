@@ -6,7 +6,7 @@ import Blogs from "./pages/Blogs";
 import Publish from "./pages/Publish";
 import Home from "./pages/Home";
 import Edit from "./pages/Edit";
-import UserBookmarks from "./pages/UserBookmarks";
+import Bookmarks from "./pages/Bookmarks";
 
 function App() {
   return (
@@ -18,7 +18,7 @@ function App() {
         <Route path="/blog/:id" element={<Blog />} />
         <Route path="/publish" element={<Publish />} />
         <Route path="/edit/:id" element={<Edit />} />
-        <Route path="/userBookmarks" element={<UserBookmarks />} />
+        <Route path="/bookmarks" element={<Bookmarks />} />
         <Route path="/" element={<Home />} />
       </Routes>
     </BrowserRouter>

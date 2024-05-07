@@ -12,7 +12,7 @@ export interface BlogType {
     id: string;
     name: string;
   };
-  userBookmarked?: boolean;
+  bookmarkId?: string;
 }
 
 const Blogs = () => {
