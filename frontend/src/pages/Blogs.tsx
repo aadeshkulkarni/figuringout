@@ -12,6 +12,7 @@ export interface BlogType {
     id: string;
     name: string;
   };
+  bookmarkId?: string;
 }
 
 const Blogs = () => {
@@ -25,7 +26,16 @@ const Blogs = () => {
         </div>
       ) : (
         <div className="flex flex-col justify-center items-center bg-gray-50">
-          {blogs.length > 0 && blogs.map((blog: BlogType) => <BlogCard id={blog?.id} author={blog?.author} publishedDate={blog?.publishedDate} title={blog.title} content={blog.content} />)}
+          {blogs.length > 0 &&
+            blogs.map((blog: BlogType) => (
+              <BlogCard
+                id={blog?.id}
+                author={blog?.author}
+                publishedDate={blog?.publishedDate}
+                title={blog.title}
+                content={blog.content}
+              />
+            ))}
         </div>
       )}
     </>

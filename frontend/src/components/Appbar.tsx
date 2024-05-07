@@ -41,16 +41,23 @@ function ProfileBox() {
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
 
-  const Logout = () => {
+  const logout = () => {
     localStorage.removeItem("token");
     navigate("/");
+  };
+
+  const goToBookmarks = () => {
+    navigate("/userBookmarks");
   };
   return (
     <div className="relative cursor-pointer">
       <Avatar name="Aadesh Kulkarni" onClick={() => setShow(!show)} />
       {show && (
-        <div className="absolute -bottom-16 -left-16 shadow-lg p-4 bg-gray-50 border border-gray-100 z-50 w-[160px]">
-          <div onClick={Logout}>Logout</div>
+        <div className="absolute -bottom-24 -left-16 shadow-lg p-4 bg-gray-50 border border-gray-100 z-50 w-[160px]">
+          <div className="flex flex-col gap-3">
+            <div onClick={goToBookmarks}>Bookmarks</div>
+            <div onClick={logout}>Logout</div>
+          </div>
         </div>
       )}
     </div>

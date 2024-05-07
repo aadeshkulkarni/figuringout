@@ -6,11 +6,20 @@ import { useBlog } from "../hooks";
 import { useNavigate, useParams } from "react-router-dom";
 import "react-quill/dist/quill.bubble.css";
 import { toast } from "react-toastify";
+import BookmarkIcon from "../components/icons/Bookmark";
+import BookmarkSolid from "../components/icons/BookmarkSolid";
+import Tooltip from "../components/Tooltip";
+import Modal from "../components/Modal";
+import { useState } from "react";
 
 const Blog = () => {
   const navigate = useNavigate();
+  const [openUnbookmarkModal, setOpenUnbookmarkModal] = useState(false);
+
   const { id } = useParams();
-  const { blog, loading, deleteBlog } = useBlog({ id: id || "" });
+  const { blog, loading, deleteBlog, bookmarkBlog, unbookmarkBlog } = useBlog({
+    id: id || "",
+  });
   const user = JSON.parse(localStorage.getItem("user") || "{}") || {};
   const isAuthor = user?.id === blog?.author?.id;
   const deleteStory = async () => {
@@ -19,6 +28,19 @@ const Blog = () => {
       toast.info(message);
       navigate("/blogs");
     }
+  };
+
+  const bookmarkPost = () => {
+    bookmarkBlog();
+  };
+
+  const unbookmarkPost = () => {
+    setOpenUnbookmarkModal(true);
+  };
+
+  const onConfirmUnbookmark = () => {
+    unbookmarkBlog(blog.bookmarkId!);
+    setOpenUnbookmarkModal(false);
   };
 
   const beginEditStory = () => {
@@ -38,10 +60,10 @@ const Blog = () => {
             <div className="text-xl md:text-5xl font-extrabold">
               {blog?.title}
             </div>
-            <div className="text-lg font-light text-slate-500 py-4 items-center justify-center">
+            <div className="text-lg font-light text-slate-500 py-4 items-center justify-between flex">
               Post on {blog?.publishedDate}
               {isAuthor && (
-                <>
+                <div className="flex items-center">
                   <button
                     onClick={beginEditStory}
                     type="button"
@@ -56,7 +78,22 @@ const Blog = () => {
                   >
                     Delete story
                   </button>
-                </>
+                  {!blog.bookmarkId ? (
+                    <Tooltip message="Bookmark post">
+                      <BookmarkIcon
+                        onClickIcon={bookmarkPost}
+                        className="w-6 h-6 cursor-pointer"
+                      />
+                    </Tooltip>
+                  ) : (
+                    <Tooltip message="Unbookmark post">
+                      <BookmarkSolid
+                        onClickIcon={unbookmarkPost}
+                        className="w-6 h-6 cursor-pointer"
+                      />
+                    </Tooltip>
+                  )}
+                </div>
               )}
             </div>
             <div className="py-4">
@@ -79,6 +116,12 @@ const Blog = () => {
               </div>
             </div>
           </div>
+          <Modal
+            message={"Are you sure that you want to unbookmark this post?"}
+            openModal={openUnbookmarkModal}
+            onConfirm={onConfirmUnbookmark}
+            onCloseModal={() => setOpenUnbookmarkModal(false)}
+          />
         </div>
       )}
     </>
