@@ -39,7 +39,7 @@ const Blog = () => {
   };
 
   const onConfirmUnbookmark = () => {
-    unbookmarkBlog(blog.bookmarkId);
+    unbookmarkBlog(blog.bookmarkId!);
     setOpenUnbookmarkModal(false);
   };
 

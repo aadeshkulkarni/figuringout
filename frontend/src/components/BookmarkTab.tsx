@@ -1,6 +1,6 @@
 import BlogCard from "./BlogCard";
-import { BlogType } from "./Blogs";
 import { Link } from "react-router-dom";
+import { BlogType } from "../pages/Blogs";
 
 type BookmarkTabProps = {
   bookmarks: BlogType[];
