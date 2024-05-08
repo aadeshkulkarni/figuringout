@@ -35,6 +35,7 @@ export const useBlogs = () => {
 export const useBlog = ({ id }: { id: string }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+  const [submittingBookmark, setSubmittingBookmark] = useState(false);
   const [blog, setBlog] = useState<BlogType>({
     id: "",
     title: "",
@@ -121,7 +122,7 @@ export const useBlog = ({ id }: { id: string }) => {
     if (!token) {
       navigate("/signin");
     }
-    setLoading(true);
+    setSubmittingBookmark(true);
     try {
       const response = await axios.post(
         `${BACKEND_URL}/api/v1/bookmark`,
@@ -139,7 +140,7 @@ export const useBlog = ({ id }: { id: string }) => {
     } catch (e) {
       return { error: "An error has occured trying to edit the blog" };
     } finally {
-      setLoading(false);
+      setSubmittingBookmark(false);
     }
   }
 
@@ -148,7 +149,7 @@ export const useBlog = ({ id }: { id: string }) => {
     if (!token) {
       navigate("/signin");
     }
-    setLoading(true);
+    setSubmittingBookmark(true);
     try {
       const response = await axios.delete(
         `${BACKEND_URL}/api/v1/bookmark/${bookmarkId}`,
@@ -163,12 +164,13 @@ export const useBlog = ({ id }: { id: string }) => {
     } catch (e) {
       return { error: "An error has occured trying to edit the blog" };
     } finally {
-      setLoading(false);
+      setSubmittingBookmark(false);
     }
   }
   return {
     loading,
     blog,
+    submittingBookmark,
     deleteBlog,
     editBlog,
     bookmarkBlog,
