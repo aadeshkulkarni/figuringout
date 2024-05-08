@@ -21,7 +21,7 @@ const Home = () => {
           <p className="py-4 text-lg leading-8">Ultimately, our goal is to deepen our collective understanding of the world through the power of writing.</p>
         </div>
         <img className="col-span-12 order-1 md:order-2 md:col-span-6 h-full object-cover" src="https://images.pexels.com/photos/211816/pexels-photo-211816.jpeg" alt="blog-image"/>
-      </div>
+      </div> 
     </div>
   );
 };
