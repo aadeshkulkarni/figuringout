@@ -19,8 +19,11 @@ const Register = () => {
   async function sendRequest() {
     try {
       if (authInputs.name && authInputs.email && authInputs.password) {
-        await axios.post(`${BACKEND_URL}/api/v1/user/signup`, authInputs);
-        navigate("/signin");
+        const response = await axios.post(`${BACKEND_URL}/api/v1/user/signup`, authInputs);
+        const { jwt, user } = response.data;
+        localStorage.setItem("token", jwt);
+        localStorage.setItem("user", JSON.stringify(user));
+        navigate("/blogs");
       }
       toast.error("Name, Email & Password are mandatory fields.");
     } catch (ex) {
