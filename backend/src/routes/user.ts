@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import { Hono } from "hono";
-import { sign, verify } from "hono/jwt";
+import { jwt, sign, verify } from "hono/jwt";
 import { signinInput, signupInput } from "@aadeshk/medium-common";
 
 export const userRouter = new Hono<{
@@ -34,16 +34,23 @@ userRouter.post("/signup", async (c) => {
       c.status(409);
       return c.json({ error: "User with the email already exists" });
     }
-    await prisma.user.create({
+    const newUser = await prisma.user.create({
       data: {
         email: body.email,
         password: body.password,
         name: body.name
       },
     });
+    const token = await sign({ id: newUser.id }, c.env.JWT_SECRET);
     c.status(200);
     return c.json({
       message: "Sign up successful",
+      jwt: token,
+      user: {
+        id: newUser.id,
+        email: newUser.email,
+        name: newUser.name
+      }
     });
   } catch (ex) {
     return c.status(403);
