@@ -48,7 +48,7 @@ function ProfileBox() {
   };
 
   const goToBookmarks = () => {
-    navigate("/userBookmarks");
+    navigate("/bookmarks");
   };
   return (
     <div className="relative cursor-pointer">
