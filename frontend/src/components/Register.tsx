@@ -4,8 +4,9 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 import InputField from "./InputField";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ToastWrapper from "./ToastWrapper";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -64,7 +65,7 @@ const Register = () => {
           Sign up
         </button>
       </div>
-      <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" />
+      <ToastWrapper/>
     </div>
   );
 };
