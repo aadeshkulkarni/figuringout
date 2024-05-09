@@ -19,7 +19,10 @@ const Register = () => {
   async function sendRequest() {
     try {
       if (authInputs.name && authInputs.email && authInputs.password) {
-        const response = await axios.post(`${BACKEND_URL}/api/v1/user/signup`, authInputs);
+        const response = await axios.post(
+          `${BACKEND_URL}/api/v1/user/signup`,
+          authInputs
+        );
         const { jwt, user } = response.data;
         localStorage.setItem("token", jwt);
         localStorage.setItem("user", JSON.stringify(user));
@@ -40,7 +43,7 @@ const Register = () => {
           Login
         </Link>
       </h6>
-      <div className="w-[400px]">
+      <div className="lg:w-[400px] md:w-[350px] w-screen px-2">
         <InputField
           label="Name"
           placeholder="Enter your name"
@@ -64,11 +67,14 @@ const Register = () => {
             setAuthInputs({ ...authInputs, password: event.target.value });
           }}
         />
-        <button onClick={sendRequest} className="w-full bg-black text-white p-4 rounded-md">
+        <button
+          onClick={sendRequest}
+          className="w-full bg-black text-white p-4 rounded-md"
+        >
           Sign up
         </button>
       </div>
-      <ToastWrapper/>
+      <ToastWrapper />
     </div>
   );
 };
