@@ -3,4 +3,4 @@ compatibility_date = "2023-12-01"
 
 [vars]
 DATABASE_URL="prisma://accelerate.prisma-data.net/?api_key=[API_KEY_GOES_HERE]"
-JWT_SECRET=""
+JWT_SECRET="secret"
