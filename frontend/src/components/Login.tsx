@@ -6,9 +6,11 @@ import InputField from "./InputField";
 import { BACKEND_URL } from "../config";
 import { toast } from "react-toastify";
 import ToastWrapper from "./ToastWrapper";
+import Spinner from "./Spinner";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState<boolean>(false)
   const [authInputs, setAuthInputs] = useState<SigninInput>({
     email: "",
     password: "",
@@ -16,6 +18,7 @@ const Login = () => {
 
   async function sendRequest() {
     try {
+      setLoading(true)
       if (authInputs.email && authInputs.password) {
         const response = await axios.post(
           `${BACKEND_URL}/api/v1/user/signin`,
@@ -40,6 +43,9 @@ const Login = () => {
       } else {
         toast.error("Something went wrong");
       }
+    }
+    finally {
+      setLoading(false)
     }
   }
   return (
@@ -70,10 +76,13 @@ const Login = () => {
         />
         <button
           onClick={sendRequest}
-          className="w-full bg-black text-white p-4 rounded-md"
+          className="w-full bg-black text-white p-4 rounded-md flex justify-center items-center gap-4"
+          disabled={loading}
         >
           Sign In
+          {loading && <Spinner className="w-4 h-4"/>}
         </button>
+        
       </div>
       <ToastWrapper />
     </div>

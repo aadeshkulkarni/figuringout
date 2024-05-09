@@ -79,27 +79,21 @@ const ActionBox = () => {
 
 	const determineBookmarkView = () => {
 		if (submittingBookmark) {
-		  return <Spinner />;
+			return <Spinner />;
 		}
 		if (!blog.bookmarkId) {
-		  return (
-			<Tooltip message="Save">
-			  <BookmarkIcon
-				onClickIcon={bookmarkPost}
-				className="w-10 h-10 p-2 cursor-pointer"
-			  />
-			</Tooltip>
-		  );
+			return (
+				<Tooltip message="Save">
+					<BookmarkIcon onClickIcon={bookmarkPost} className="w-10 h-10 p-2 cursor-pointer" />
+				</Tooltip>
+			);
 		}
 		return (
-		  <Tooltip message="Unsave">
-			<BookmarkSolid
-			  onClickIcon={unbookmarkPost}
-			  className="w-10 h-10 p-2 cursor-pointer"
-			/>
-		  </Tooltip>
+			<Tooltip message="Unsave">
+				<BookmarkSolid onClickIcon={unbookmarkPost} className="w-10 h-10 p-2 cursor-pointer" />
+			</Tooltip>
 		);
-	  };
+	};
 	return (
 		<div className="text-lg font-light text-slate-500 py-4 items-center justify-between flex border-y">
 			Post on {blog?.publishedDate}

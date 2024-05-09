@@ -7,9 +7,11 @@ import InputField from "./InputField";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ToastWrapper from "./ToastWrapper";
+import Spinner from "./Spinner";
 
 const Register = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState<boolean>(false)
   const [authInputs, setAuthInputs] = useState<SignupInput>({
     name: "",
     email: "",
@@ -18,6 +20,7 @@ const Register = () => {
 
   async function sendRequest() {
     try {
+      setLoading(true)
       if (authInputs.name && authInputs.email && authInputs.password) {
         const response = await axios.post(
           `${BACKEND_URL}/api/v1/user/signup`,
@@ -32,6 +35,9 @@ const Register = () => {
     } catch (ex) {
       console.log(ex);
       toast.error("Something went wrong");
+    }
+    finally {
+      setLoading(false)
     }
   }
   return (
@@ -69,9 +75,11 @@ const Register = () => {
         />
         <button
           onClick={sendRequest}
-          className="w-full bg-black text-white p-4 rounded-md"
+          className="w-full bg-black text-white p-4 rounded-md flex justify-center items-center gap-4"
+          disabled={loading}
         >
-          Sign up
+          Sign Up
+          {loading && <Spinner className="w-4 h-4"/>}
         </button>
       </div>
       <ToastWrapper />
