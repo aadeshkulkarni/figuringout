@@ -106,9 +106,9 @@ const ActionBox = () => {
 	};
 
 	const likeStory = () => {
-		if (blog?.claps?.length < 10) {
+		//if (blog?.claps?.length < 10) {
 			likeBlog();
-		}
+		//}
 	};
 	return (
 		<div className="text-lg font-light text-slate-500 py-4 items-center justify-between flex border-y">
