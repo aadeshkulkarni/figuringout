@@ -1,7 +1,7 @@
 import BlogCard from "../components/BlogCard";
 import Appbar from "../components/Appbar";
 import { useBlogs } from "../hooks";
-import Spinner from "../components/Spinner";
+import BlogSkeleton from "../skeletons/BlogsSkeleton";
 
 export interface BlogType {
   id: string;
@@ -17,13 +17,15 @@ export interface BlogType {
 
 const Blogs = () => {
   const { blogs, loading } = useBlogs();
+
+  console.log(blogs, "blogs")
   return (
     <>
       <Appbar />
       {loading ? (
-        <div className="w-screen h-screen flex justify-center items-center">
-          <Spinner />
-        </div>
+        <div className="flex flex-col items-center bg-gray-50 gap-4 py-8">
+        {[...Array(3)].map((_, i) => <BlogSkeleton key={i} />)}
+      </div>
       ) : (
         <div className="flex flex-col justify-center items-center bg-gray-50">
           {blogs.length > 0 &&
