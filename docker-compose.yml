@@ -16,6 +16,9 @@ services:
       - medium-app
     depends_on:
       - backend
+    volumes:
+      - ./frontend:/app #mount local frontend directory to container
+    command: npm run start
 
   backend:
     #backend service image setup
@@ -29,8 +32,9 @@ services:
       - "8787:8787"
     networks:
       - medium-app
-    depends_on:
-      - postgres
+    volumes:
+      - ./backend:/app #mount local backend directory to container
+    command: npm run dev
 
   # local postgress setup.
   postgres:
