@@ -12,6 +12,7 @@ export interface BlogType {
     id: string;
     name: string;
   };
+  claps: [];
   bookmarkId?: string;
 }
 
