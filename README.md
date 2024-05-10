@@ -10,8 +10,10 @@
 - Users can view all published articles.
 - Users can create, edit, and delete their articles.
 - Users can view details of specific articles.
+- Users can bookmark an article (Save for later).
+- Users can like an article.
 - Users can search for articles.
-- Users have the option to filter and paginate through articles.
+- Users have the option to filter articles.
 
 > (More features TBA)
 
