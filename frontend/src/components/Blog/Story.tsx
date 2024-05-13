@@ -13,6 +13,7 @@ import "react-quill/dist/quill.bubble.css";
 import RemoveIcon from "../icons/Remove";
 import EditIcon from "../icons/Edit";
 import SingleBlogSkeleton from "../../skeletons/SingleBlogSkeleton";
+import ClapIcon from "../icons/Clap";
 
 const Story = () => {
 	const { id } = useParams();
@@ -52,7 +53,16 @@ const ActionBox = () => {
 	const [openUnbookmarkModal, setOpenUnbookmarkModal] = useState(false);
 
 	const { id } = useParams();
-	const { blog, loading, deleteBlog, bookmarkBlog, unbookmarkBlog, submittingBookmark } = useBlog({
+	const {
+		blog,
+		loading,
+		deleteBlog,
+		bookmarkBlog,
+		unbookmarkBlog,
+		submittingBookmark,
+		submittingClap,
+		likeBlog,
+	} = useBlog({
 		id: id || "",
 	});
 	if (loading) <Loader />;
@@ -101,10 +111,30 @@ const ActionBox = () => {
 			</Tooltip>
 		);
 	};
+
+	const likeStory = () => {
+		//if (blog?.claps?.length < 10) {
+			likeBlog();
+		//}
+	};
 	return (
 		<div className="text-lg font-light text-slate-500 py-4 items-center justify-between flex border-y">
 			Post on {blog?.publishedDate}
-			<div className="flex">
+			<div className="flex justify-center items-center">
+				{submittingClap ? (
+					<Spinner className="p-0 m-0 w-4 h-4" />
+				) : (
+					<Tooltip message="Clap">
+						<button
+							onClick={likeStory}
+							type="button"
+							name="like-story"
+							className="focus:outline-none font-medium rounded-lg text-sm px-4 flex gap-2 justify-center items-center"
+						>
+							<ClapIcon /> {blog?.claps?.length || ""}
+						</button>
+					</Tooltip>
+				)}
 				{determineBookmarkView()}
 				{isAuthor && (
 					<>

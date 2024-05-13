@@ -10,8 +10,10 @@
 - Users can view all published articles.
 - Users can create, edit, and delete their articles.
 - Users can view details of specific articles.
+- Users can bookmark an article (Save for later).
+- Users can like an article.
 - Users can search for articles.
-- Users have the option to filter and paginate through articles.
+- Users have the option to filter articles.
 
 > (More features TBA)
 
@@ -60,7 +62,16 @@ The project is structured into the following directories:
 
 ---
 
+### Docker-Setup
+
+- For this setup complete all the Frontend, Backend process including the Postgres, Prisma connection pool and JWT secret
+- Navigate to the root directory and run command `docker-compose up -d`, runs command in detached mode.
+- At last Navigate to the url `http://localhost:80` for viewing the website.
+
+---
+
 ## 🔧 Technologies & Libraries
+
 - [ReactJS](https://react.dev/)
 - [Typescript](https://www.typescriptlang.org/)
 - [Cloudflare Workers - Serverless Backend](https://www.cloudflare.com/)
@@ -74,4 +85,3 @@ The project is structured into the following directories:
 ## 🚀 Deployments
 
 For detailed steps to deploy the application, refer to `backend/commands.md` and `common/commands.md` in their respective directories.
-
