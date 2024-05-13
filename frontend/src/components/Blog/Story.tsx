@@ -12,13 +12,20 @@ import Modal from "../Modal";
 import "react-quill/dist/quill.bubble.css";
 import RemoveIcon from "../icons/Remove";
 import EditIcon from "../icons/Edit";
+import SingleBlogSkeleton from "../../skeletons/SingleBlogSkeleton";
 
 const Story = () => {
 	const { id } = useParams();
 	const { blog, loading } = useBlog({
 		id: id || "",
 	});
-	if (loading) <Loader />;
+	if (loading){
+		return (
+			<div className="flex flex-col justify-center items-center p-4 md:px-10">
+				<SingleBlogSkeleton />
+			</div>
+		)
+	};
 
 	return (
 		<div className="flex flex-col justify-center items-center p-4 md:px-10">
