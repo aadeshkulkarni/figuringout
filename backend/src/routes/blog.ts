@@ -214,3 +214,41 @@ blogRouter.delete("/:id", async (c) => {
     });
   }
 });
+
+/**
+ * Retrieves all the blogs for the user in bulk
+ */
+blogRouter.get("/bulkUser/:id", async (c) => {
+  try {
+    const userId = await c.req.param("id");
+    const prisma = new PrismaClient({
+      datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate());
+    const posts = await prisma.post.findMany({
+      where: {
+        authorId: userId,
+      },
+      select: {
+        content: true,
+        title: true,
+        id: true,
+        publishedDate: true,
+        author: {
+          select: {
+            name: true,
+          },
+        },
+        published: true,
+      },
+    });
+    return c.json({
+      posts: posts,
+    });
+  } catch (e) {
+    console.log(e);
+    c.status(411);
+    return c.json({
+      message: "Error while fetching post",
+    });
+  }
+});
