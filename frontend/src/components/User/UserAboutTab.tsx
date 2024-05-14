@@ -9,7 +9,9 @@ const UserAboutTab = () => {
   const [editDetails, setEditDetails] = useState<string>(currentUser.details);
 
   const submitUserDetails = () => {
-    editUserDetails(editDetails, true);
+    if (editUserDetails) {
+      editUserDetails(editDetails, true);
+    }
   };
   return (
     <div>

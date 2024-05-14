@@ -13,7 +13,7 @@ const UserHomeTab = () => {
         <BlogSkeleton />
       ) : (
         <div className="flex flex-col">
-          {blogs.length > 0 &&
+          {blogs && blogs.length > 0 &&
             blogs.map((blog: BlogType) => (
               <BlogCard
                 id={blog?.id}
