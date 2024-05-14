@@ -1,3 +1,4 @@
+import Appbar from "../components/Appbar";
 import BlogCard from "../components/BlogCard";
 import { useBlogs } from "../hooks";
 import BlogSkeleton from "../skeletons/BlogsSkeleton";
@@ -20,6 +21,7 @@ const Blogs = () => {
 
   return (
     <>
+      <Appbar />
       {loading ? (
         <div className="flex flex-col items-center bg-gray-50 gap-4 py-8">
         {[...Array(3)].map((_, i) => <BlogSkeleton key={i} />)}
