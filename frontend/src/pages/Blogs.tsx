@@ -1,5 +1,5 @@
-import BlogCard from "../components/BlogCard";
 import Appbar from "../components/Appbar";
+import BlogCard from "../components/BlogCard";
 import { useBlogs } from "../hooks";
 import BlogSkeleton from "../skeletons/BlogsSkeleton";
 
@@ -19,10 +19,9 @@ export interface BlogType {
 const Blogs = () => {
   const { blogs, loading } = useBlogs();
 
-  console.log(blogs, "blogs")
   return (
     <>
-      <Appbar />
+      <Appbar skipAuthCheck />
       {loading ? (
         <div className="flex flex-col items-center bg-gray-50 gap-4 py-8">
         {[...Array(3)].map((_, i) => <BlogSkeleton key={i} />)}

@@ -5,21 +5,12 @@ import { BlogType } from "../pages/Blogs";
 import { useNavigate } from "react-router-dom";
 
 export const useBlogs = () => {
-	const navigate = useNavigate();
 	const [loading, setLoading] = useState(true);
 	const [blogs, setBlogs] = useState([]);
 
 	useEffect(() => {
 		async function fetchBlogs() {
-			const token = localStorage.getItem("token");
-			if (!token) {
-				navigate("/signin");
-			}
-			const response = await axios.get(`${BACKEND_URL}/api/v1/blog/bulk`, {
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			});
+			const response = await axios.get(`${BACKEND_URL}/api/v1/blog/bulk`);
 			setBlogs(response.data.posts);
 			setLoading(false);
 		}
@@ -52,7 +43,7 @@ export const useBlog = ({ id }: { id: string }) => {
 	async function fetchBlog() {
 		const token = localStorage.getItem("token");
 		if (!token) {
-			navigate("/signin");
+			navigate("/signup");
 		}
 		const response = await axios.get(`${BACKEND_URL}/api/v1/blog/${id}`, {
 			headers: {

@@ -3,10 +3,14 @@ import { Avatar } from "./BlogCard";
 import { Link, useNavigate } from "react-router-dom";
 import WriteIcon from "./icons/Write";
 
-const Appbar = () => {
+interface AppbarProps {
+  skipAuthCheck?: boolean;
+}
+
+const Appbar = ({ skipAuthCheck = false }: AppbarProps) => {
   const navigate = useNavigate();
   const isUserLoggedIn = localStorage.getItem("token");
-  if (!isUserLoggedIn) {
+  if (!isUserLoggedIn && skipAuthCheck == false) {
     navigate("/signin");
   }
   return (
@@ -28,8 +32,8 @@ const Appbar = () => {
         </div>
       ) : (
         <Link
-        to="/signin"
-        className="focus:outline-none text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 mx-12"
+          to="/signin"
+          className="focus:outline-none text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 mx-12"
         >
           Sign In
         </Link>
