@@ -19,8 +19,8 @@ body {
 
 .blog-card .quill {
     min-height: 50px;
-    max-height: 100px;
 }
+
 .blog-card .ql-editor {
     padding: 0;
 }
