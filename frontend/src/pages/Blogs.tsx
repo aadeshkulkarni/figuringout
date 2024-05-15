@@ -11,6 +11,7 @@ export interface BlogType {
   author: {
     id: string;
     name: string;
+    details?: string;
   };
   claps: [];
   bookmarkId?: string;
