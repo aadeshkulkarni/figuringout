@@ -19,12 +19,13 @@ export const blogRouter = new Hono<{
 This route should be kept above app.use("/*") middleware as it is unprotected
 */
 // TODO: add pagination
-blogRouter.get("/bulk", async (c) => {
+blogRouter.get("/bulk/:id?", async (c) => {
   try {
+    const userId = await c.req.param("id");
     const prisma = new PrismaClient({
       datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate());
-    const posts = await prisma.post.findMany({
+    let query: any = {
       select: {
         content: true,
         title: true,
@@ -37,7 +38,16 @@ blogRouter.get("/bulk", async (c) => {
         },
         published: true,
       },
-    });
+    };
+    if (userId) {
+      query = {
+        where: {
+          authorId: userId,
+        },
+        ...query
+      }
+    }
+    const posts = await prisma.post.findMany(query);
     return c.json({
       posts: posts,
     });
@@ -152,6 +162,7 @@ blogRouter.get("/:id", async (c) => {
           select: {
             name: true,
             id: true,
+            details: true
           },
         },
         id: true,

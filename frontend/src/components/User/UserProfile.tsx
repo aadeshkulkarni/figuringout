@@ -1,12 +1,10 @@
-import { createContext, useEffect, useState } from "react";
-import { useUser, useUserBlogs } from "../../hooks/index";
+import { createContext, useState } from "react";
 import { BlogType } from "../../pages/Blogs";
 import { Avatar } from "../BlogCard";
 import Spinner from "../Spinner";
-import ToastWrapper from "../ToastWrapper";
 import UserAboutTab from "./UserAboutTab";
 import UserHomeTab from "./UserHomeTab";
-import { toast } from "react-toastify";
+import { useUser, useUserBlogs } from "../../hooks/user";
 
 type UserProfileProps = {
   id: string;
@@ -42,11 +40,6 @@ const UserProfile = ({ id }: UserProfileProps) => {
         return <></>;
     }
   };
-  useEffect(() => {
-    if (error) {
-      toast.error(`ERROR : ${error}`);
-    }
-  }, [error]);
   return (
     <>
       {loadingUser ? (
@@ -102,7 +95,6 @@ const UserProfile = ({ id }: UserProfileProps) => {
           </div>
         </UserProfileContext.Provider>
       )}
-      <ToastWrapper />
     </>
   );
 };
