@@ -38,6 +38,8 @@ export const useUser = (userId: string) => {
   const [loading, setLoading] = useState(false);
   const [editingDetails, setEditingDetails] = useState(false);
   const [currentUser, setCurrentUser] = useState<any>({});
+  const [isAuthorizedUser, setIsAuthorizedUser] = useState<boolean>(false);
+
   const [error, setError] = useState<string>("");
   async function fetchUser() {
     if (loading) {
@@ -55,6 +57,7 @@ export const useUser = (userId: string) => {
         },
       });
       setCurrentUser(response.data.user);
+      setIsAuthorizedUser(response.data.isAuthorizedUser);
     } catch (e) {
       setError("User not found");
     } finally {
@@ -79,6 +82,7 @@ export const useUser = (userId: string) => {
       const response = await axios.post(
         `${BACKEND_URL}/api/v1/user/updateDetail`,
         {
+          userId,
           details,
         },
         {
@@ -100,6 +104,7 @@ export const useUser = (userId: string) => {
   return {
     loading,
     currentUser,
+    isAuthorizedUser,
     editingDetails,
     editUserDetails,
     error,

@@ -14,6 +14,7 @@ type UserProfileContextType = {
   blogs?: BlogType[];
   loadingUserBlogs?: boolean;
   editingDetails?: boolean;
+  isAuthorizedUser?: boolean;
   editUserDetails?: (details: string, fetchUserOnSuccess?: boolean) => void;
 };
 export const UserProfileContext = createContext<UserProfileContextType>({});
@@ -22,6 +23,7 @@ const UserProfile = ({ id }: UserProfileProps) => {
   const {
     currentUser,
     loading: loadingUser,
+    isAuthorizedUser,
     editingDetails,
     editUserDetails,
     error,
@@ -52,6 +54,7 @@ const UserProfile = ({ id }: UserProfileProps) => {
         <UserProfileContext.Provider
           value={{
             currentUser,
+            isAuthorizedUser,
             blogs,
             loadingUserBlogs,
             editingDetails,

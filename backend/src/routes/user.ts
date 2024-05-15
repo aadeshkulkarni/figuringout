@@ -93,12 +93,32 @@ userRouter.post("/signin", async (c) => {
   }
 });
 
+userRouter.use("/*", async (c, next) => {
+  try {
+    const header = c.req.header("authorization") || "";
+    const token = header.split(" ")[1];
+    const user = await verify(token, c.env.JWT_SECRET);
+    if (user) {
+      c.set("userId", user.id);
+      return next();
+    } else {
+      c.status(403);
+      return c.json({ error: "Unauthorized " });
+    }
+  } catch (e) {
+    c.status(403);
+    return c.json({
+      error: "Credentials failed",
+    });
+  }
+});
+
 userRouter.get("/:id", async (c) => {
   const prisma = new PrismaClient({
     datasourceUrl: c.env.DATABASE_URL,
   }).$extends(withAccelerate());
   const userId = await c.req.param("id");
-
+  const authorizedUserId = c.get("userId");
   try {
     const user = await prisma.user.findFirst({
       where: {
@@ -111,6 +131,7 @@ userRouter.get("/:id", async (c) => {
     }
     return c.json({
       user,
+      isAuthorizedUser: authorizedUserId === userId,
       message: "Found user",
     });
   } catch (ex) {
@@ -138,13 +159,16 @@ userRouter.post("/updateDetail", async (c) => {
     datasourceUrl: c.env.DATABASE_URL,
   }).$extends(withAccelerate());
   const body = await c.req.json();
-  const header = c.req.header("authorization") || "";
-  const token = header.split(" ")[1];
-  const user = await verify(token, c.env.JWT_SECRET);
+  const userId = c.get("userId");
+
+  if (body.userId !== userId) {
+    c.status(400);
+    return c.json({ error: "Unable to access this endpoint" });
+  }
   try {
     const post = await prisma.user.update({
       where: {
-        id: user.id,
+        id: userId,
       },
       data: {
         details: body.details,
