@@ -23,11 +23,11 @@ const Blogs = () => {
     <>
       <Appbar skipAuthCheck />
       {loading ? (
-        <div className="flex flex-col items-center bg-gray-50 gap-4 py-8">
+        <div className="flex flex-col items-center gap-4 py-8">
         {[...Array(3)].map((_, i) => <BlogSkeleton key={i} />)}
       </div>
       ) : (
-        <div className="flex flex-col justify-center items-center bg-gray-50">
+        <div className="flex flex-col justify-center items-center">
           {blogs.length > 0 &&
             blogs.map((blog: BlogType) => (
               <BlogCard
