@@ -71,6 +71,15 @@ userRouter.post("/signin", async (c) => {
     });
   }
   try {
+    const email = await prisma.user.findUnique({
+      where: {
+        email: body.email,
+      },
+    });
+    if (!email) {
+      c.status(403);
+      return c.json({ error: "Account with this email does not exist." });
+    }
     const user = await prisma.user.findUnique({
       where: {
         email: body.email,
@@ -79,7 +88,7 @@ userRouter.post("/signin", async (c) => {
     });
     if (!user) {
       c.status(403);
-      return c.json({ error: "Account with this email & password does not exist." });
+      return c.json({ error: "Email and Password Mismatch" });
     }
 
     const token = await sign({ id: user.id }, c.env.JWT_SECRET);

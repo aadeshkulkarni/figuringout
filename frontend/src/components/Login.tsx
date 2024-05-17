@@ -39,7 +39,7 @@ const Login = () => {
         error.response?.status &&
         error.response?.status > 300
       ) {
-        toast.error(error?.response?.data?.message);
+        toast.error(error?.response?.data?.error);
       } else {
         toast.error("Something went wrong");
       }

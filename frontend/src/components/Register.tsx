@@ -11,17 +11,54 @@ import Spinner from "./Spinner";
 
 const Register = () => {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false);
   const [authInputs, setAuthInputs] = useState<SignupInput>({
     name: "",
     email: "",
     password: "",
   });
+  const [passwordStrength, setPasswordStrength] = useState<string>("");
+  const [passwordError, setPasswordError] = useState<string>("");
+
+
+  const validatePassword = (password: string) => {
+    const errors: string[] = [];
+    if (password.length < 8) {
+      errors.push("Password must be at least 8 characters long.");
+    }
+    if (!/[A-Z]/.test(password)) {
+      errors.push("Password must contain at least one uppercase letter.");
+    }
+    if (!/[a-z]/.test(password)) {
+      errors.push("Password must contain at least one lowercase letter.");
+    }
+    if (!/[0-9]/.test(password)) {
+      errors.push("Password must contain at least one number.");
+    }
+    if (!/[!@#$%^&*]/.test(password)) {
+      errors.push("Password must contain at least one special character.");
+    }
+    return errors;
+  };
+
+  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const password = event.target.value;
+    setAuthInputs({ ...authInputs, password });
+
+    const errors = validatePassword(password);
+    if (errors.length > 0) {
+      setPasswordError(errors.join(" "));
+      setPasswordStrength("Weak");
+    } else {
+      setPasswordError("");
+      setPasswordStrength("Strong");
+    }
+  };
 
   async function sendRequest() {
     try {
-      setLoading(true)
-      if (authInputs.name && authInputs.email && authInputs.password) {
+      setLoading(true);
+      if (authInputs.name && authInputs.email && authInputs.password && !passwordError) {
         const response = await axios.post(
           `${BACKEND_URL}/api/v1/user/signup`,
           authInputs
@@ -30,19 +67,20 @@ const Register = () => {
         localStorage.setItem("token", jwt);
         localStorage.setItem("user", JSON.stringify(user));
         navigate("/blogs");
+      } else {
+        toast.error("Name, Email & Password are mandatory fields, and password must meet the criteria.");
       }
-      toast.error("Name, Email & Password are mandatory fields.");
     } catch (ex) {
       console.log(ex);
       toast.error("Something went wrong");
-    }
-    finally {
-      setLoading(false)
+    } finally {
+      setLoading(false);
     }
   }
+
   return (
     <div className="text-center flex flex-col justify-center items-center h-screen md:h-auto">
-      <h1 className="text-4xl font-bold ">Create an account</h1>
+      <h1 className="text-4xl font-bold">Create an account</h1>
       <h6>
         Already have an account?{" "}
         <Link to="/signin" className="underline">
@@ -65,21 +103,25 @@ const Register = () => {
             setAuthInputs({ ...authInputs, email: event.target.value });
           }}
         />
-        <InputField
-          label="Password"
-          type="password"
-          placeholder="Enter your password"
-          onChange={(event) => {
-            setAuthInputs({ ...authInputs, password: event.target.value });
-          }}
-        />
+        <div className="relative">
+          <InputField
+            label="Password"
+            placeholder="Enter your password"
+            type="password"
+            onChange={handlePasswordChange}
+          />
+          <div className="text-sm text-gray-500 mt-1 mb-3">
+            Password Strength: {passwordStrength}
+          </div>
+
+        </div>
         <button
           onClick={sendRequest}
           className="w-full bg-black text-white p-4 rounded-md flex justify-center items-center gap-4"
           disabled={loading}
         >
           Sign Up
-          {loading && <Spinner className="w-4 h-4"/>}
+          {loading && <Spinner className="w-4 h-4" />}
         </button>
       </div>
       <ToastWrapper />
