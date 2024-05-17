@@ -3,6 +3,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import "react-toastify/dist/ReactToastify.css";
 import ToastWrapper from "../components/ToastWrapper";
+import Spinner from "../components/Spinner";
 
 interface EditPublishLayoutProps {
   defaultTitle?: string;
@@ -19,6 +20,13 @@ const EditPublishLayout: React.FC<EditPublishLayoutProps> = ({
 }: EditPublishLayoutProps) => {
   const [title, setTitle] = useState(defaultTitle);
   const [content, setContent] = useState(defaultContent);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSubmit = async () => {
+    setIsLoading(true);
+    await submitFunction({ title, content });
+    setIsLoading(false);
+  };
   return (
     <>
       <div className="flex flex-col gap-8 justify-center p-4 md:p-10">
@@ -41,10 +49,16 @@ const EditPublishLayout: React.FC<EditPublishLayoutProps> = ({
         ></ReactQuill>
         <button
           type="submit"
-          onClick={() => submitFunction({ title, content })}
-          className="w-[150px] items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 hover:bg-blue-800"
-        >
-          {submitFunctionName}
+          onClick={handleSubmit}
+          className="w-[150px] flex justify-center items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 hover:bg-blue-800 disabled:opacity-50 disabled:cursor-not-allowed"
+          disabled={isLoading}        >
+            {isLoading ? (
+            <>
+              <Spinner className="w-4 h-4"/>
+              Please wait
+            </>) : (
+            submitFunctionName
+          )}
         </button>
       </div>
       <ToastWrapper/>
