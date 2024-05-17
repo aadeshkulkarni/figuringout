@@ -10,6 +10,7 @@ import ToastWrapper from "./ToastWrapper";
 import Spinner from "./Spinner";
 import PasswordField from "./PasswordField";
 import validatePassword  from "../util/passwordStrength";
+import validateEmail from "../util/emailValidation";
 const Register = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState<boolean>(false)
@@ -39,8 +40,12 @@ const Register = () => {
       setLoading(true)
       if (passwordError) {
         toast.error("Password is weak");
+        return;
       }
-      else
+      if(!validateEmail(authInputs.email)){
+        toast.error("Invalid Email");
+        return;
+      }
       if (authInputs.name && authInputs.email && authInputs.password) {
         const response = await axios.post(
           `${BACKEND_URL}/api/v1/user/signup`,
