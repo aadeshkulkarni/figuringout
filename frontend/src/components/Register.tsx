@@ -4,27 +4,67 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 import InputField from "./InputField";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import ToastWrapper from "./ToastWrapper";
+import Spinner from "./Spinner";
+import PasswordField from "./PasswordField";
+import validatePassword  from "../util/passwordStrength";
+import validateEmail from "../util/emailValidation";
 const Register = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState<boolean>(false)
   const [authInputs, setAuthInputs] = useState<SignupInput>({
     name: "",
     email: "",
     password: "",
   });
+  const [passwordStrength, setPasswordStrength] = useState<string>("");
+  const [passwordError, setPasswordError] = useState<string>("");
+  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const password = event.target.value;
+    setAuthInputs({ ...authInputs, password });
+
+    const errors = validatePassword(password);
+    if (errors.length > 0) {
+      setPasswordError(errors.join(" "));
+      setPasswordStrength("Weak");
+    } else {
+      setPasswordError("");
+      setPasswordStrength("Strong");
+    }
+  };
 
   async function sendRequest() {
     try {
-      if (authInputs.name && authInputs.email && authInputs.password) {
-        await axios.post(`${BACKEND_URL}/api/v1/user/signup`, authInputs);
-        navigate("/signin");
+      setLoading(true)
+      if (passwordError) {
+        toast.error("Password is weak");
+        return;
       }
-      toast.error("Name, Email & Password are mandatory fields.");
+      if(!validateEmail(authInputs.email)){
+        toast.error("Invalid Email");
+        return;
+      }
+      if (authInputs.name && authInputs.email && authInputs.password) {
+        const response = await axios.post(
+          `${BACKEND_URL}/api/v1/user/signup`,
+          authInputs
+        );
+        const { jwt, user } = response.data;
+        localStorage.setItem("token", jwt);
+        localStorage.setItem("user", JSON.stringify(user));
+        navigate("/blogs");
+      }
+      else{
+        toast.error("Name, Email & Password are mandatory fields.");
+      }
     } catch (ex) {
       console.log(ex);
       toast.error("Something went wrong");
+    }
+    finally {
+      setLoading(false)
     }
   }
   return (
@@ -36,7 +76,7 @@ const Register = () => {
           Login
         </Link>
       </h6>
-      <div className="w-[400px]">
+      <div className="lg:w-[400px] md:w-[350px] w-screen px-2">
         <InputField
           label="Name"
           placeholder="Enter your name"
@@ -52,19 +92,27 @@ const Register = () => {
             setAuthInputs({ ...authInputs, email: event.target.value });
           }}
         />
-        <InputField
-          label="Password"
-          type="password"
-          placeholder="Enter your password"
-          onChange={(event) => {
-            setAuthInputs({ ...authInputs, password: event.target.value });
-          }}
-        />
-        <button onClick={sendRequest} className="w-full bg-black text-white p-4 rounded-md">
-          Sign up
+        <div className="relative">
+          <PasswordField
+            label="Password"
+            placeholder="Enter your password"
+            onChange={handlePasswordChange}
+          />
+          <div className="text-sm text-gray-500 mt-1 mb-3">
+            Password Strength: {passwordStrength}
+          </div>
+
+        </div>
+        <button
+          onClick={sendRequest}
+          className="w-full bg-black text-white p-4 rounded-md flex justify-center items-center gap-4"
+          disabled={loading}
+        >
+          Sign Up
+          {loading && <Spinner className="w-4 h-4"/>}
         </button>
       </div>
-      <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" />
+      <ToastWrapper />
     </div>
   );
 };

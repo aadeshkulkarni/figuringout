@@ -139,6 +139,7 @@ blogRouter.get("/:id", async (c) => {
       datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate());
     const postId = await c.req.param("id");
+    const userId = c.get("userId");
     const post = await prisma.post.findFirst({
       where: {
         id: postId,
@@ -154,10 +155,33 @@ blogRouter.get("/:id", async (c) => {
           },
         },
         id: true,
+        bookmarks: {
+          select: {
+            id: true,
+            user: {
+              select: {
+                id: true,
+              },
+            },
+          },
+        },
+        claps: {
+          select: {
+            id: true
+          }
+        }
       },
     });
+
+    const userBookmarkId = post?.bookmarks.find(
+      (bookmark) => bookmark.user.id === userId
+    );
+
     return c.json({
-      post: post,
+      post: {
+        ...post,
+        bookmarkId: userBookmarkId?.id,
+      },
     });
   } catch (e) {
     console.log(e);

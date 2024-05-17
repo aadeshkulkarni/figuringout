@@ -4,10 +4,14 @@ import axios from "axios";
 import { SigninInput } from "@aadeshk/medium-common";
 import InputField from "./InputField";
 import { BACKEND_URL } from "../config";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
+import ToastWrapper from "./ToastWrapper";
+import Spinner from "./Spinner";
+import PasswordField from "./PasswordField";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState<boolean>(false)
   const [authInputs, setAuthInputs] = useState<SigninInput>({
     email: "",
     password: "",
@@ -15,20 +19,34 @@ const Login = () => {
 
   async function sendRequest() {
     try {
+      setLoading(true)
       if (authInputs.email && authInputs.password) {
-        const response = await axios.post(`${BACKEND_URL}/api/v1/user/signin`, authInputs);
+        const response = await axios.post(
+          `${BACKEND_URL}/api/v1/user/signin`,
+          authInputs
+        );
         const token = response.data.jwt;
         localStorage.setItem("token", token);
-        localStorage.setItem("user", JSON.stringify(response?.data?.user || {}));
+        localStorage.setItem(
+          "user",
+          JSON.stringify(response?.data?.user || {})
+        );
         navigate("/blogs");
       }
       toast.error("Email & Password are mandatory fields.");
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response?.status && error.response?.status > 300) {
+      if (
+        axios.isAxiosError(error) &&
+        error.response?.status &&
+        error.response?.status > 300
+      ) {
         toast.error(error?.response?.data?.message);
       } else {
         toast.error("Something went wrong");
       }
+    }
+    finally {
+      setLoading(false)
     }
   }
   return (
@@ -40,7 +58,7 @@ const Login = () => {
           Signup
         </Link>
       </h6>
-      <div className="w-[400px]">
+      <div className="lg:w-[400px] md:w-[350px] w-screen px-2 ">
         <InputField
           label="Email"
           placeholder="Enter your email"
@@ -49,19 +67,24 @@ const Login = () => {
             setAuthInputs({ ...authInputs, email: event.target.value });
           }}
         />
-        <InputField
+        <PasswordField
           label="Password"
-          type="password"
           placeholder="Enter your password"
           onChange={(event) => {
             setAuthInputs({ ...authInputs, password: event.target.value });
           }}
         />
-        <button onClick={sendRequest} className="w-full bg-black text-white p-4 rounded-md">
+        <button
+          onClick={sendRequest}
+          className="w-full bg-black text-white p-4 rounded-md flex justify-center items-center gap-4"
+          disabled={loading}
+        >
           Sign In
+          {loading && <Spinner className="w-4 h-4"/>}
         </button>
+        
       </div>
-      <ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" />
+      <ToastWrapper />
     </div>
   );
 };

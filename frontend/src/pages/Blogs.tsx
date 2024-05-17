@@ -1,7 +1,7 @@
-import BlogCard from "../components/BlogCard";
 import Appbar from "../components/Appbar";
+import BlogCard from "../components/BlogCard";
 import { useBlogs } from "../hooks";
-import Spinner from "../components/Spinner";
+import BlogSkeleton from "../skeletons/BlogsSkeleton";
 
 export interface BlogType {
   id: string;
@@ -12,20 +12,32 @@ export interface BlogType {
     id: string;
     name: string;
   };
+  claps: [];
+  bookmarkId?: string;
 }
 
 const Blogs = () => {
   const { blogs, loading } = useBlogs();
+
   return (
     <>
-      <Appbar />
+      <Appbar skipAuthCheck />
       {loading ? (
-        <div className="w-screen h-screen flex justify-center items-center">
-          <Spinner />
-        </div>
+        <div className="flex flex-col items-center gap-4 py-8">
+        {[...Array(3)].map((_, i) => <BlogSkeleton key={i} />)}
+      </div>
       ) : (
-        <div className="flex flex-col justify-center items-center bg-gray-50">
-          {blogs.length > 0 && blogs.map((blog: BlogType) => <BlogCard id={blog?.id} author={blog?.author} publishedDate={blog?.publishedDate} title={blog.title} content={blog.content} />)}
+        <div className="flex flex-col justify-center items-center">
+          {blogs.length > 0 &&
+            blogs.map((blog: BlogType) => (
+              <BlogCard
+                id={blog?.id}
+                author={blog?.author}
+                publishedDate={blog?.publishedDate}
+                title={blog.title}
+                content={blog.content}
+              />
+            ))}
         </div>
       )}
     </>
