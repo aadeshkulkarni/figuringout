@@ -7,6 +7,7 @@ import { BACKEND_URL } from "../config";
 import { toast } from "react-toastify";
 import ToastWrapper from "./ToastWrapper";
 import Spinner from "./Spinner";
+import PasswordField from "./PasswordField";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -66,9 +67,8 @@ const Login = () => {
             setAuthInputs({ ...authInputs, email: event.target.value });
           }}
         />
-        <InputField
+        <PasswordField
           label="Password"
-          type="password"
           placeholder="Enter your password"
           onChange={(event) => {
             setAuthInputs({ ...authInputs, password: event.target.value });

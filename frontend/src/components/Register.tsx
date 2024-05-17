@@ -8,7 +8,9 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ToastWrapper from "./ToastWrapper";
 import Spinner from "./Spinner";
-
+import PasswordField from "./PasswordField";
+import validatePassword  from "../util/passwordStrength";
+import validateEmail from "../util/emailValidation";
 const Register = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState<boolean>(false)
@@ -17,10 +19,33 @@ const Register = () => {
     email: "",
     password: "",
   });
+  const [passwordStrength, setPasswordStrength] = useState<string>("");
+  const [passwordError, setPasswordError] = useState<string>("");
+  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const password = event.target.value;
+    setAuthInputs({ ...authInputs, password });
+
+    const errors = validatePassword(password);
+    if (errors.length > 0) {
+      setPasswordError(errors.join(" "));
+      setPasswordStrength("Weak");
+    } else {
+      setPasswordError("");
+      setPasswordStrength("Strong");
+    }
+  };
 
   async function sendRequest() {
     try {
       setLoading(true)
+      if (passwordError) {
+        toast.error("Password is weak");
+        return;
+      }
+      if(!validateEmail(authInputs.email)){
+        toast.error("Invalid Email");
+        return;
+      }
       if (authInputs.name && authInputs.email && authInputs.password) {
         const response = await axios.post(
           `${BACKEND_URL}/api/v1/user/signup`,
@@ -31,7 +56,9 @@ const Register = () => {
         localStorage.setItem("user", JSON.stringify(user));
         navigate("/blogs");
       }
-      toast.error("Name, Email & Password are mandatory fields.");
+      else{
+        toast.error("Name, Email & Password are mandatory fields.");
+      }
     } catch (ex) {
       console.log(ex);
       toast.error("Something went wrong");
@@ -65,14 +92,17 @@ const Register = () => {
             setAuthInputs({ ...authInputs, email: event.target.value });
           }}
         />
-        <InputField
-          label="Password"
-          type="password"
-          placeholder="Enter your password"
-          onChange={(event) => {
-            setAuthInputs({ ...authInputs, password: event.target.value });
-          }}
-        />
+        <div className="relative">
+          <PasswordField
+            label="Password"
+            placeholder="Enter your password"
+            onChange={handlePasswordChange}
+          />
+          <div className="text-sm text-gray-500 mt-1 mb-3">
+            Password Strength: {passwordStrength}
+          </div>
+
+        </div>
         <button
           onClick={sendRequest}
           className="w-full bg-black text-white p-4 rounded-md flex justify-center items-center gap-4"
