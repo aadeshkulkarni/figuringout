@@ -87,7 +87,6 @@ const Register = () => {
           <PasswordField
             label="Password"
             placeholder="Enter your password"
-            type="password"
             onChange={handlePasswordChange}
           />
           <div className="text-sm text-gray-500 mt-1 mb-3">

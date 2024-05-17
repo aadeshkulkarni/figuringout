@@ -69,7 +69,6 @@ const Login = () => {
         />
         <PasswordField
           label="Password"
-          type="password"
           placeholder="Enter your password"
           onChange={(event) => {
             setAuthInputs({ ...authInputs, password: event.target.value });
