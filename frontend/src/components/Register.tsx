@@ -37,7 +37,11 @@ const Register = () => {
   async function sendRequest() {
     try {
       setLoading(true)
-      if (authInputs.name && authInputs.email && authInputs.password && !passwordError) {
+      if (passwordError) {
+        toast.error("Password is weak");
+      }
+      else
+      if (authInputs.name && authInputs.email && authInputs.password) {
         const response = await axios.post(
           `${BACKEND_URL}/api/v1/user/signup`,
           authInputs
