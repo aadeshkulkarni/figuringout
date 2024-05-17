@@ -1,7 +1,7 @@
 import { MouseEventHandler } from "react";
 import ReactQuill from "react-quill";
 import { Link } from "react-router-dom";
-import 'react-quill/dist/quill.bubble.css'
+import "react-quill/dist/quill.bubble.css";
 import { getPlainTextFromHTML } from "../util/string";
 
 interface BlogCardProps {

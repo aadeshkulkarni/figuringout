@@ -32,11 +32,7 @@ const UserAboutTab = () => {
             onClick={submitUserDetails}
             className="cursor-pointer focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mt-4"
           >
-            {editingDetails ? (
-              <Spinner className="w-4 h-4" />
-            ) : (
-              <div>Edit Info</div>
-            )}
+            {editingDetails ? <Spinner className="w-4 h-4" /> : <div>Save</div>}
           </button>
         </>
       )}
