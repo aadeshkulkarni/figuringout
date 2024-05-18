@@ -55,8 +55,11 @@ function ProfileBox() {
     navigate("/bookmarks");
   };
   const goToProfile = () => {
-    const userInfo = JSON.parse(localStorage.getItem("user"));
-    navigate(`/${userInfo.id}`);
+    const userLocalStorage = localStorage.getItem("user");
+    if (userLocalStorage) {
+      const userInfo = JSON.parse(userLocalStorage);
+      navigate(`/${userInfo.id}`);
+    }
   };
   return (
     <div className="relative cursor-pointer">
