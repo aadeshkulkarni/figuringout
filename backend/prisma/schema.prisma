@@ -17,6 +17,7 @@ model User {
   id        String     @id @default(uuid())
   email     String     @unique
   name      String?
+  details   String?
   password  String
   posts     Post[]
   bookmarks Bookmark[]
