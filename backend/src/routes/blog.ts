@@ -19,12 +19,13 @@ export const blogRouter = new Hono<{
 This route should be kept above app.use("/*") middleware as it is unprotected
 */
 // TODO: add pagination
-blogRouter.get("/bulk", async (c) => {
+blogRouter.get("/bulk/:id?", async (c) => {
   try {
+    const userId = await c.req.param("id");
     const prisma = new PrismaClient({
       datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate());
-    const posts = await prisma.post.findMany({
+    let query: any = {
       select: {
         content: true,
         title: true,
@@ -37,7 +38,16 @@ blogRouter.get("/bulk", async (c) => {
         },
         published: true,
       },
-    });
+    };
+    if (userId) {
+      query = {
+        where: {
+          authorId: userId,
+        },
+        ...query
+      }
+    }
+    const posts = await prisma.post.findMany(query);
     return c.json({
       posts: posts,
     });
@@ -152,6 +162,7 @@ blogRouter.get("/:id", async (c) => {
           select: {
             name: true,
             id: true,
+            details: true
           },
         },
         id: true,
@@ -211,6 +222,44 @@ blogRouter.delete("/:id", async (c) => {
     c.status(411);
     return c.json({
       message: "Error while deleting post",
+    });
+  }
+});
+
+/**
+ * Retrieves all the blogs for the user in bulk
+ */
+blogRouter.get("/bulkUser/:id", async (c) => {
+  try {
+    const userId = await c.req.param("id");
+    const prisma = new PrismaClient({
+      datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate());
+    const posts = await prisma.post.findMany({
+      where: {
+        authorId: userId,
+      },
+      select: {
+        content: true,
+        title: true,
+        id: true,
+        publishedDate: true,
+        author: {
+          select: {
+            name: true,
+          },
+        },
+        published: true,
+      },
+    });
+    return c.json({
+      posts: posts,
+    });
+  } catch (e) {
+    console.log(e);
+    c.status(411);
+    return c.json({
+      message: "Error while fetching post",
     });
   }
 });

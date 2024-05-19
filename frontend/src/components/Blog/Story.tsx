@@ -32,7 +32,7 @@ const Story = () => {
 		<div className="flex flex-col justify-center items-center p-4 md:px-10">
 			<div className="p-4 max-w-[680px]">
 				<div className="text-xl md:text-4xl font-extrabold py-4 line-clamp-4">{blog?.title}</div>
-				<AuthorBox name={blog?.author?.name} />
+				<AuthorBox name={blog?.author?.name} details={blog?.author?.details} />
 				<ActionBox />
 				<div className="py-4">
 					<ReactQuill value={blog?.content} readOnly={true} theme={"bubble"} />
@@ -171,13 +171,13 @@ const ActionBox = () => {
 	);
 };
 
-const AuthorBox = ({ name }: { name: string }) => (
+const AuthorBox = ({ name, details }: { name: string, details: string | undefined }) => (
 	<div className="p-4">
 		<div className="flex items-center gap-4 py-4">
 			<Avatar name={name || "Anonymous"} />
 			<div>
 				<div className="font-bold">{name || "Anonymous"}</div>
-				<div>An artist at living. My work of art is my life.</div>
+				<div>{details ? details : "An artist at living. My work of art is my life."}</div>
 			</div>
 		</div>
 	</div>
