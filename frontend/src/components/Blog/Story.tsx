@@ -14,6 +14,8 @@ import RemoveIcon from "../icons/Remove";
 import EditIcon from "../icons/Edit";
 import SingleBlogSkeleton from "../../skeletons/SingleBlogSkeleton";
 import ClapIcon from "../icons/Clap";
+import default_img from "../../assets/default_blog_img.webp"
+import stay_Curious from "../../assets/stay_curious.png"
 
 const Story = () => {
 	const { id } = useParams();
@@ -30,9 +32,14 @@ const Story = () => {
 
 	return (
 		<div className="flex flex-col justify-center items-center p-4 md:px-10">
-			<meta />
+			{/* Meta Section */}
+			<meta property="og:title" content={blog?.title  ? blog?.title : 'Medium App Blog' } />
+			<meta property="og:description" content={blog?.content.split(" ").splice(0,6).join(" ")} />
+			<meta property="og:image" content={default_img ? default_img : stay_Curious} />
+
 			<div className="p-4 max-w-[680px]">
 				<div className="text-xl md:text-4xl font-extrabold py-4 line-clamp-4">{blog?.title}</div>
+				{/* IMG section */}
 				<AuthorBox name={blog?.author?.name} details={blog?.author?.details} />
 				<ActionBox />
 				<div className="py-4">
