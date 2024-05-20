@@ -1,67 +1,56 @@
-import React, { useState } from "react";
+import React, { useRef } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import "react-toastify/dist/ReactToastify.css";
 import ToastWrapper from "../components/ToastWrapper";
-import Spinner from "../components/Spinner";
+import AutogrowTextarea from "../components/AutogrowTextarea";
 
 interface EditPublishLayoutProps {
-  defaultTitle?: string;
-  defaultContent?: string;
-  submitFunctionName: string;
-  submitFunction: (data: { title: string; content: string }) => void;
+  title?: string;
+  content?: string;
+  setTitle: (title: string) => void;
+  setContent: (content: string) => void;
 }
 
 const EditPublishLayout: React.FC<EditPublishLayoutProps> = ({
-  defaultTitle = "",
-  defaultContent = "",
-  submitFunctionName,
-  submitFunction,
+  title,
+  content,
+  setTitle,
+  setContent,
 }: EditPublishLayoutProps) => {
-  const [title, setTitle] = useState(defaultTitle);
-  const [content, setContent] = useState(defaultContent);
-  const [isLoading, setIsLoading] = useState(false);
+  const writingPadRef = useRef<ReactQuill>(null);
 
-  const handleSubmit = async () => {
-    setIsLoading(true);
-    await submitFunction({ title, content });
-    setIsLoading(false);
+  const handleTitleKeyUp = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter") writingPadRef.current?.focus();
   };
+
   return (
     <>
-      <div className="flex flex-col gap-8 justify-center p-4 md:p-10">
+      <div className="flex flex-col gap-8 justify-center p-4 md:p-10 max-w-3xl m-auto">
         <div className="w-full">
-          <input
-            type="text"
-            id="first_name"
-            className="bg-gray-50 text-gray-900 text-lg focus:ring-gray-200 focus:border-gray-200 active:border-gray-200 outline-none block w-full p-4"
+          <AutogrowTextarea
+            id="title"
+            rows={1}
+            className="resize-none font-noto-serif placeholder:text-gray-400 text-3xl tracking-wide placeholder:font-light text-black outline-none block w-full py-4"
             placeholder="Title"
             required
+            autoFocus
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-          />
+            onKeyUp={handleTitleKeyUp}
+          ></AutogrowTextarea>
         </div>
         {/* <TextEdtior content={content} setContent={setContent} /> */}
         <ReactQuill
-          theme="snow"
+          ref={writingPadRef}
+          theme="bubble"
           value={content}
           onChange={setContent}
+          placeholder="Tell your story..."
+          className="tracking-wide text-[#0B1215] font-light"
         ></ReactQuill>
-        <button
-          type="submit"
-          onClick={handleSubmit}
-          className="w-[150px] flex justify-center items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 hover:bg-blue-800 disabled:opacity-50 disabled:cursor-not-allowed"
-          disabled={isLoading}        >
-            {isLoading ? (
-            <>
-              <Spinner className="w-4 h-4"/>
-              Please wait
-            </>) : (
-            submitFunctionName
-          )}
-        </button>
       </div>
-      <ToastWrapper/>
+      <ToastWrapper />
     </>
   );
 };

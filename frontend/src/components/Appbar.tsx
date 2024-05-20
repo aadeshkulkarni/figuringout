@@ -5,11 +5,18 @@ import WriteIcon from "./icons/Write";
 
 interface AppbarProps {
   skipAuthCheck?: boolean;
+  pageActions?: JSX.Element;
+  hideWriteAction?: boolean;
 }
 
-const Appbar = ({ skipAuthCheck = false }: AppbarProps) => {
+const Appbar = ({
+  skipAuthCheck = false,
+  pageActions,
+  hideWriteAction = false,
+}: AppbarProps) => {
   const navigate = useNavigate();
   const isUserLoggedIn = localStorage.getItem("token");
+
   if (!isUserLoggedIn && skipAuthCheck == false) {
     navigate("/signin");
   }
@@ -19,15 +26,18 @@ const Appbar = ({ skipAuthCheck = false }: AppbarProps) => {
         Medium
       </Link>
       {isUserLoggedIn ? (
-        <div className="flex gap-4 md:gap-8">
-          <Link to="/publish">
-            <button
-              type="button"
-              className="focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium flex items-center gap-2 rounded-lg text-sm px-5 py-2.5 me-2 mb-2 mx-12"
-            >
-              <WriteIcon /> Write
-            </button>
-          </Link>
+        <div className="flex gap-4 items-center md:gap-8">
+          {hideWriteAction === false && (
+            <Link to="/publish">
+              <button
+                type="button"
+                className="focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium flex items-center gap-2 rounded-lg text-sm px-5 py-2.5"
+              >
+                <WriteIcon /> Write
+              </button>
+            </Link>
+          )}
+          {pageActions}
           <ProfileBox />
         </div>
       ) : (
