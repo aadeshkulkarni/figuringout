@@ -18,15 +18,16 @@ const Appbar = ({ skipAuthCheck = false }: AppbarProps) => {
       <Link to="/blogs" className="text-xl font-bold">
         Medium
       </Link>
-      {isUserLoggedIn ? (
-        <div className="flex gap-4 md:gap-8">
-          <Link
-            className=" hidden focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium sm:flex items-center gap-2 rounded-lg text-sm px-2 py-2.5 me-2 mb-2 mx-12"
+
+      <Link
+            className=" hidden ml-auto  focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium sm:flex items-center gap-2 rounded-lg text-sm px-2 py-2.5 me-2 mb-2 mx-12"
             to="/contributors"
           >
             Contributors
           </Link>
 
+      {isUserLoggedIn ? (
+        <div className="flex gap-4 md:gap-8">
           <Link to="/publish">
             <button
               type="button"
@@ -38,12 +39,15 @@ const Appbar = ({ skipAuthCheck = false }: AppbarProps) => {
           <ProfileBox />
         </div>
       ) : (
-        <Link
-          to="/signin"
-          className="focus:outline-none text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 mx-12"
-        >
-          Sign In
-        </Link>
+        <>
+          
+          <Link
+            to="/signin"
+            className="focus:outline-none text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 mx-12"
+          >
+            Sign In
+          </Link>
+        </>
       )}
     </div>
   );
