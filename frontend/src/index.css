@@ -15,7 +15,7 @@
     }
 
     button.primary:disabled {
-        @apply block text-white bg-green-700 text-sm rounded-3xl px-4 py-2 m-0 cursor-not-allowed;
+        @apply opacity-60 pointer-events-none;
     }
 }
 

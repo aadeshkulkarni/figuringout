@@ -1,18 +1,21 @@
 import { useState } from "react";
 import { Avatar } from "./BlogCard";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import WriteIcon from "./icons/Write";
 
 interface AppbarProps {
   skipAuthCheck?: boolean;
   pageActions?: JSX.Element;
+  hideWriteAction?: boolean;
 }
 
-const Appbar = ({ skipAuthCheck = false, pageActions }: AppbarProps) => {
+const Appbar = ({
+  skipAuthCheck = false,
+  pageActions,
+  hideWriteAction = false,
+}: AppbarProps) => {
   const navigate = useNavigate();
-  const location = useLocation();
   const isUserLoggedIn = localStorage.getItem("token");
-  const hideWrite = location.pathname.includes("publish");
 
   if (!isUserLoggedIn && skipAuthCheck == false) {
     navigate("/signin");
@@ -24,7 +27,7 @@ const Appbar = ({ skipAuthCheck = false, pageActions }: AppbarProps) => {
       </Link>
       {isUserLoggedIn ? (
         <div className="flex gap-4 items-center md:gap-8">
-          {hideWrite === false && (
+          {hideWriteAction === false && (
             <Link to="/publish">
               <button
                 type="button"
