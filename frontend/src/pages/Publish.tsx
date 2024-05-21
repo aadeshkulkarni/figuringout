@@ -57,7 +57,7 @@ const Publish = () => {
       <Appbar
         hideWriteAction
         pageActions={
-          <div>
+          <div className="ml-2">
             <button
               type="submit"
               onClick={publishArticle}
