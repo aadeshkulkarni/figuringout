@@ -99,7 +99,7 @@ const Register = () => {
             onChange={handlePasswordChange}
           />
           <div className="text-sm text-gray-500 mt-1 mb-3">
-            Password Strength: {passwordStrength}
+            {authInputs.password ? `Password Strength: ${passwordStrength}` : ""}
           </div>
 
         </div>
