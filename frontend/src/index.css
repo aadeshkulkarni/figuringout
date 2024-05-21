@@ -4,13 +4,27 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+    body {
+        font-family: "Noto Sans", sans-serif;
+    }
 
-.ql-editor{
-    @apply text-lg p-0 md:p-4
+    /* Keep adding variants for button here */
+    button.primary {
+        @apply block text-white bg-green-700 text-sm rounded-3xl px-4 py-2 m-0 hover:bg-green-800;
+    }
+
+    button.primary:disabled {
+        @apply opacity-60 pointer-events-none;
+    }
 }
 
-body {
-    font-family: "Noto Sans", sans-serif;;
+.ql-editor {
+    @apply font-noto-serif text-lg !p-0 md:p-4;
+}
+
+.ql-editor.ql-blank::before {
+    @apply inset-0 not-italic text-gray-400 font-light text-xl;
 }
 
 .quill {
@@ -28,7 +42,6 @@ body {
 .blog-card .ql-editor p,
 .blog-card .ql-editor h1,
 .blog-card .ql-editor h2,
-.blog-card .ql-editor h3
- {
+.blog-card .ql-editor h3 {
     @apply text-sm
 }
