@@ -98,8 +98,8 @@ const Register = () => {
             placeholder="Enter your password"
             onChange={handlePasswordChange}
           />
-          <div className="text-sm text-gray-500 mt-1 mb-3">
-            Password Strength: {passwordStrength}
+          <div className="text-sm text-gray-500 mt-1 mb-3 h-4">
+            {authInputs.password ? `Password Strength: ${passwordStrength}` : ""}
           </div>
 
         </div>
