@@ -94,3 +94,9 @@ The project is structured into the following directories:
 ## 🚀 Deployments
 
 For detailed steps to deploy the application, refer to `backend/commands.md` and `common/commands.md` in their respective directories.
+
+## 🤝 Contributors
+
+<a href="https://github.com/aadeshkulkarni/medium-app/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=aadeshkulkarni/medium-app" />
+</a>
