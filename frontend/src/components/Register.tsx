@@ -35,6 +35,12 @@ const Register = () => {
     }
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      sendRequest();
+    }
+  };
+
   async function sendRequest() {
     try {
       setLoading(true)
@@ -97,6 +103,7 @@ const Register = () => {
             label="Password"
             placeholder="Enter your password"
             onChange={handlePasswordChange}
+            onKeyDown={handleKeyDown}
           />
           <div className="text-sm text-gray-500 mt-1 mb-3 h-4">
             {authInputs.password ? `Password Strength: ${passwordStrength}` : ""}

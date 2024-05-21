@@ -17,6 +17,13 @@ const Login = () => {
     password: "",
   });
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      sendRequest();
+    }
+  };
+
+
   async function sendRequest() {
     try {
       setLoading(true)
@@ -70,6 +77,7 @@ const Login = () => {
         <PasswordField
           label="Password"
           placeholder="Enter your password"
+          onKeyDown={handleKeyDown}
           onChange={(event) => {
             setAuthInputs({ ...authInputs, password: event.target.value });
           }}
