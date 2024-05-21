@@ -4,11 +4,13 @@ import { withAccelerate } from "@prisma/extension-accelerate";
 import { Hono } from "hono";
 import { verify } from "hono/jwt";
 import { getFormattedDate } from "../utils";
+import { generateArticle } from "../genAI";
 
 export const blogRouter = new Hono<{
   Bindings: {
     DATABASE_URL: string;
     JWT_SECRET: string;
+		OPENAI_API_KEY: string;
   };
   Variables: {
     userId: string;
@@ -224,6 +226,27 @@ blogRouter.delete("/:id", async (c) => {
       message: "Error while deleting post",
     });
   }
+});
+
+blogRouter.post("/generate", async (c) => {
+	try {
+		if (!c.env.OPENAI_API_KEY) {
+			return c.json({
+				title: "",
+				article: "This feature is disabled.",
+			});
+		}
+		const body = await c.req.json();
+		const title = body.title;
+		const response = await generateArticle(title, "gpt", c.env.OPENAI_API_KEY);
+		return c.json({
+			title: title,
+			article: response,
+		});
+	} catch (ex) {
+		c.status(403);
+		return c.json({ error: "Something went wrong" });
+	}
 });
 
 /**

@@ -178,7 +178,7 @@ export const useBlog = ({ id }: { id: string }) => {
 		loading,
 		blog,
 		submittingBookmark,
-    submittingClap,
+		submittingClap,
 		deleteBlog,
 		editBlog,
 		bookmarkBlog,

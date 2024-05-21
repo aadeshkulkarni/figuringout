@@ -16,6 +16,7 @@
 - Users can like an article.
 - Users can search for articles.
 - Users have the option to filter articles.
+- Users can generate articles using AI.
 
 > (More features TBA)
 
@@ -63,6 +64,12 @@ The project is structured into the following directories:
 - Run the application locally using `npm run dev`
 
 ---
+
+### AI based Article content generation
+- set `FF_ENABLE_AI` = true in config.ts
+- set `OPENAI_API_KEY` in wrangler.toml file in the backend.
+- The feature is enabled only when title is atleast 10 characters long.
+
 
 ### Docker-Setup
 

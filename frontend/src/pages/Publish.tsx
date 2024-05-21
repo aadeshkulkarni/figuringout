@@ -1,6 +1,6 @@
 import axios from "axios";
 import Appbar from "../components/Appbar";
-import { BACKEND_URL } from "../config";
+import { BACKEND_URL, FF_ENABLE_AI } from "../config";
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import ReactQuill from "react-quill";
@@ -10,9 +10,12 @@ import "react-toastify/dist/ReactToastify.css";
 import ToastWrapper from "../components/ToastWrapper";
 import Spinner from "../components/Spinner";
 import AutogrowTextarea from "../components/AutogrowTextarea";
+import { useAI } from "../hooks/blog";
+import GenerateAIBtn from "../components/GenerateAIBtn";
 
 const Publish = () => {
   const navigate = useNavigate();
+  const { generateBlog } = useAI();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
@@ -47,6 +50,10 @@ const Publish = () => {
       toast.error("Post title & content cannot be empty.");
     }
   }
+  async function generateArticle() {
+    const generation = await generateBlog(title);
+    setContent(generation.article);
+  }
 
   const handleTitleKeyUp = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter") writingPadRef.current?.focus();
@@ -57,13 +64,11 @@ const Publish = () => {
       <Appbar
         hideWriteAction
         pageActions={
-          <div className="ml-2">
-            <button
-              type="submit"
-              onClick={publishArticle}
-              className="primary"
-              disabled={!loading}
-            >
+          <div className="ml-2 flex gap-4">
+            {FF_ENABLE_AI && title.trim().length > 10 && (
+              <GenerateAIBtn onClickHandler={generateArticle} />
+            )}
+            <button type="submit" onClick={publishArticle} className="primary" disabled={!loading}>
               <div className="flex items-center gap-2">
                 {loading && <Spinner className="h-4 w-4 !border-2" />}
                 Publish
