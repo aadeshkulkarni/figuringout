@@ -68,7 +68,12 @@ const Publish = () => {
             {FF_ENABLE_AI && title.trim().length > 10 && (
               <GenerateAIBtn onClickHandler={generateArticle} />
             )}
-            <button type="submit" onClick={publishArticle} className="primary" disabled={!loading}>
+            <button
+              type="submit"
+              onClick={publishArticle}
+              className="primary"
+              disabled={loading}
+            >
               <div className="flex items-center gap-2">
                 {loading && <Spinner className="h-4 w-4 !border-2" />}
                 Publish
