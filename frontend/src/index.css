@@ -17,6 +17,14 @@
     button.primary:disabled {
         @apply opacity-60 pointer-events-none;
     }
+
+     button.secondary {
+        @apply block bg-white text-sm rounded-3xl px-4 py-2 m-0 hover:bg-gray-200 border;
+    }
+
+    button.secondary:disabled {
+        @apply opacity-60 pointer-events-none;
+    }
 }
 
 .ql-editor {

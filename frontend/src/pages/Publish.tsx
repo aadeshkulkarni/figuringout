@@ -2,23 +2,21 @@ import axios from "axios";
 import Appbar from "../components/Appbar";
 import { BACKEND_URL, FF_ENABLE_AI } from "../config";
 import { useEffect, useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.bubble.css";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ToastWrapper from "../components/ToastWrapper";
-import Spinner from "../components/Spinner";
 import AutogrowTextarea from "../components/AutogrowTextarea";
 import { useAI } from "../hooks/blog";
 import GenerateAIBtn from "../components/GenerateAIBtn";
+import PublishTags from "../components/PublishTags";
 
 const Publish = () => {
-  const navigate = useNavigate();
   const { generateBlog } = useAI();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [blogId, setBlogId] = useState("");
 
   const writingPadRef = useRef<ReactQuill>(null);
 
@@ -27,7 +25,6 @@ const Publish = () => {
   async function publishArticle() {
     if (title.trim() && content.trim()) {
       try {
-        setLoading(true);
         const response = await axios.post(
           `${BACKEND_URL}/api/v1/blog`,
           {
@@ -40,12 +37,10 @@ const Publish = () => {
             },
           }
         );
-        navigate(`/blog/${response?.data?.id}`);
+        setBlogId(response?.data?.id)
       } catch (error) {
         toast.error("Failed to publish the article. Please try again.");
-      } finally {
-        setLoading(false);
-      }
+      } 
     } else {
       toast.error("Post title & content cannot be empty.");
     }
@@ -68,17 +63,7 @@ const Publish = () => {
             {FF_ENABLE_AI && title.trim().length > 10 && (
               <GenerateAIBtn onClickHandler={generateArticle} />
             )}
-            <button
-              type="submit"
-              onClick={publishArticle}
-              className="primary"
-              disabled={loading}
-            >
-              <div className="flex items-center gap-2">
-                {loading && <Spinner className="h-4 w-4 !border-2" />}
-                Publish
-              </div>
-            </button>
+            <PublishTags onClick={publishArticle} blogId={blogId}/>
           </div>
         }
       />
