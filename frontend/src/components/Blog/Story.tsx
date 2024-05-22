@@ -14,6 +14,7 @@ import RemoveIcon from "../icons/Remove";
 import EditIcon from "../icons/Edit";
 import SingleBlogSkeleton from "../../skeletons/SingleBlogSkeleton";
 import ClapIcon from "../icons/Clap";
+import { Tags } from "../Tags";
 
 const Story = () => {
 	const { id } = useParams();
@@ -42,6 +43,12 @@ const Story = () => {
 					<ReactQuill value={blog?.content} readOnly={true} theme={"bubble"} />
 				</div>
 			</div>
+			{/* {blog.tagsOnPost.map((tagWrapper) => {
+				return <div key={tagWrapper.tag.id}>
+					{tagWrapper.tag.tagName}
+				</div>
+			})} */}
+			<Tags></Tags>
 		</div>
 	);
 };

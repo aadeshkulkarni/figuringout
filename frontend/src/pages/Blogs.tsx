@@ -15,6 +15,14 @@ export interface BlogType {
   };
   claps: [];
   bookmarkId?: string;
+  tagsOnPost: tagWrapper[];
+}
+
+export interface tagWrapper{tag: Tag}
+
+export interface Tag{
+  id: string,
+  tagName: string
 }
 
 const Blogs = () => {
