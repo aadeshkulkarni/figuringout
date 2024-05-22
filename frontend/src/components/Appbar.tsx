@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import WriteIcon from "./icons/Write";
 import ProfileBox from "./ProfileBox";
