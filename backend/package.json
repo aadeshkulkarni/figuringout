@@ -2,6 +2,7 @@
   "name": "medium-backend",
   "version": "1.0.0",
   "scripts": {
+    "postinstall": "prisma generate",
     "dev": "wrangler dev src/index.ts",
     "prisma:migrate": "prisma migrate deploy",
     "db:seed": "npx prisma db seed",

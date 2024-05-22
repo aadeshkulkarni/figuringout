@@ -39,6 +39,16 @@ blogRouter.get("/bulk/:id?", async (c) => {
           },
         },
         published: true,
+        tagsOnPost: {
+          select: {
+            tag: {
+              select: {
+                id: true,
+                tagName: true,
+              }
+            }
+          }
+        }
       },
     };
     if (userId) {
@@ -182,6 +192,16 @@ blogRouter.get("/:id", async (c) => {
           select: {
             id: true
           }
+        },
+        tagsOnPost: {
+          select: {
+            tag: {
+              select: {
+                id: true,
+                tagName: true,
+              }
+            }
+          }
         }
       },
     });
@@ -273,6 +293,16 @@ blogRouter.get("/bulkUser/:id", async (c) => {
           },
         },
         published: true,
+        tagsOnPost: {
+          select: {
+            tag: {
+              select: {
+                id: true,
+                tagName: true,
+              }
+            }
+          }
+        }
       },
     });
     return c.json({
