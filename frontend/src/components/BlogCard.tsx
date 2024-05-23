@@ -15,14 +15,14 @@ interface BlogCardProps {
 	fullWidth?: boolean;
 }
 
-const BlogCard = ({ author, title, content, publishedDate, id }: BlogCardProps) => {
+const BlogCard = ({ author, title, content, publishedDate, id,fullWidth }: BlogCardProps) => {
 	// split and slice combination is added so that the string doesn't get trimmed in middle of a word
 	const quillContent = getPlainTextFromHTML(content).split(" ").slice(0, 40).join(" ") + "...";
 
 	return (
 		<Link
 			to={`/blog/${id}`}
-			className="blog-card px-4 py-8 w-full md:w-3/6 md:border-b md:border-gray-200 my-2 bg-white shadow-b-sm grid grid-cols-12"
+			className={`blog-card px-4 py-8 ${fullWidth ? 'w-full' : 'md:w-3/6'} md:border-b md:border-gray-200 my-2 bg-white shadow-b-sm grid grid-cols-12`}
 		>
 			<div className="col-span-12 md:col-span-9 md:px-4">
 				<div className="flex items-center gap-4">
