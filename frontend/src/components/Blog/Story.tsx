@@ -43,12 +43,7 @@ const Story = () => {
 					<ReactQuill value={blog?.content} readOnly={true} theme={"bubble"} />
 				</div>
 			</div>
-			{/* {blog.tagsOnPost.map((tagWrapper) => {
-				return <div key={tagWrapper.tag.id}>
-					{tagWrapper.tag.tagName}
-				</div>
-			})} */}
-			<Tags></Tags>
+			<Tags/>
 		</div>
 	);
 };
