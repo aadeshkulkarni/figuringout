@@ -1,7 +1,6 @@
-import { useState } from "react";
-import { Avatar } from "./BlogCard";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import WriteIcon from "./icons/Write";
+import ProfileBox from "./ProfileBox";
 
 interface AppbarProps {
   skipAuthCheck?: boolean;
@@ -15,7 +14,7 @@ const Appbar = ({
   hideWriteAction = false,
 }: AppbarProps) => {
   const navigate = useNavigate();
-  const {pathname} = useLocation();
+  const { pathname } = useLocation();
   const isUserLoggedIn = localStorage.getItem("token");
 
   if (!isUserLoggedIn && skipAuthCheck == false) {
@@ -28,12 +27,14 @@ const Appbar = ({
       </Link>
 
       <div className="flex items-center gap-1">
-        {pathname === '/' && <Link
-          className="hidden sm:flex focus:outline-none hover:bg-gray-100 rounded-3xl focus:ring-4 focus:ring-gray-100 font-medium items-center gap-2 text-sm px-5 py-2.5"
-          to="/contributors"
-        >
-          Contributors
-        </Link>}
+        {pathname === "/" && (
+          <Link
+            className="hidden sm:flex focus:outline-none hover:bg-gray-100 rounded-3xl focus:ring-4 focus:ring-gray-100 font-medium items-center gap-2 text-sm px-5 py-2.5"
+            to="/contributors"
+          >
+            Contributors
+          </Link>
+        )}
 
         {isUserLoggedIn ? (
           <>
@@ -66,40 +67,5 @@ const Appbar = ({
     </div>
   );
 };
-
-function ProfileBox() {
-  const navigate = useNavigate();
-  const [show, setShow] = useState(false);
-
-  const logout = () => {
-    localStorage.removeItem("token");
-    navigate("/");
-  };
-
-  const goToBookmarks = () => {
-    navigate("/bookmarks");
-  };
-  const goToProfile = () => {
-    const userLocalStorage = localStorage.getItem("user");
-    if (userLocalStorage) {
-      const userInfo = JSON.parse(userLocalStorage);
-      navigate(`/${userInfo.id}`);
-    }
-  };
-  return (
-    <div className="relative cursor-pointer">
-      <Avatar name="Aadesh Kulkarni" onClick={() => setShow(!show)} />
-      {show && (
-        <div className="absolute -bottom-24 -left-16 shadow-lg p-4 bg-gray-50 border border-gray-100 z-50 w-[160px]">
-          <div className="flex flex-col gap-3">
-            <div onClick={goToProfile}>Profile</div>
-            <div onClick={goToBookmarks}>Bookmarks</div>
-            <div onClick={logout}>Logout</div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
 
 export default Appbar;
