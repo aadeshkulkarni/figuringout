@@ -1,10 +1,10 @@
 import { createContext, useState } from "react";
 import { BlogType } from "../../pages/Blogs";
-import { Avatar } from "../BlogCard";
 import Spinner from "../Spinner";
 import UserAboutTab from "./UserAboutTab";
 import UserHomeTab from "./UserHomeTab";
 import { useUser, useUserBlogs } from "../../hooks/user";
+import Avatar from "../Avatar";
 
 type UserProfileProps = {
   id: string;

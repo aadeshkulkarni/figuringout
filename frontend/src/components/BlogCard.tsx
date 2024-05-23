@@ -1,8 +1,8 @@
-import { MouseEventHandler } from "react";
 import ReactQuill from "react-quill";
 import { Link } from "react-router-dom";
 import "react-quill/dist/quill.bubble.css";
 import { getPlainTextFromHTML } from "../util/string";
+import Avatar from "./Avatar";
 
 interface BlogCardProps {
 	author: {
@@ -52,43 +52,5 @@ function ArticleImage({ uniqueId }: { uniqueId: string }) {
 		<object data={`https://source.unsplash.com/random/150x150?sig=${uniqueId}`} type="image/jpeg">
 			<div className="bg-gray-50 w-[100%] animate-pulse aspect-square"></div>
 		</object>
-	);
-}
-
-type AvatarProps = {
-	name: string;
-	size?: "small" | "medium" | "large";
-	onClick?: MouseEventHandler<HTMLDivElement>;
-};
-export function Avatar({ name, onClick, size = "medium" }: AvatarProps) {
-	const getDimensions = () => {
-		switch (size) {
-			case "small":
-				return {
-					containerSize: "w-5 h-5",
-				};
-			case "medium":
-				return {
-					containerSize: "w-10 h-10",
-				};
-			case "large":
-				return {
-					containerSize: "w-20 h-20",
-					textSize: "text-xl",
-				};
-		}
-	};
-
-	const { containerSize, textSize } = getDimensions();
-	return (
-		<div
-			onClick={onClick}
-			className={`relative inline-flex items-center justify-center overflow-hidden bg-gray-200 hover:bg-gray-50 rounded-full ${containerSize}`}
-		>
-			<span className={`font-medium ${textSize} text-gray-600`}>
-				{name.split(" ")?.[0]?.[0]}
-				{name?.split(" ")?.[1]?.[0]}
-			</span>
-		</div>
 	);
 }
