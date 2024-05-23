@@ -38,6 +38,7 @@ export const useBlog = ({ id }: { id: string }) => {
 			name: "",
 		},
 		claps: [],
+		tagsOnPost:[]
 	});
 
 	async function fetchBlog() {
@@ -183,7 +184,7 @@ export const useBlog = ({ id }: { id: string }) => {
 		editBlog,
 		bookmarkBlog,
 		unbookmarkBlog,
-		likeBlog,
+		likeBlog
 	};
 };
 
