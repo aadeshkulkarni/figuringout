@@ -64,7 +64,6 @@ const ActionBox = () => {
     bookmarkBlog,
     unbookmarkBlog,
     submittingBookmark,
-    submittingClap,
     likeBlog,
   } = useBlog({ id: id || '' });
 
