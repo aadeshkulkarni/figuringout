@@ -32,6 +32,7 @@ model Post {
   content       String
   publishedDate String     @default("")
   published     Boolean    @default(false)
+  coverImage    String?   
   author        User       @relation(fields: [authorId], references: [id])
   authorId      String
   bookmarks     Bookmark[]

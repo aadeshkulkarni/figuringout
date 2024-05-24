@@ -7,11 +7,16 @@
     "@aadeshk/medium-common": "^1.0.2",
     "@prisma/client": "^5.13.0",
     "@prisma/extension-accelerate": "^1.0.0",
+    "cloudinary": "^1.41.3",
     "hono": "^4.2.7",
+    "multer": "^1.4.5-lts.1",
+    "multer-storage-cloudinary": "^4.0.0",
     "prisma": "^5.13.0"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20240403.0",
+    "@types/multer": "^1.4.11",
+    "@types/node": "^20.12.12",
     "wrangler": "^3.47.0"
   }
 }

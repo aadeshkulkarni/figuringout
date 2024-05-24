@@ -4,6 +4,8 @@ import { withAccelerate } from "@prisma/extension-accelerate";
 import { Hono } from "hono";
 import { verify } from "hono/jwt";
 import { getFormattedDate } from "../utils";
+import upload from "../upload";
+import { multerMiddleware } from "./middleware/multermiddleware";
 
 export const blogRouter = new Hono<{
   Bindings: {
@@ -44,8 +46,8 @@ blogRouter.get("/bulk/:id?", async (c) => {
         where: {
           authorId: userId,
         },
-        ...query
-      }
+        ...query,
+      };
     }
     const posts = await prisma.post.findMany(query);
     return c.json({
@@ -80,7 +82,7 @@ blogRouter.use("/*", async (c, next) => {
   }
 });
 
-blogRouter.post("/", async (c) => {
+blogRouter.post("/", multerMiddleware(upload), async (c) => {
   const prisma = new PrismaClient({
     datasourceUrl: c.env.DATABASE_URL,
   }).$extends(withAccelerate());
@@ -93,11 +95,13 @@ blogRouter.post("/", async (c) => {
     });
   }
   const authorId = c.get("userId");
+  const coverImage = c.req.file ? c.req.file.path : null;
   try {
     const post = await prisma.post.create({
       data: {
         title: body.title,
         content: body.content,
+        coverImage: coverImage,
         authorId: authorId,
         publishedDate: getFormattedDate(),
       },
@@ -162,7 +166,7 @@ blogRouter.get("/:id", async (c) => {
           select: {
             name: true,
             id: true,
-            details: true
+            details: true,
           },
         },
         id: true,
@@ -178,9 +182,9 @@ blogRouter.get("/:id", async (c) => {
         },
         claps: {
           select: {
-            id: true
-          }
-        }
+            id: true,
+          },
+        },
       },
     });
 
