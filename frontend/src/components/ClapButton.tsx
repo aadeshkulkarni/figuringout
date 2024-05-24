@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../index.css'; 
-import ClapIcon from './icons/Clap';
+import ClapIcon, { ClapIconBlack } from './icons/Clap';
 
 interface SparkleProps {
   id: number;
@@ -19,6 +19,13 @@ interface ClapButtonProps {
 const ClapButton: React.FC<ClapButtonProps> = ({ clapCount, handleClap }) => {
   const [isClapping, setIsClapping] = useState<boolean>(false);
   const [sparkles, setSparkles] = useState<SparkleProps[]>([]);
+  const [clapped , setClapped] = useState<boolean>(false);
+
+  const handleClapColour = () => {
+    if (!clapped) {
+        setClapped(true);
+    }
+};
 
   const colors = ['#FF0000', '#00FF00', '#0000FF', '#FF00FF', '#FFFF00'];
 
@@ -66,8 +73,8 @@ const ClapButton: React.FC<ClapButtonProps> = ({ clapCount, handleClap }) => {
       className="flex items-center cursor-pointer"
         onClick={onClap}
       >
-        <div className={`clap-button ${isClapping ? 'clapping' : ''}`}>
-            <ClapIcon />
+        <div className={`clap-button ${isClapping ? 'clapping' : ''}`} onClick={handleClapColour}>
+          { clapped ? <ClapIconBlack /> : <ClapIcon /> }
         </div>
         <span className='ml-2'>{clapCount}</span>
       </div>
