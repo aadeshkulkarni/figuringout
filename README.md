@@ -37,7 +37,8 @@ A React frontend and Cloudflare workers backend application offering features th
 ```bash
 cd backend
 ```
-- Set up Postgres DATABASE_URL in .env. You can get a free PostgreSQL connection string from [Aiven.io](https://aiven.io/).
+- Create a copy of .env.example and name the file `.env`
+- Set up Postgres DATABASE_URL in .env file. You can get a free PostgreSQL connection string from [Aiven.io](https://aiven.io/).
 - Set up Prisma connection pool DATABASE_URL in wrangler.toml file. You can get this for free from [Prisma](https://www.prisma.io/data-platform/accelerate).
 - Set up JWT Secret JWT_SECRET in wrangler.toml file. This can be any value.
 - Install dependencies using 
