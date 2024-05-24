@@ -1,17 +1,17 @@
 import { createContext, useState } from "react";
-import { BlogType } from "../../pages/Blogs";
 import Spinner from "../Spinner";
 import UserAboutTab from "./UserAboutTab";
 import UserHomeTab from "./UserHomeTab";
 import { useUser, useUserBlogs } from "../../hooks/user";
 import Avatar from "../Avatar";
+import { Post } from "../../types/post";
 
 type UserProfileProps = {
   id: string;
 };
 type UserProfileContextType = {
   currentUser?: any;
-  blogs?: BlogType[];
+  blogs?: Post[];
   loadingUserBlogs?: boolean;
   editingDetails?: boolean;
   isAuthorizedUser?: boolean;
