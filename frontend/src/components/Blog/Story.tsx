@@ -1,7 +1,6 @@
 import { useState } from "react";
 import ReactQuill from "react-quill";
 import { toast } from "react-toastify";
-import { Avatar } from "../BlogCard";
 import Spinner from "../Spinner";
 import { useBlog } from "./../../hooks";
 import { useNavigate, useParams } from "react-router-dom";
@@ -14,30 +13,37 @@ import RemoveIcon from "../icons/Remove";
 import EditIcon from "../icons/Edit";
 import SingleBlogSkeleton from "../../skeletons/SingleBlogSkeleton";
 import ClapIcon from "../icons/Clap";
+import { Tags } from "../Tags";
+import Avatar from "../Avatar";
 
 const Story = () => {
 	const { id } = useParams();
 	const { blog, loading } = useBlog({
 		id: id || "",
 	});
-	if (loading){
+	if (loading) {
 		return (
 			<div className="flex flex-col justify-center items-center p-4 md:px-10">
-				<SingleBlogSkeleton />
+				<SingleBlogSkeleton />
 			</div>
-		)
-	};
+		);
+	}
 
 	return (
 		<div className="flex flex-col justify-center items-center p-4 md:px-10">
 			<div className="p-4 max-w-[680px]">
 				<div className="text-xl md:text-4xl font-extrabold py-4 line-clamp-4">{blog?.title}</div>
-				<AuthorBox name={blog?.author?.name} details={blog?.author?.details} />
+				<AuthorBox
+					name={blog?.author?.name}
+					details={blog?.author?.details}
+					publishedDate={blog?.publishedDate}
+				/>
 				<ActionBox />
 				<div className="py-4">
 					<ReactQuill value={blog?.content} readOnly={true} theme={"bubble"} />
 				</div>
 			</div>
+			<Tags/>
 		</div>
 	);
 };
@@ -111,30 +117,25 @@ const ActionBox = () => {
 			</Tooltip>
 		);
 	};
-
-	const likeStory = () => {
-		//if (blog?.claps?.length < 10) {
-			likeBlog();
-		//}
-	};
 	return (
-		<div className="text-lg font-light text-slate-500 py-4 items-center justify-between flex border-y">
-			Post on {blog?.publishedDate}
-			<div className="flex justify-center items-center">
+		<div className="text-slate-500 py-2 items-center justify-between flex border-y border-slate-200">
+			<div className="text-sm">
 				{submittingClap ? (
 					<Spinner className="p-0 m-0 w-4 h-4" />
 				) : (
 					<Tooltip message="Clap">
 						<button
-							onClick={likeStory}
+							onClick={likeBlog}
 							type="button"
 							name="like-story"
-							className="focus:outline-none font-medium rounded-lg text-sm px-4 flex gap-2 justify-center items-center"
+							className="focus:outline-none text-slate-400 rounded-lg px-4 flex gap-2 justify-center items-center"
 						>
 							<ClapIcon /> {blog?.claps?.length || ""}
 						</button>
 					</Tooltip>
 				)}
+			</div>
+			<div className="flex justify-center items-center">
 				{determineBookmarkView()}
 				{isAuthor && (
 					<>
@@ -171,13 +172,24 @@ const ActionBox = () => {
 	);
 };
 
-const AuthorBox = ({ name, details }: { name: string, details: string | undefined }) => (
+const AuthorBox = ({
+	name,
+	details,
+	publishedDate,
+}: {
+	name: string;
+	details: string | undefined;
+	publishedDate: string;
+}) => (
 	<div className="p-4">
 		<div className="flex items-center gap-4 py-4">
 			<Avatar name={name || "Anonymous"} />
 			<div>
 				<div className="font-bold">{name || "Anonymous"}</div>
-				<div>{details ? details : "An artist at living. My work of art is my life."}</div>
+				<div>
+					<span>{details ? details : "An artist at living. My work of art is my life."} </span> ·{" "}
+					<span className="text-sm text-slate-500">{publishedDate}</span>
+				</div>
 			</div>
 		</div>
 	</div>

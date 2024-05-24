@@ -1,7 +1,15 @@
 {
+  "name": "medium-backend",
+  "version": "1.0.0",
   "scripts": {
+    "postinstall": "prisma generate",
     "dev": "wrangler dev src/index.ts",
+    "prisma:migrate": "prisma migrate deploy",
+    "db:seed": "npx prisma db seed",
     "deploy": "wrangler deploy --minify src/index.ts"
+  },
+  "prisma": {
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
   "dependencies": {
     "@aadeshk/medium-common": "^1.0.2",
@@ -11,12 +19,18 @@
     "hono": "^4.2.7",
     "multer": "^1.4.5-lts.1",
     "multer-storage-cloudinary": "^4.0.0",
+    "dotenv": "^16.4.5",
+    "hono": "^4.2.7",
+    "openai": "^4.47.1",
     "prisma": "^5.13.0"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20240403.0",
     "@types/multer": "^1.4.11",
     "@types/node": "^20.12.12",
+    "@types/node": "^20.12.12",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5",
     "wrangler": "^3.47.0"
   }
 }

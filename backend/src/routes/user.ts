@@ -9,6 +9,9 @@ export const userRouter = new Hono<{
     DATABASE_URL: string;
     JWT_SECRET: string;
   };
+  Variables: {
+		userId: string;
+	};
 }>();
 
 userRouter.post("/signup", async (c) => {
@@ -105,7 +108,7 @@ userRouter.post("/signin", async (c) => {
 userRouter.use("/*", async (c, next) => {
   try {
     const header = c.req.header("authorization") || "";
-    const token = header.split(" ")[1];
+    const token = header && header.split(" ")[1];
     const user = await verify(token, c.env.JWT_SECRET);
     if (user) {
       c.set("userId", user.id);

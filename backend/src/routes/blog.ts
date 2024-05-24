@@ -1,16 +1,21 @@
 import { createBlogInput, updateBlogInput } from "@aadeshk/medium-common";
-import { PrismaClient } from "@prisma/client/edge";
-import { withAccelerate } from "@prisma/extension-accelerate";
 import { Hono } from "hono";
 import { verify } from "hono/jwt";
 import { getFormattedDate } from "../utils";
 import upload from "../upload";
 import { multerMiddleware } from "./middleware/multermiddleware";
+import { generateArticle } from "../genAI";
+import { buildQuery } from "../db/queries";
+import { getDBInstance } from "../db/util";
+
+const DEFAULT_PAGE = 1;
+const DEFAULT_PAGE_SIZE = 10;
 
 export const blogRouter = new Hono<{
   Bindings: {
     DATABASE_URL: string;
     JWT_SECRET: string;
+		OPENAI_API_KEY: string;
   };
   Variables: {
     userId: string;
@@ -49,15 +54,30 @@ blogRouter.get("/bulk/:id?", async (c) => {
         ...query,
       };
     }
+		const tagId = c.req.query("tagId");
+		let page = Math.max(parseInt(c.req.query("page") || `${DEFAULT_PAGE}`), 1);
+		let pageSize = Math.max(parseInt(c.req.query("pageSize") || `${DEFAULT_PAGE_SIZE}`), 1);
+		const prisma = getDBInstance(c);
+		const query = buildQuery(userId, tagId);
+    query.skip = (page - 1) * pageSize;
+		query.take = pageSize;
     const posts = await prisma.post.findMany(query);
+    const countQuery = buildQuery(userId, tagId);
+    delete countQuery.skip;
+    delete countQuery.take;
+    const totalCount = await prisma.post.count({ where: countQuery.where });
     return c.json({
       posts: posts,
+      totalCount: totalCount,
+			page: page,
+			pageSize: pageSize,
+			totalPages: Math.ceil(totalCount / pageSize),
     });
   } catch (e) {
-    console.log(e);
     c.status(411);
     return c.json({
       message: "Error while fetching post",
+      error: e
     });
   }
 });
@@ -86,6 +106,8 @@ blogRouter.post("/", multerMiddleware(upload), async (c) => {
   const prisma = new PrismaClient({
     datasourceUrl: c.env.DATABASE_URL,
   }).$extends(withAccelerate());
+blogRouter.post("/", async (c) => {
+  const prisma = getDBInstance(c);
   const body = await c.req.json();
   const { success } = createBlogInput.safeParse(body);
   if (!success) {
@@ -116,9 +138,7 @@ blogRouter.post("/", multerMiddleware(upload), async (c) => {
 });
 
 blogRouter.put("/", async (c) => {
-  const prisma = new PrismaClient({
-    datasourceUrl: c.env.DATABASE_URL,
-  }).$extends(withAccelerate());
+  const prisma = getDBInstance(c);
   const body = await c.req.json();
   const { success } = updateBlogInput.safeParse(body);
   if (!success) {
@@ -149,9 +169,7 @@ blogRouter.put("/", async (c) => {
 
 blogRouter.get("/:id", async (c) => {
   try {
-    const prisma = new PrismaClient({
-      datasourceUrl: c.env.DATABASE_URL,
-    }).$extends(withAccelerate());
+		const prisma = getDBInstance(c);
     const postId = await c.req.param("id");
     const userId = c.get("userId");
     const post = await prisma.post.findFirst({
@@ -185,6 +203,19 @@ blogRouter.get("/:id", async (c) => {
             id: true,
           },
         },
+            id: true
+          }
+        },
+        tagsOnPost: {
+          select: {
+            tag: {
+              select: {
+                id: true,
+                tagName: true,
+              }
+            }
+          }
+        }
       },
     });
 
@@ -209,9 +240,7 @@ blogRouter.get("/:id", async (c) => {
 
 blogRouter.delete("/:id", async (c) => {
   try {
-    const prisma = new PrismaClient({
-      datasourceUrl: c.env.DATABASE_URL,
-    }).$extends(withAccelerate());
+		const prisma = getDBInstance(c);
     const postId = await c.req.param("id");
     const post = await prisma.post.delete({
       where: {
@@ -230,15 +259,34 @@ blogRouter.delete("/:id", async (c) => {
   }
 });
 
+blogRouter.post("/generate", async (c) => {
+	try {
+		if (!c.env.OPENAI_API_KEY) {
+			return c.json({
+				title: "",
+				article: "This feature is disabled.",
+			});
+		}
+		const body = await c.req.json();
+		const title = body.title;
+		const response = await generateArticle(title, "gpt", c.env.OPENAI_API_KEY);
+		return c.json({
+			title: title,
+			article: response,
+		});
+	} catch (ex) {
+		c.status(403);
+		return c.json({ error: "Something went wrong" });
+	}
+});
+
 /**
  * Retrieves all the blogs for the user in bulk
  */
 blogRouter.get("/bulkUser/:id", async (c) => {
   try {
     const userId = await c.req.param("id");
-    const prisma = new PrismaClient({
-      datasourceUrl: c.env.DATABASE_URL,
-    }).$extends(withAccelerate());
+		const prisma = getDBInstance(c);
     const posts = await prisma.post.findMany({
       where: {
         authorId: userId,
@@ -254,6 +302,16 @@ blogRouter.get("/bulkUser/:id", async (c) => {
           },
         },
         published: true,
+        tagsOnPost: {
+          select: {
+            tag: {
+              select: {
+                id: true,
+                tagName: true,
+              }
+            }
+          }
+        }
       },
     });
     return c.json({
