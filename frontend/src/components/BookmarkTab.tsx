@@ -1,9 +1,9 @@
 import BlogCard from "./BlogCard";
 import { Link } from "react-router-dom";
-import { BlogType } from "../pages/Blogs";
+import { Post } from "../types/post";
 
 type BookmarkTabProps = {
-  bookmarks: BlogType[];
+  bookmarks: Post[];
 };
 const BookmarkTab = ({ bookmarks }: BookmarkTabProps) => {
   return (
@@ -11,7 +11,7 @@ const BookmarkTab = ({ bookmarks }: BookmarkTabProps) => {
       <h1 className="text-2xl font-bold mb-2">Bookmarks</h1>
       <div className="flex flex-col justify-center items-center bg-gray-50">
         {bookmarks.length > 0 &&
-          bookmarks.map((bookmark: BlogType) => (
+          bookmarks.map((bookmark) => (
             <BlogCard
               id={bookmark?.id}
               author={bookmark?.author}

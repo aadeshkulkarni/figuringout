@@ -1,25 +1,63 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { BACKEND_URL } from "../config";
 import axios from "axios";
-import { BlogType } from "../pages/Blogs";
 import { useNavigate } from "react-router-dom";
+import { BlogResponse } from "../types/blog";
+import { Post } from "../types/post";
 
 export const useBlogs = () => {
-	const [loading, setLoading] = useState(true);
-	const [blogs, setBlogs] = useState([]);
+	const [loading, setLoading] = useState(false);
+	const [data, setData] = useState<BlogResponse[]>([]);
+	const [page, setPage] = useState(1);
+	const [totalPage, setTotalPage] = useState(0);
+
+	const fetchBlogs = async () => {
+		if (loading) return;
+
+		setLoading(true);
+		const response = await axios.get(
+			`${BACKEND_URL}/api/v1/blog/bulk?page=${page}&pageSize=10`
+		);
+
+		setData((prev) => {
+			const dataExists = prev.find((item) => item.page === page);
+			if (dataExists) {
+				const updatedPayload = prev.map((item) => {
+					if (item.page === page) {
+						return response.data;
+					} else {
+						return item;
+					}
+				});
+				return updatedPayload;
+			} else {
+				return [...prev, response?.data || {}];
+			}
+		});
+		setTotalPage(response?.data?.totalPages);
+		setLoading(false);
+	};
 
 	useEffect(() => {
-		async function fetchBlogs() {
-			const response = await axios.get(`${BACKEND_URL}/api/v1/blog/bulk?page=1&pageSize=10`);
-			setBlogs(response.data.posts);
-			setLoading(false);
-		}
 		fetchBlogs();
-	}, []);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [page]);
+
+	const blogs = useMemo(() => {
+		return data.flatMap((item) => item?.posts ?? []);
+	}, [data]);
+
+	const handleLoadMore = () => {
+		const nextPage = page + 1;
+		if (nextPage <= totalPage) {
+			setPage(nextPage);
+		}
+	};
 
 	return {
 		loading,
 		blogs,
+		handleLoadMore,
 	};
 };
 
@@ -28,7 +66,7 @@ export const useBlog = ({ id }: { id: string }) => {
 	const [loading, setLoading] = useState(true);
 	const [submittingBookmark, setSubmittingBookmark] = useState(false);
 	const [submittingClap, setSubmittinClap] = useState(false);
-	const [blog, setBlog] = useState<BlogType>({
+	const [blog, setBlog] = useState<Post>({
 		id: "",
 		title: "",
 		content: "",
@@ -38,7 +76,8 @@ export const useBlog = ({ id }: { id: string }) => {
 			name: "",
 		},
 		claps: [],
-		tagsOnPost:[]
+		tagsOnPost: [],
+		published: true,
 	});
 
 	async function fetchBlog() {
@@ -184,7 +223,7 @@ export const useBlog = ({ id }: { id: string }) => {
 		editBlog,
 		bookmarkBlog,
 		unbookmarkBlog,
-		likeBlog
+		likeBlog,
 	};
 };
 
