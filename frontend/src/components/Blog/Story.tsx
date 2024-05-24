@@ -1,7 +1,6 @@
 import { useState } from "react";
 import ReactQuill from "react-quill";
 import { toast } from "react-toastify";
-import { Avatar } from "../BlogCard";
 import Spinner from "../Spinner";
 import { useBlog } from "./../../hooks";
 import { useNavigate, useParams } from "react-router-dom";
@@ -14,6 +13,8 @@ import RemoveIcon from "../icons/Remove";
 import EditIcon from "../icons/Edit";
 import SingleBlogSkeleton from "../../skeletons/SingleBlogSkeleton";
 import ClapIcon from "../icons/Clap";
+import { Tags } from "../Tags";
+import Avatar from "../Avatar";
 
 const Story = () => {
 	const { id } = useParams();
@@ -42,6 +43,7 @@ const Story = () => {
 					<ReactQuill value={blog?.content} readOnly={true} theme={"bubble"} />
 				</div>
 			</div>
+			<Tags/>
 		</div>
 	);
 };

@@ -8,18 +8,24 @@
 
 ## ✨ Features
 
-- Users can sign up and sign in securely via token-based authentication.
-- Users can view all published articles.
-- Users can create, edit, and delete their articles.
-- Users can view details of specific articles.
-- Users can bookmark an article (Save for later).
-- Users can like an article.
-- Users can search for articles.
-- Users have the option to filter articles.
-- Users can generate articles using AI.
+- Sign up and Sign in securely via token-based authentication.
+- View all published articles.
+- Create, Edit, and Delete articles.
+- Link an article to a topic.
+- View specific article.
+- Bookmark an article (Save for later).
+- Like an article.
+- Search for articles.
+- Filter articles based on topics.
+- View & edit user profile.
+- **Generate article content based on title using AI.**
+
+#### In the pipeline: 
+
+- Voiceover 
+- Recommendation system
 
 > (More features TBA)
-
 ---
 
 ## 🛠 Tech Stack
