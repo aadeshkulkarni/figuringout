@@ -6,6 +6,9 @@ import { generateArticle } from "../genAI";
 import { buildQuery } from "../db/queries";
 import { getDBInstance } from "../db/util";
 
+const DEFAULT_PAGE = 1;
+const DEFAULT_PAGE_SIZE = 10;
+
 export const blogRouter = new Hono<{
   Bindings: {
     DATABASE_URL: string;
@@ -25,11 +28,23 @@ blogRouter.get("/bulk/:id?", async (c) => {
   try {
     const userId = await c.req.param("id");
 		const tagId = c.req.query("tagId");
+		let page = Math.max(parseInt(c.req.query("page") || `${DEFAULT_PAGE}`), 1);
+		let pageSize = Math.max(parseInt(c.req.query("pageSize") || `${DEFAULT_PAGE_SIZE}`), 1);
 		const prisma = getDBInstance(c);
 		const query = buildQuery(userId, tagId);
+    query.skip = (page - 1) * pageSize;
+		query.take = pageSize;
     const posts = await prisma.post.findMany(query);
+    const countQuery = buildQuery(userId, tagId);
+    delete countQuery.skip;
+    delete countQuery.take;
+    const totalCount = await prisma.post.count({ where: countQuery.where });
     return c.json({
       posts: posts,
+      totalCount: totalCount,
+			page: page,
+			pageSize: pageSize,
+			totalPages: Math.ceil(totalCount / pageSize),
     });
   } catch (e) {
     c.status(411);

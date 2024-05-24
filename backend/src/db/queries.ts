@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client';
 interface PostQueryBase {
 	select: {
 		content: boolean;
@@ -7,11 +8,14 @@ interface PostQueryBase {
 		author: { select: { name: boolean } };
 		published: boolean;
 		tagsOnPost: { select: { tag: { select: { id: boolean; tagName: boolean } } } };
-	};
+	},
+    orderBy?: Prisma.Enumerable<Prisma.PostOrderByWithRelationInput>;
 }
 
 interface PostQueryWithWhere extends PostQueryBase {
 	where?: { authorId?: string; tagsOnPost?: { some: { tag: { id: string } } } };
+	skip?: number;
+	take?: number;
 }
 
 export const buildQuery = (
@@ -28,6 +32,17 @@ export const buildQuery = (
 			published: true,
 			tagsOnPost: { select: { tag: { select: { id: true, tagName: true } } } },
 		},
+		orderBy: [
+			{
+				claps: {
+					_count: "desc",
+				},
+			},
+
+			{
+				publishedDate: "desc",
+			},
+		],
 	};
 	if (userId) {
 		baseQuery = { ...baseQuery, where: { ...baseQuery.where, authorId: userId } };

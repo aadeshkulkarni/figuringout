@@ -10,7 +10,7 @@ export const useBlogs = () => {
 
 	useEffect(() => {
 		async function fetchBlogs() {
-			const response = await axios.get(`${BACKEND_URL}/api/v1/blog/bulk`);
+			const response = await axios.get(`${BACKEND_URL}/api/v1/blog/bulk?page=1&pageSize=10`);
 			setBlogs(response.data.posts);
 			setLoading(false);
 		}
