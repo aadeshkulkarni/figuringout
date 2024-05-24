@@ -1,0 +1,56 @@
+version: "0.1"
+
+#project services setup design
+services:
+  #frontend service image setup
+  frontend:
+    container_name: client
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: medium-app-frontend:latest
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    networks:
+      - medium-app
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app #mount local frontend directory to container
+    command: npm run start
+
+  backend:
+    #backend service image setup
+    container_name: server
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: medium-app-backend:latest
+    restart: unless-stopped
+    ports:
+      - "8787:8787"
+    networks:
+      - medium-app
+    volumes:
+      - ./backend:/app #mount local backend directory to container
+    command: npm run dev
+
+  # local postgress setup.
+  postgres:
+    container_name: postgres
+    image: postgres:latest
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: medium-app
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: medium123
+    ports:
+      - "5432:5432"
+    networks:
+      - medium-app
+
+#network connection
+networks:
+  medium-app:
+    driver: bridge

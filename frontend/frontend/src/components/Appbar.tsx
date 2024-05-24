@@ -6,25 +6,26 @@ import SearchBox from "./SearchBox";
 
 interface AppbarProps {
   skipAuthCheck?: boolean;
-  searchQuery?: any;
-  setSearchQuery?: any;
+  searchQuery?: string;
+  setSearchQuery?: (query: string) => void;
 }
 
-  const Appbar = ({ skipAuthCheck = false, searchQuery, setSearchQuery }: 
-    AppbarProps) => {
+const Appbar = ({ skipAuthCheck = false, searchQuery, setSearchQuery }: AppbarProps) => {
   const navigate = useNavigate();
   const isUserLoggedIn = localStorage.getItem("token");
-  if (!isUserLoggedIn && skipAuthCheck === false) {
+
+  if (!isUserLoggedIn && !skipAuthCheck) {
     navigate("/signin");
   }
+
   return (
     <div className="border-b border-slate-100 flex justify-between items-center p-4 md:px-16">
       <Link to="/blogs" className="text-xl font-bold">
         Medium
       </Link>
       {isUserLoggedIn ? (
-               <div className="flex items-center gap-4 md:gap-8">
-               <SearchBox searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>  
+        <div className="flex items-center gap-4 md:gap-8">
+          <SearchBox searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
           <Link to="/publish">
             <button
               type="button"

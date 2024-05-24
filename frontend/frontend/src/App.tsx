@@ -7,6 +7,7 @@ import Publish from "./pages/Publish";
 import Home from "./pages/Home";
 import Edit from "./pages/Edit";
 import Bookmarks from "./pages/Bookmarks";
+import SearchResults from "./components/SearchResults";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/publish" element={<Publish />} />
         <Route path="/edit/:id" element={<Edit />} />
         <Route path="/bookmarks" element={<Bookmarks />} />
+        <Route path="/search" element={<SearchResults />} />
         <Route path="/" element={<Home />} />
       </Routes>
     </BrowserRouter>
