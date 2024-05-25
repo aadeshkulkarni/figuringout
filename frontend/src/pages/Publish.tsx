@@ -63,7 +63,12 @@ const Publish = () => {
             {FF_ENABLE_AI && title.trim().length > 10 && (
               <GenerateAIBtn onClickHandler={generateArticle} />
             )}
-            <PublishTags onClick={publishArticle} blogId={blogId}/>
+            <PublishTags
+              onClick={publishArticle}
+              blogId={blogId}
+              title={title}
+              content={content}
+            />
           </div>
         }
       />
@@ -86,7 +91,7 @@ const Publish = () => {
           placeholder="Tell your story..."
           className="tracking-wide text-[#0B1215] font-light"
           value={content}
-          onChange={setContent}
+          onChange={(value) => setContent(value === "<p><br></p>" ? "" : value)}
         ></ReactQuill>
       </div>
       <ToastWrapper />
