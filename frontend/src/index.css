@@ -53,3 +53,43 @@
 .blog-card .ql-editor h3 {
     @apply text-sm
 }
+
+.sparkle {
+    width: 5px;
+    height: 5px;
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0;
+    animation: sparkle-animation 0.5s forwards;
+  }
+  
+  .star {
+    width: 0;
+    height: 0;
+    border-left: 3px solid transparent;
+    border-right: 3px solid transparent;
+    border-bottom: 5px solid;
+  }
+  
+  @keyframes sparkle-animation {
+    0% {
+      opacity: 1;
+      transform: scale(0);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(1.5);
+    }
+  }
+  
+  .clap-button {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .clapping {
+    transform: scale(1.5);
+  }
+  
