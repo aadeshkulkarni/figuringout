@@ -19,6 +19,8 @@ const Publish = () => {
   const [blogId, setBlogId] = useState("");
 
   const writingPadRef = useRef<ReactQuill>(null);
+  
+  const htmlTagRegex = /^(<\/?[\w\s="/.':;#-\/\?]+>)\s*$/;
 
   useEffect(() => {}, [content]);
 
@@ -37,10 +39,10 @@ const Publish = () => {
             },
           }
         );
-        setBlogId(response?.data?.id)
+        setBlogId(response?.data?.id);
       } catch (error) {
         toast.error("Failed to publish the article. Please try again.");
-      } 
+      }
     } else {
       toast.error("Post title & content cannot be empty.");
     }
@@ -91,7 +93,9 @@ const Publish = () => {
           placeholder="Tell your story..."
           className="tracking-wide text-[#0B1215] font-light"
           value={content}
-          onChange={(value) => setContent(value === "<p><br></p>" ? "" : value)}
+          onChange={(value) =>
+            setContent(htmlTagRegex.test(value) ? "" : value)
+          }
         ></ReactQuill>
       </div>
       <ToastWrapper />

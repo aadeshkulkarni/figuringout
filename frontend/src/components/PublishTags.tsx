@@ -71,11 +71,11 @@ const PublishTags = ({
       <button
         className="primary"
         type="button"
-        disabled={loading || !title || !content}
+        disabled={loading}
         onClick={async () => {
           setLoading(true);
           await onClick();
-          setVisibility(true);
+          setVisibility(title.length > 0 && content.length > 0);
           setLoading(false);
         }}
       >
