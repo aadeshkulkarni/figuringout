@@ -12,7 +12,7 @@ const SingleBlogSkeleton = () => {
       <div className="mt-4 h-4 w-48 bg-gray-200 rounded-full"></div>
       <div className="mt-4 h-80 w-full bg-gray-200 rounded"></div>
     </div>
-  )
-}
+  );
+};
 
-export default SingleBlogSkeleton
+export default SingleBlogSkeleton;

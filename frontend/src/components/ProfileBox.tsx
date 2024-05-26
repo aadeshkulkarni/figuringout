@@ -1,24 +1,24 @@
-import { useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import useClickAway from "../hooks/useClickAway";
-import Avatar from "./Avatar";
+import { useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import useClickAway from '../hooks/useClickAway';
+import Avatar from './Avatar';
 
 const ProfileBox = () => {
   const ref = useRef<HTMLDivElement>(null);
 
-  const userJSON = localStorage.getItem("user") || "{}";
+  const userJSON = localStorage.getItem('user') || '{}';
   const user = JSON.parse(userJSON);
 
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
 
   const logout = () => {
-    localStorage.removeItem("token");
-    navigate("/");
+    localStorage.removeItem('token');
+    navigate('/');
   };
 
   const goToBookmarks = () => {
-    navigate("/bookmarks");
+    navigate('/bookmarks');
   };
 
   const goToProfile = () => {
@@ -28,7 +28,7 @@ const ProfileBox = () => {
   };
 
   const handleClickAway = () => {
-    console.log("Clicked away!");
+    console.log('Clicked away!');
     setShow(false);
   };
 
@@ -46,10 +46,7 @@ const ProfileBox = () => {
             <div className="px-4 py-2 hover:bg-gray-300" onClick={goToProfile}>
               Profile
             </div>
-            <div
-              className="px-4 py-2 hover:bg-gray-300"
-              onClick={goToBookmarks}
-            >
+            <div className="px-4 py-2 hover:bg-gray-300" onClick={goToBookmarks}>
               Bookmarks
             </div>
             <div className="px-4 py-2 hover:bg-gray-300" onClick={logout}>

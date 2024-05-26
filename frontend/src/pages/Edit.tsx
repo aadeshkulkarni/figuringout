@@ -1,20 +1,20 @@
-import Appbar from "../components/Appbar";
-import { useNavigate, useParams } from "react-router-dom";
-import "react-quill/dist/quill.snow.css";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { useBlog } from "../hooks";
-import Spinner from "../components/Spinner";
-import EditPublishLayout from "../layouts/EditPublishLayout";
-import { useState, useEffect } from "react";
+import Appbar from '../components/Appbar';
+import { useNavigate, useParams } from 'react-router-dom';
+import 'react-quill/dist/quill.snow.css';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useBlog } from '../hooks';
+import Spinner from '../components/Spinner';
+import EditPublishLayout from '../layouts/EditPublishLayout';
+import { useState, useEffect } from 'react';
 
 const Edit = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { blog, loading, editBlog } = useBlog({ id: id || "" });
+  const { blog, loading, editBlog } = useBlog({ id: id || '' });
 
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
   const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
@@ -38,7 +38,7 @@ const Edit = () => {
         setIsSaving(false);
       }
     } else {
-      toast.error("Post title & content cannot be empty.");
+      toast.error('Post title & content cannot be empty.');
     }
   }
   return (
@@ -47,12 +47,7 @@ const Edit = () => {
         hideWriteAction
         pageActions={
           <div>
-            <button
-              type="submit"
-              onClick={finishEdit}
-              className="primary"
-              disabled={isSaving}
-            >
+            <button type="submit" onClick={finishEdit} className="primary" disabled={isSaving}>
               <div className="flex items-center gap-2">
                 {isSaving && <Spinner className="h-4 w-4 !border-2" />}
                 Finish Edit
@@ -66,12 +61,7 @@ const Edit = () => {
           <Spinner />
         </div>
       ) : (
-        <EditPublishLayout
-          title={title}
-          content={content}
-          setTitle={setTitle}
-          setContent={setContent}
-        />
+        <EditPublishLayout title={title} content={content} setTitle={setTitle} setContent={setContent} />
       )}
     </>
   );

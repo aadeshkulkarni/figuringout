@@ -1,5 +1,5 @@
-import Quote from "../components/Quote";
-import Register from "../components/Register";
+import Quote from '../components/Quote';
+import Register from '../components/Register';
 
 const Signup = () => {
   return (

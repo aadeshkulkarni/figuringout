@@ -1,6 +1,6 @@
-import BlogCard from "./BlogCard";
-import { Link } from "react-router-dom";
-import { Post } from "../types/post";
+import BlogCard from './BlogCard';
+import { Link } from 'react-router-dom';
+import { Post } from '../types/post';
 
 type BookmarkTabProps = {
   bookmarks: Post[];
@@ -13,6 +13,7 @@ const BookmarkTab = ({ bookmarks }: BookmarkTabProps) => {
         {bookmarks.length > 0 &&
           bookmarks.map((bookmark) => (
             <BlogCard
+              key={bookmark?.id}
               id={bookmark?.id}
               author={bookmark?.author}
               publishedDate={bookmark?.publishedDate}
@@ -24,7 +25,7 @@ const BookmarkTab = ({ bookmarks }: BookmarkTabProps) => {
       {bookmarks.length === 0 && (
         <div className="flex justify-center mt-10">
           <h6 className="text-xl font-bold py-2">
-            No bookmarks yet! You can bookmark blogs in the blogs page{" "}
+            No bookmarks yet! You can bookmark blogs in the blogs page{' '}
             <Link to="/signin" className="underline">
               here
             </Link>

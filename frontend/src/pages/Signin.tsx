@@ -1,5 +1,5 @@
-import Login from "../components/Login";
-import Quote from "../components/Quote";
+import Login from '../components/Login';
+import Quote from '../components/Quote';
 
 const Signin = () => {
   return (

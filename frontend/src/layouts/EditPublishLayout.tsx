@@ -1,9 +1,9 @@
-import React, { useRef } from "react";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
-import "react-toastify/dist/ReactToastify.css";
-import ToastWrapper from "../components/ToastWrapper";
-import AutogrowTextarea from "../components/AutogrowTextarea";
+import React, { useRef } from 'react';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import 'react-toastify/dist/ReactToastify.css';
+import ToastWrapper from '../components/ToastWrapper';
+import AutogrowTextarea from '../components/AutogrowTextarea';
 
 interface EditPublishLayoutProps {
   title?: string;
@@ -21,7 +21,7 @@ const EditPublishLayout: React.FC<EditPublishLayoutProps> = ({
   const writingPadRef = useRef<ReactQuill>(null);
 
   const handleTitleKeyUp = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === "Enter") writingPadRef.current?.focus();
+    if (e.key === 'Enter') writingPadRef.current?.focus();
   };
 
   return (

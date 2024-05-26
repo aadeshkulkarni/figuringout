@@ -1,9 +1,6 @@
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback } from 'react';
 
-const useClickAway = <T extends HTMLElement>(
-  ref: React.RefObject<T>,
-  onClickAway: () => void
-): void => {
+const useClickAway = <T extends HTMLElement>(ref: React.RefObject<T>, onClickAway: () => void): void => {
   const handleClickOutside = useCallback(
     (event: MouseEvent) => {
       if (ref.current && !ref.current.contains(event.target as Node)) {
@@ -14,10 +11,10 @@ const useClickAway = <T extends HTMLElement>(
   );
 
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [handleClickOutside]);
 };
