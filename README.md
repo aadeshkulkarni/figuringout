@@ -75,14 +75,6 @@ npm run dev
 - set `OPENAI_API_KEY` in wrangler.toml file in the backend.
 - The feature is enabled only when title is atleast 10 characters long.
 
-
-### Docker-Setup
-
-- For this setup complete all the Frontend, Backend process including the Postgres, Prisma connection pool and JWT secret
-- Navigate to the root directory and run command `docker-compose up -d`, runs command in detached mode.
-- At last Navigate to the url `http://localhost:80` for viewing the website.
-
-> Docker setup is not functional at the moment. An issue has been created for the same.
 ---
 
 ### Contributing
