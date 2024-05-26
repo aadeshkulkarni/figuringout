@@ -141,7 +141,13 @@ const PublishTags = ({
                     >
                       Publish
                     </button>
-                    <button type="button" className="secondary">
+                    <button
+                      type="button"
+                      className="secondary"
+                      onClick={() => {
+                        setVisibility(false);
+                      }}
+                    >
                       Cancel
                     </button>
                   </div>
