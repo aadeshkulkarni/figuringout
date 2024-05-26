@@ -75,6 +75,6 @@ model TagsOnPost {
   id      String @id @default(uuid())
   tag     Tag   @relation(fields: [tagId], references: [id])
   tagId   String
-  post    Post   @relation(fields: [postId], references: [id])
+  post    Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId  String
 }
