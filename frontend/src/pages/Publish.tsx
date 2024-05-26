@@ -11,6 +11,7 @@ import AutogrowTextarea from "../components/AutogrowTextarea";
 import { useAI } from "../hooks/blog";
 import GenerateAIBtn from "../components/GenerateAIBtn";
 import PublishTags from "../components/PublishTags";
+import { htmlTagRegex } from "../util/string";
 
 const Publish = () => {
   const { generateBlog } = useAI();
@@ -19,8 +20,6 @@ const Publish = () => {
   const [blogId, setBlogId] = useState("");
 
   const writingPadRef = useRef<ReactQuill>(null);
-
-  const htmlTagRegex = /^(<\/?[\w\s="/.':;#-\/\?]+>)\s*$/;
 
   useEffect(() => {}, [content]);
 
