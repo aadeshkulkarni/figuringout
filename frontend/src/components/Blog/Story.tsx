@@ -1,7 +1,6 @@
 import { useState } from "react";
 import ReactQuill from "react-quill";
 import { toast } from "react-toastify";
-import { Avatar } from "../BlogCard";
 import Spinner from "../Spinner";
 import { useBlog } from "./../../hooks";
 import { useNavigate, useParams } from "react-router-dom";
@@ -15,6 +14,8 @@ import EditIcon from "../icons/Edit";
 import SingleBlogSkeleton from "../../skeletons/SingleBlogSkeleton";
 import { Tags } from "../Tags";
 import ClapButton from "../ClapButton";
+import Avatar from "../Avatar";
+
 
 const Story = () => {
 	const { id } = useParams();
