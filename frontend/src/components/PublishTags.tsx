@@ -5,7 +5,7 @@ import { BACKEND_URL } from "../config";
 import { useNavigate } from "react-router-dom";
 import Spinner from "./Spinner";
 
-const PublishTags = ({ blogId, onClick }: { blogId: string; onClick: () => Promise<void> }) => {
+const PublishTags = ({ blogId, title, content, onClick }: { blogId: string; title: string; content: string; onClick: () => Promise<void> }) => {
 	const navigate = useNavigate();
 	const [loading, setLoading] = useState(false);
 	const [visible, setVisibility] = useState(false);
@@ -59,7 +59,7 @@ const PublishTags = ({ blogId, onClick }: { blogId: string; onClick: () => Promi
 			<button
 				className="primary"
 				type="button"
-				disabled={loading}
+				disabled={loading || title.trim().length === 0 || content.trim().length === 0}
 				onClick={async () => {
 					setLoading(true);
 					await onClick();
@@ -121,7 +121,7 @@ const PublishTags = ({ blogId, onClick }: { blogId: string; onClick: () => Promi
 										<button type="button" className="primary" onClick={linkTopics}>
 											Publish
 										</button>
-										<button type="button" className="secondary">
+										<button type="button" className="secondary" onClick={() => {setVisibility(false)}}>
 											Cancel
 										</button>
 									</div>
