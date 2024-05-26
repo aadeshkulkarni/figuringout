@@ -11,3 +11,5 @@ export const getPlainTextFromHTML = (html: string): string => {
     }
   });
 };
+
+export const htmlTagRegex = /^(<\/?[\w\s="'-]+>)+$/;

@@ -62,7 +62,6 @@ export const useBlog = ({ id }: { id: string }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [submittingBookmark, setSubmittingBookmark] = useState(false);
-  const [submittingClap, setSubmittinClap] = useState(false);
   const [blog, setBlog] = useState<Post>({
     id: '',
     title: '',
@@ -190,7 +189,6 @@ export const useBlog = ({ id }: { id: string }) => {
       if (!token) {
         navigate('/signin');
       }
-      setSubmittinClap(true);
       const response = await axios.post(
         `${BACKEND_URL}/api/v1/clap`,
         {
@@ -206,8 +204,6 @@ export const useBlog = ({ id }: { id: string }) => {
       return response.data;
     } catch (e) {
       return { error: 'An error has occured trying to edit the blog' };
-    } finally {
-      setSubmittinClap(false);
     }
   }
 
@@ -215,7 +211,6 @@ export const useBlog = ({ id }: { id: string }) => {
     loading,
     blog,
     submittingBookmark,
-    submittingClap,
     deleteBlog,
     editBlog,
     bookmarkBlog,

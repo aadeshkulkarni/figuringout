@@ -4,6 +4,7 @@ import 'react-quill/dist/quill.snow.css';
 import 'react-toastify/dist/ReactToastify.css';
 import ToastWrapper from '../components/ToastWrapper';
 import AutogrowTextarea from '../components/AutogrowTextarea';
+import { htmlTagRegex } from '../util/string';
 
 interface EditPublishLayoutProps {
   title?: string;
@@ -45,7 +46,7 @@ const EditPublishLayout: React.FC<EditPublishLayoutProps> = ({
           ref={writingPadRef}
           theme="bubble"
           value={content}
-          onChange={setContent}
+          onChange={(value) => setContent(htmlTagRegex.test(value) ? '' : value)}
           placeholder="Tell your story..."
           className="tracking-wide text-[#0B1215] font-light"
         ></ReactQuill>

@@ -11,6 +11,7 @@ import AutogrowTextarea from '../components/AutogrowTextarea';
 import { useAI } from '../hooks/blog';
 import GenerateAIBtn from '../components/GenerateAIBtn';
 import PublishTags from '../components/PublishTags';
+import { htmlTagRegex } from '../util/string';
 
 const Publish = () => {
   const { generateBlog } = useAI();
@@ -61,7 +62,7 @@ const Publish = () => {
         pageActions={
           <div className="ml-2 flex gap-4">
             {FF_ENABLE_AI && title.trim().length > 10 && <GenerateAIBtn onClickHandler={generateArticle} />}
-            <PublishTags onClick={publishArticle} blogId={blogId} />
+            <PublishTags onClick={publishArticle} blogId={blogId} title={title} content={content} />
           </div>
         }
       />
@@ -84,7 +85,7 @@ const Publish = () => {
           placeholder="Tell your story..."
           className="tracking-wide text-[#0B1215] font-light"
           value={content}
-          onChange={setContent}
+          onChange={(value) => setContent(htmlTagRegex.test(value) ? '' : value)}
         ></ReactQuill>
       </div>
       <ToastWrapper />

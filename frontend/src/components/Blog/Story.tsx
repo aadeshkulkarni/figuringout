@@ -12,8 +12,8 @@ import 'react-quill/dist/quill.bubble.css';
 import RemoveIcon from '../icons/Remove';
 import EditIcon from '../icons/Edit';
 import SingleBlogSkeleton from '../../skeletons/SingleBlogSkeleton';
-import ClapIcon from '../icons/Clap';
 import { Tags } from '../Tags';
+import ClapButton from '../ClapButton';
 import Avatar from '../Avatar';
 
 const Story = () => {
@@ -55,10 +55,9 @@ const ActionBox = () => {
   const [openUnbookmarkModal, setOpenUnbookmarkModal] = useState(false);
 
   const { id } = useParams();
-  const { blog, loading, deleteBlog, bookmarkBlog, unbookmarkBlog, submittingBookmark, submittingClap, likeBlog } =
-    useBlog({
-      id: id || '',
-    });
+  const { blog, loading, deleteBlog, bookmarkBlog, unbookmarkBlog, submittingBookmark, likeBlog } = useBlog({
+    id: id || '',
+  });
   if (loading) <Loader />;
   const user = JSON.parse(localStorage.getItem('user') || '{}') || {};
   const isAuthor = user?.id === blog?.author?.id;
@@ -108,20 +107,7 @@ const ActionBox = () => {
   return (
     <div className="text-slate-500 py-2 items-center justify-between flex border-y border-slate-200">
       <div className="text-sm">
-        {submittingClap ? (
-          <Spinner className="p-0 m-0 w-4 h-4" />
-        ) : (
-          <Tooltip message="Clap">
-            <button
-              onClick={likeBlog}
-              type="button"
-              name="like-story"
-              className="focus:outline-none text-slate-400 rounded-lg px-4 flex gap-2 justify-center items-center"
-            >
-              <ClapIcon /> {blog?.claps?.length || ''}
-            </button>
-          </Tooltip>
-        )}
+        <ClapButton clapCount={blog?.claps?.length || 0} handleClap={likeBlog} />
       </div>
       <div className="flex justify-center items-center">
         {determineBookmarkView()}

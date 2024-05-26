@@ -47,7 +47,12 @@ const Edit = () => {
         hideWriteAction
         pageActions={
           <div>
-            <button type="submit" onClick={finishEdit} className="primary" disabled={isSaving}>
+            <button
+              type="submit"
+              onClick={finishEdit}
+              className="primary"
+              disabled={isSaving || title.trim().length === 0 || content.trim().length === 0}
+            >
               <div className="flex items-center gap-2">
                 {isSaving && <Spinner className="h-4 w-4 !border-2" />}
                 Finish Edit

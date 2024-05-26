@@ -205,12 +205,11 @@ blogRouter.get("/:id", async (c) => {
 blogRouter.delete("/:id", async (c) => {
   try {
 		const prisma = getDBInstance(c);
-    const postId = await c.req.param("id");
-    const post = await prisma.post.delete({
-      where: {
-        id: postId,
-      },
-    });
+    const postId = c.req.param("id");
+    await prisma.post.delete({
+      where: {id: postId}
+    })
+
     return c.json({
       message: "Post deleted successfully",
     });
