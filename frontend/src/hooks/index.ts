@@ -65,9 +65,6 @@ export const useBlog = ({ id }: { id: string }) => {
 	const navigate = useNavigate();
 	const [loading, setLoading] = useState(true);
 	const [submittingBookmark, setSubmittingBookmark] = useState(false);
-
-	const [blog, setBlog] = useState<BlogType>({
-	const [submittingClap, setSubmittinClap] = useState(false);
 	const [blog, setBlog] = useState<Post>({
 		id: "",
 		title: "",
