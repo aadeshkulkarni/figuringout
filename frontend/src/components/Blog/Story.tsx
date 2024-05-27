@@ -18,9 +18,14 @@ import Avatar from '../Avatar';
 
 const Story = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { blog, loading } = useBlog({
     id: id || '',
   });
+  function handleClickOnAvatar() {
+    navigate('/' + blog?.author?.id);
+  }
+
   if (loading) {
     return (
       <div className="flex flex-col justify-center items-center p-4 md:px-10">
@@ -33,7 +38,12 @@ const Story = () => {
     <div className="flex flex-col justify-center items-center p-4 md:px-10">
       <div className="p-4 max-w-[680px]">
         <div className="text-xl md:text-4xl font-extrabold py-4 line-clamp-4">{blog?.title}</div>
-        <AuthorBox name={blog?.author?.name} details={blog?.author?.details} publishedDate={blog?.publishedDate} />
+        <AuthorBox
+          name={blog?.author?.name}
+          details={blog?.author?.details}
+          publishedDate={blog?.publishedDate}
+          handleClickOnAvatar={handleClickOnAvatar}
+        />
         <ActionBox />
         <div className="py-4">
           <ReactQuill value={blog?.content} readOnly={true} theme={'bubble'} />
@@ -150,14 +160,16 @@ const AuthorBox = ({
   name,
   details,
   publishedDate,
+  handleClickOnAvatar,
 }: {
   name: string;
   details: string | undefined;
   publishedDate: string;
+  handleClickOnAvatar: React.MouseEventHandler<HTMLDivElement>;
 }) => (
   <div className="p-4">
     <div className="flex items-center gap-4 py-4">
-      <Avatar name={name || 'Anonymous'} />
+      <Avatar name={name || 'Anonymous'} onClick={handleClickOnAvatar} />
       <div>
         <div className="font-bold">{name || 'Anonymous'}</div>
         <div>
