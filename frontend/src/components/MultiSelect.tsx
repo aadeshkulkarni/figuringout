@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export interface Option {
   text: string;
@@ -16,8 +16,23 @@ const MultiSelectDropdown = ({
   selectedOptions: Option[];
   setSelectedOptions: React.Dispatch<React.SetStateAction<Option[]>>;
 }) => {
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const [showDropdown, setShowDropdown] = useState(false);
 
+  const handleClickOutside = (event:any) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setShowDropdown(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  
   const handleRemoveOption = (option: Option) => {
     setSelectedOptions(selectedOptions.filter((o: Option) => o.value !== option.value));
   };
@@ -26,7 +41,6 @@ const MultiSelectDropdown = ({
     if (selectedOptions.length < 5 && !selectedOptions.includes(option)) {
       setSelectedOptions([...selectedOptions, option]);
     }
-
     setShowDropdown(false);
   };
 
@@ -35,7 +49,7 @@ const MultiSelectDropdown = ({
   };
 
   return (
-    <div className="w-full flex flex-col items-center mx-auto">
+    <div className="w-full flex flex-col items-center mx-auto" ref={dropdownRef}>
       <div className="w-full">
         <div className="flex flex-col items-center relative">
           <div className="w-full">
