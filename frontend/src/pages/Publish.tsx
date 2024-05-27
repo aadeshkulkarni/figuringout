@@ -63,6 +63,7 @@ const Publish = () => {
         ['bold', 'italic', 'underline', 'strike'],
         [{ 'align': [] }],
         [{ 'color': [] }, { 'background': [] }],
+        ['code-block'],
         ['link', 'image'],
         ['clean']
       ],
