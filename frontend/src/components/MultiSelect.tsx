@@ -104,6 +104,7 @@ const MultiSelectDropdown = ({
           </div>
 
           {showDropdown && (
+            <div className='pt-1'>
             <div className="absolute shadow top-100 bg-white z-40 w-full h-[300px] left-0 rounded max-h-select overflow-y-auto">
               <div className="flex flex-col w-full">
                 {options.map((option) => (
@@ -120,6 +121,7 @@ const MultiSelectDropdown = ({
                   </div>
                 ))}
               </div>
+            </div>
             </div>
           )}
         </div>
