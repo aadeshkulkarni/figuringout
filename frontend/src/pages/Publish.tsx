@@ -2,7 +2,7 @@ import axios from 'axios';
 import Appbar from '../components/Appbar';
 import { BACKEND_URL, FF_ENABLE_AI } from '../config';
 import { useEffect, useState, useRef } from 'react';
-import ReactQuill from 'react-quill';
+import ReactQuill,{Quill} from 'react-quill';
 import 'react-quill/dist/quill.bubble.css';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -12,6 +12,22 @@ import { useAI } from '../hooks/blog';
 import GenerateAIBtn from '../components/GenerateAIBtn';
 import PublishTags from '../components/PublishTags';
 import { htmlTagRegex } from '../util/string';
+
+
+// Register custom video handler with Quill
+const videoHandler = function (this: Quill) {
+  const range = this.getSelection();
+  const value = prompt('Please enter YouTube URL:');
+  if (value) {
+    this.insertEmbed(range.index, 'video', value, 'user');
+    this.setSelection(range.index + 1);
+  }
+};
+
+// Register the custom video handler with Quill toolbar
+Quill.register('modules/customToolbar', function (quill: Quill) {
+  quill.getModule('toolbar').addHandler('video', videoHandler.bind(quill));
+});
 
 const Publish = () => {
   const { generateBlog } = useAI();
@@ -64,7 +80,7 @@ const Publish = () => {
         [{ 'align': [] }],
         [{ 'color': [] }, { 'background': [] }],
         ['code-block'],
-        ['link', 'image'],
+        ['link', 'image', 'video'],
         ['clean']
       ],
     },

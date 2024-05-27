@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import ReactQuill from 'react-quill';
+import ReactQuill,{Quill} from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import 'react-toastify/dist/ReactToastify.css';
 import ToastWrapper from '../components/ToastWrapper';
@@ -23,6 +23,36 @@ const EditPublishLayout: React.FC<EditPublishLayoutProps> = ({
 
   const handleTitleKeyUp = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter') writingPadRef.current?.focus();
+  };
+
+  // Register custom video handler with Quill
+const videoHandler = function (this: Quill) {
+  const range = this.getSelection();
+  const value = prompt('Please enter YouTube URL:');
+  if (value) {
+    this.insertEmbed(range.index, 'video', value, 'user');
+    this.setSelection(range.index + 1);
+  }
+};
+
+// Register the custom video handler with Quill toolbar
+Quill.register('modules/customToolbar', function (quill: Quill) {
+  quill.getModule('toolbar').addHandler('video', videoHandler.bind(quill));
+});
+
+  const modules = {
+    toolbar: {
+      container: [
+        [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }], 
+        ['bold', 'italic', 'underline', 'strike'],
+        [{ 'align': [] }],
+        [{ 'color': [] }, { 'background': [] }],
+        ['code-block'],
+        ['link', 'image', 'video'],
+        ['clean']
+      ],
+    },
   };
 
   return (
@@ -49,6 +79,7 @@ const EditPublishLayout: React.FC<EditPublishLayoutProps> = ({
           onChange={(value) => setContent(htmlTagRegex.test(value) ? '' : value)}
           placeholder="Tell your story..."
           className="tracking-wide text-[#0B1215] font-light"
+          modules={modules} 
         ></ReactQuill>
       </div>
       <ToastWrapper />
