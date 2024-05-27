@@ -23,7 +23,7 @@ const ProfileBox = () => {
 
   const goToProfile = () => {
     if (user && user.id) {
-      navigate(`/${user.id}`);
+      navigate(`/profile/${user.id}`);
     }
   };
 

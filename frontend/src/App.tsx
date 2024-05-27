@@ -21,7 +21,7 @@ function App() {
         <Route path="/publish" element={<Publish />} />
         <Route path="/edit/:id" element={<Edit />} />
         <Route path="/bookmarks" element={<Bookmarks />} />
-        <Route path="/:id" element={<User />} />
+        <Route path="/profile/:id" element={<User />} />
         <Route path="/contributors" element={<Contributor />} />
         <Route path="/" element={<Home />} />
       </Routes>
