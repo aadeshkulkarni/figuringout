@@ -29,7 +29,7 @@ const Blogs = () => {
   return (
     <>
       <Appbar skipAuthCheck />
-        <div className="flex flex-col justify-center items-center">
+        <div className="flex w-full flex-col justify-center items-center">
           {blogs.length > 0 &&
             blogs.map((blog) => (
               <BlogCard

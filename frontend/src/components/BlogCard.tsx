@@ -22,9 +22,9 @@ const BlogCard = ({ author, title, content, publishedDate, id,fullWidth }: BlogC
 	return (
 		<Link
 			to={`/blog/${id}`}
-			className={`blog-card px-4 py-8 ${fullWidth ? 'w-full' : 'md:w-3/6'} md:border-b md:border-gray-200 my-2 bg-white shadow-b-sm grid grid-cols-12`}
+			className={`blog-card px-4 py-8 w-4/5 md:border-b md:border-gray-200 my-2 bg-white shadow-b-sm`}
 		>
-			<div className="col-span-12 md:col-span-9 md:px-4">
+			<div className="col-span-12 mx-auto md:col-span-9 md:px-4">
 				<div className="flex items-center gap-4">
 					<Avatar name={author?.name || ""} />
 					<div>
@@ -33,7 +33,7 @@ const BlogCard = ({ author, title, content, publishedDate, id,fullWidth }: BlogC
 					</div>
 				</div>
 				<div className="text-xl font-bold pt-4">{title}</div>
-				<div className="tracking-wide py-4 text-slate-600">
+				<div className="tracking-wide py-4 text-slate-800">
 					<ReactQuill value={quillContent} readOnly={true} theme={"bubble"} />
 				</div>
 				<div className="text-gray-600">{Math.ceil(content.length / 300)} min read</div>
