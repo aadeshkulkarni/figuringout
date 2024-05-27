@@ -27,7 +27,7 @@ const Avatar = ({ name, onClick, size = 'medium' }: AvatarProps) => {
   return (
     <div
       onClick={onClick}
-      className={`relative inline-flex items-center justify-center overflow-hidden bg-gray-200 hover:bg-gray-300 rounded-full ${containerSize}`}
+      className={`cursor-pointer relative inline-flex items-center justify-center overflow-hidden bg-gray-200 hover:bg-gray-300 rounded-full ${containerSize}`}
     >
       <span className={`font-medium ${textSize} text-gray-600`}>
         {name.split(' ')?.[0]?.[0]}
