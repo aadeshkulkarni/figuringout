@@ -12,16 +12,31 @@ import { useAI } from '../hooks/blog';
 import GenerateAIBtn from '../components/GenerateAIBtn';
 import PublishTags from '../components/PublishTags';
 import { htmlTagRegex } from '../util/string';
+import useTimerInterval from '../hooks/useTimerInterval';
+import { STORAGE_KEY } from '../util/storage-keys';
 
 const Publish = () => {
   const { generateBlog } = useAI();
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+  const [title, setTitle] = useState(() => getDraftHandler('title'));
+  const [content, setContent] = useState(() => getDraftHandler('content'));
   const [blogId, setBlogId] = useState('');
+
+  useTimerInterval(15000, autoSaveHandler);
 
   const writingPadRef = useRef<ReactQuill>(null);
 
-  useEffect(() => {}, [content]);
+  function getDraftHandler(key: string) {
+    const draftJSON = localStorage.getItem(STORAGE_KEY.WRITE_DRAFT);
+    if (draftJSON) {
+      const draft = JSON.parse(draftJSON);
+      return draft[key];
+    } else return '';
+  }
+
+  function autoSaveHandler() {
+    const draft = { title, content };
+    localStorage.setItem(STORAGE_KEY.WRITE_DRAFT, JSON.stringify(draft));
+  }
 
   async function publishArticle() {
     if (title.trim() && content.trim()) {
@@ -46,6 +61,7 @@ const Publish = () => {
       toast.error('Post title & content cannot be empty.');
     }
   }
+
   async function generateArticle() {
     const generation = await generateBlog(title);
     setContent(generation.article);
@@ -58,14 +74,14 @@ const Publish = () => {
   const modules = {
     toolbar: {
       container: [
-        [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
-        [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }], // Add tasklist option
+        [{ header: '1' }, { header: '2' }, { font: [] }],
+        [{ list: 'ordered' }, { list: 'bullet' }, { list: 'check' }], // Add tasklist option
         ['bold', 'italic', 'underline', 'strike'],
-        [{ 'align': [] }],
-        [{ 'color': [] }, { 'background': [] }],
+        [{ align: [] }],
+        [{ color: [] }, { background: [] }],
         ['code-block'],
         ['link', 'image'],
-        ['clean']
+        ['clean'],
       ],
     },
   };
@@ -90,6 +106,7 @@ const Publish = () => {
             placeholder="Title"
             required
             autoFocus
+            value={title}
             onChange={(e) => setTitle((e.target as HTMLTextAreaElement).value)}
             onKeyUp={handleTitleKeyUp}
           ></AutogrowTextarea>
@@ -101,7 +118,7 @@ const Publish = () => {
           className="tracking-wide text-[#0B1215] font-light"
           value={content}
           onChange={(value) => setContent(htmlTagRegex.test(value) ? '' : value)}
-          modules={modules} 
+          modules={modules}
         ></ReactQuill>
       </div>
       <ToastWrapper />
