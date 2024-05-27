@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Appbar from '../components/Appbar';
 import { BACKEND_URL, FF_ENABLE_AI } from '../config';
-import { useEffect, useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.bubble.css';
 import { toast } from 'react-toastify';
@@ -16,6 +16,9 @@ import useTimerInterval from '../hooks/useTimerInterval';
 import { STORAGE_KEY } from '../util/storage-keys';
 
 const Publish = () => {
+  const userJSON = localStorage.getItem('user') || '{}';
+  const user = JSON.parse(userJSON);
+
   const { generateBlog } = useAI();
   const [title, setTitle] = useState(() => getDraftHandler('title'));
   const [content, setContent] = useState(() => getDraftHandler('content'));
@@ -26,7 +29,7 @@ const Publish = () => {
   const writingPadRef = useRef<ReactQuill>(null);
 
   function getDraftHandler(key: string) {
-    const draftJSON = localStorage.getItem(STORAGE_KEY.WRITE_DRAFT);
+    const draftJSON = localStorage.getItem(STORAGE_KEY.WRITE_DRAFT(user.id));
     if (draftJSON) {
       const draft = JSON.parse(draftJSON);
       return draft[key];
@@ -35,7 +38,7 @@ const Publish = () => {
 
   function autoSaveHandler() {
     const draft = { title, content };
-    localStorage.setItem(STORAGE_KEY.WRITE_DRAFT, JSON.stringify(draft));
+    localStorage.setItem(STORAGE_KEY.WRITE_DRAFT(user.id), JSON.stringify(draft));
   }
 
   async function publishArticle() {
