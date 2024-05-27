@@ -55,6 +55,20 @@ const Publish = () => {
     if (e.key === 'Enter') writingPadRef.current?.focus();
   };
 
+  const modules = {
+    toolbar: {
+      container: [
+        [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }], // Add tasklist option
+        ['bold', 'italic', 'underline', 'strike'],
+        [{ 'align': [] }],
+        [{ 'color': [] }, { 'background': [] }],
+        ['link', 'image'],
+        ['clean']
+      ],
+    },
+  };
+
   return (
     <>
       <Appbar
@@ -86,6 +100,7 @@ const Publish = () => {
           className="tracking-wide text-[#0B1215] font-light"
           value={content}
           onChange={(value) => setContent(htmlTagRegex.test(value) ? '' : value)}
+          modules={modules} 
         ></ReactQuill>
       </div>
       <ToastWrapper />
