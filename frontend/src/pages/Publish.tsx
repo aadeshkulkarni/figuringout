@@ -2,7 +2,7 @@ import axios from 'axios';
 import Appbar from '../components/Appbar';
 import { BACKEND_URL, FF_ENABLE_AI } from '../config';
 import { useState, useRef } from 'react';
-import ReactQuill from 'react-quill';
+import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.bubble.css';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -13,6 +13,12 @@ import GenerateAIBtn from '../components/GenerateAIBtn';
 import PublishTags from '../components/PublishTags';
 import { htmlTagRegex } from '../util/string';
 import useAutoSaveDraft from '../hooks/useAutoSaveDraft';
+import { videoHandler, modules } from '../util/videoHandler';
+
+// Register the custom video handler with Quill toolbar
+Quill.register('modules/customToolbar', function (quill: any) {
+  quill.getModule('toolbar').addHandler('video', videoHandler.bind(quill));
+});
 
 const Publish = () => {
   const { draft, deleteDraft } = useAutoSaveDraft('new_article', () => ({ title, content }));
@@ -57,21 +63,6 @@ const Publish = () => {
 
   const handleTitleKeyUp = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter') writingPadRef.current?.focus();
-  };
-
-  const modules = {
-    toolbar: {
-      container: [
-        [{ header: '1' }, { header: '2' }, { font: [] }],
-        [{ list: 'ordered' }, { list: 'bullet' }, { list: 'check' }], // Add tasklist option
-        ['bold', 'italic', 'underline', 'strike'],
-        [{ align: [] }],
-        [{ color: [] }, { background: [] }],
-        ['code-block'],
-        ['link', 'image'],
-        ['clean'],
-      ],
-    },
   };
 
   return (

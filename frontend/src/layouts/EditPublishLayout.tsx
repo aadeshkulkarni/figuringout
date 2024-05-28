@@ -1,11 +1,11 @@
 import React, { useRef } from 'react';
-import ReactQuill from 'react-quill';
+import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import 'react-toastify/dist/ReactToastify.css';
 import ToastWrapper from '../components/ToastWrapper';
 import AutogrowTextarea from '../components/AutogrowTextarea';
 import { htmlTagRegex } from '../util/string';
-
+import { videoHandler,modules } from '../util/videoHandler';
 interface EditPublishLayoutProps {
   title?: string;
   content?: string;
@@ -24,6 +24,13 @@ const EditPublishLayout: React.FC<EditPublishLayoutProps> = ({
   const handleTitleKeyUp = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter') writingPadRef.current?.focus();
   };
+
+  // Register the custom video handler with Quill toolbar
+  Quill.register('modules/customToolbar', function (quill: any) {
+    quill.getModule('toolbar').addHandler('video', videoHandler.bind(quill));
+  });
+
+  
 
   return (
     <>
@@ -49,6 +56,7 @@ const EditPublishLayout: React.FC<EditPublishLayoutProps> = ({
           onChange={(value) => setContent(htmlTagRegex.test(value) ? '' : value)}
           placeholder="Tell your story..."
           className="tracking-wide text-[#0B1215] font-light"
+          modules={modules}
         ></ReactQuill>
       </div>
       <ToastWrapper />
