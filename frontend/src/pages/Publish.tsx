@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Appbar from '../components/Appbar';
 import { BACKEND_URL, FF_ENABLE_AI } from '../config';
-import { useEffect, useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.bubble.css';
 import { toast } from 'react-toastify';
@@ -12,7 +12,8 @@ import { useAI } from '../hooks/blog';
 import GenerateAIBtn from '../components/GenerateAIBtn';
 import PublishTags from '../components/PublishTags';
 import { htmlTagRegex } from '../util/string';
-import { videoHandler,modules } from '../util/videoHandler';
+import useAutoSaveDraft from '../hooks/useAutoSaveDraft';
+import { videoHandler, modules } from '../util/videoHandler';
 
 // Register the custom video handler with Quill toolbar
 Quill.register('modules/customToolbar', function (quill: any) {
@@ -20,14 +21,14 @@ Quill.register('modules/customToolbar', function (quill: any) {
 });
 
 const Publish = () => {
+  const { draft, deleteDraft } = useAutoSaveDraft('new_article', () => ({ title, content }));
+
   const { generateBlog } = useAI();
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+  const [title, setTitle] = useState(draft?.title || '');
+  const [content, setContent] = useState(draft?.content || '');
   const [blogId, setBlogId] = useState('');
 
   const writingPadRef = useRef<ReactQuill>(null);
-
-  useEffect(() => {}, [content]);
 
   async function publishArticle() {
     if (title.trim() && content.trim()) {
@@ -44,6 +45,8 @@ const Publish = () => {
             },
           }
         );
+        // Clear drafts when saved on server
+        deleteDraft();
         setBlogId(response?.data?.id);
       } catch (error) {
         toast.error('Failed to publish the article. Please try again.');
@@ -52,6 +55,7 @@ const Publish = () => {
       toast.error('Post title & content cannot be empty.');
     }
   }
+
   async function generateArticle() {
     const generation = await generateBlog(title);
     setContent(generation.article);
@@ -60,8 +64,6 @@ const Publish = () => {
   const handleTitleKeyUp = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter') writingPadRef.current?.focus();
   };
-
-  
 
   return (
     <>
@@ -83,6 +85,7 @@ const Publish = () => {
             placeholder="Title"
             required
             autoFocus
+            value={title}
             onChange={(e) => setTitle((e.target as HTMLTextAreaElement).value)}
             onKeyUp={handleTitleKeyUp}
           ></AutogrowTextarea>
