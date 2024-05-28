@@ -1,11 +1,11 @@
 import React, { useRef } from 'react';
-import ReactQuill,{Quill} from 'react-quill';
+import ReactQuill,{Quill} from 'react-quill'; 
 import 'react-quill/dist/quill.snow.css';
 import 'react-toastify/dist/ReactToastify.css';
 import ToastWrapper from '../components/ToastWrapper';
 import AutogrowTextarea from '../components/AutogrowTextarea';
 import { htmlTagRegex } from '../util/string';
-
+import { videoHandler } from '../util/videoHandler';
 interface EditPublishLayoutProps {
   title?: string;
   content?: string;
@@ -25,21 +25,19 @@ const EditPublishLayout: React.FC<EditPublishLayoutProps> = ({
     if (e.key === 'Enter') writingPadRef.current?.focus();
   };
 
-  // Register custom video handler with Quill
-const videoHandler = function (this: Quill) {
-  const range = this.getSelection();
-  const value = prompt('Please enter YouTube URL:');
-  if (value) {
-    this.insertEmbed(range.index, 'video', value, 'user');
-    this.setSelection(range.index + 1);
-  }
-};
+
 
 // Register the custom video handler with Quill toolbar
-Quill.register('modules/customToolbar', function (quill: Quill) {
+Quill.register('modules/customToolbar', function (quill: any) {
   quill.getModule('toolbar').addHandler('video', videoHandler.bind(quill));
 });
 
+ 
+
+
+
+
+  
   const modules = {
     toolbar: {
       container: [

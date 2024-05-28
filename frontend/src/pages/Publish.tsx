@@ -12,20 +12,12 @@ import { useAI } from '../hooks/blog';
 import GenerateAIBtn from '../components/GenerateAIBtn';
 import PublishTags from '../components/PublishTags';
 import { htmlTagRegex } from '../util/string';
+import { videoHandler } from '../util/videoHandler';
 
 
-// Register custom video handler with Quill
-const videoHandler = function (this: Quill) {
-  const range = this.getSelection();
-  const value = prompt('Please enter YouTube URL:');
-  if (value) {
-    this.insertEmbed(range.index, 'video', value, 'user');
-    this.setSelection(range.index + 1);
-  }
-};
 
 // Register the custom video handler with Quill toolbar
-Quill.register('modules/customToolbar', function (quill: Quill) {
+Quill.register('modules/customToolbar', function (quill: any) {
   quill.getModule('toolbar').addHandler('video', videoHandler.bind(quill));
 });
 
