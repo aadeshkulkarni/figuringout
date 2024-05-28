@@ -3,9 +3,12 @@ import Appbar from '../components/Appbar';
 import BlogCard from '../components/BlogCard';
 import { useBlogs } from '../hooks';
 import BlogSkeleton from '../skeletons/BlogsSkeleton';
+import AnimatedMessage from '../components/Blog/AnimatedMessage';
 
 const Blogs = () => {
   const [infiniteScrollRef, setInfiniteScrollRef] = useState<HTMLDivElement | null>(null);
+  const [showEndMessage, setShowEndMessage] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false);
 
   const { blogs, loading, handleLoadMore } = useBlogs();
 
@@ -15,15 +18,21 @@ const Blogs = () => {
     const observer = new IntersectionObserver(
       (entries) => {
         const [entry] = entries;
-        if (entry.isIntersecting) {
+        if (entry.isIntersecting && !loading) {
           handleLoadMore();
+          setShowEndMessage(true);
+          setShowConfetti(true);
         }
       },
       { threshold: 0.1 }
     );
 
     infiniteScrollRef && observer.observe(infiniteScrollRef);
-  }, [infiniteScrollRef]);
+
+    return () => {
+      if (infiniteScrollRef) observer.unobserve(infiniteScrollRef);
+    };
+  }, [infiniteScrollRef, loading]);
 
   return (
     <>
@@ -53,7 +62,11 @@ const Blogs = () => {
           ref={(e) => {
             setInfiniteScrollRef(e);
           }}
+          style={{ height: '10px', width: '100%', backgroundColor: 'transparent', marginBottom: '10px' }}
         />
+      )}
+      {!loading && showEndMessage && (
+        <AnimatedMessage showConfetti={showConfetti} onConfettiComplete={() => setShowConfetti(false)} />
       )}
     </>
   );
