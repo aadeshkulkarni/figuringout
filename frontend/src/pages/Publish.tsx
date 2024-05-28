@@ -12,34 +12,17 @@ import { useAI } from '../hooks/blog';
 import GenerateAIBtn from '../components/GenerateAIBtn';
 import PublishTags from '../components/PublishTags';
 import { htmlTagRegex } from '../util/string';
-import useTimerInterval from '../hooks/useTimerInterval';
-import { STORAGE_KEY } from '../util/storage-keys';
+import useAutoSaveDraft from '../hooks/useAutoSaveDraft';
 
 const Publish = () => {
-  const userJSON = localStorage.getItem('user') || '{}';
-  const user = JSON.parse(userJSON);
+  const { draft, deleteDraft } = useAutoSaveDraft('new_article', () => ({ title, content }));
 
   const { generateBlog } = useAI();
-  const [title, setTitle] = useState(() => getDraftHandler('title'));
-  const [content, setContent] = useState(() => getDraftHandler('content'));
+  const [title, setTitle] = useState(draft?.title || '');
+  const [content, setContent] = useState(draft?.content || '');
   const [blogId, setBlogId] = useState('');
 
-  useTimerInterval(15000, autoSaveHandler);
-
   const writingPadRef = useRef<ReactQuill>(null);
-
-  function getDraftHandler(key: string) {
-    const draftJSON = localStorage.getItem(STORAGE_KEY.WRITE_DRAFT(user.id));
-    if (draftJSON) {
-      const draft = JSON.parse(draftJSON);
-      return draft[key];
-    } else return '';
-  }
-
-  function autoSaveHandler() {
-    const draft = { title, content };
-    localStorage.setItem(STORAGE_KEY.WRITE_DRAFT(user.id), JSON.stringify(draft));
-  }
 
   async function publishArticle() {
     if (title.trim() && content.trim()) {
@@ -56,6 +39,8 @@ const Publish = () => {
             },
           }
         );
+        // Clear drafts when saved on server
+        deleteDraft();
         setBlogId(response?.data?.id);
       } catch (error) {
         toast.error('Failed to publish the article. Please try again.');
