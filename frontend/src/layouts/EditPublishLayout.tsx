@@ -1,11 +1,11 @@
 import React, { useRef } from 'react';
-import ReactQuill,{Quill} from 'react-quill'; 
+import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import 'react-toastify/dist/ReactToastify.css';
 import ToastWrapper from '../components/ToastWrapper';
 import AutogrowTextarea from '../components/AutogrowTextarea';
 import { htmlTagRegex } from '../util/string';
-import { videoHandler } from '../util/videoHandler';
+import { videoHandler,modules } from '../util/videoHandler';
 interface EditPublishLayoutProps {
   title?: string;
   content?: string;
@@ -25,33 +25,12 @@ const EditPublishLayout: React.FC<EditPublishLayoutProps> = ({
     if (e.key === 'Enter') writingPadRef.current?.focus();
   };
 
-
-
-// Register the custom video handler with Quill toolbar
-Quill.register('modules/customToolbar', function (quill: any) {
-  quill.getModule('toolbar').addHandler('video', videoHandler.bind(quill));
-});
-
- 
-
-
-
+  // Register the custom video handler with Quill toolbar
+  Quill.register('modules/customToolbar', function (quill: any) {
+    quill.getModule('toolbar').addHandler('video', videoHandler.bind(quill));
+  });
 
   
-  const modules = {
-    toolbar: {
-      container: [
-        [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
-        [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }], 
-        ['bold', 'italic', 'underline', 'strike'],
-        [{ 'align': [] }],
-        [{ 'color': [] }, { 'background': [] }],
-        ['code-block'],
-        ['link', 'image', 'video'],
-        ['clean']
-      ],
-    },
-  };
 
   return (
     <>
@@ -77,7 +56,7 @@ Quill.register('modules/customToolbar', function (quill: any) {
           onChange={(value) => setContent(htmlTagRegex.test(value) ? '' : value)}
           placeholder="Tell your story..."
           className="tracking-wide text-[#0B1215] font-light"
-          modules={modules} 
+          modules={modules}
         ></ReactQuill>
       </div>
       <ToastWrapper />
