@@ -1,4 +1,4 @@
-import "react-quill/dist/quill.bubble.css";
+import 'react-quill/dist/quill.bubble.css';
 
 interface BookmarkSolidProps {
   className?: string;

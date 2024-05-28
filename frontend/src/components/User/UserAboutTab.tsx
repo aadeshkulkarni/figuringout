@@ -1,11 +1,10 @@
-import TextAreaField from "../TextAreaField";
-import { useContext, useState } from "react";
-import { UserProfileContext } from "./UserProfile";
-import Spinner from "../Spinner";
+import TextAreaField from '../TextAreaField';
+import { useContext, useState } from 'react';
+import { UserProfileContext } from './UserProfile';
+import Spinner from '../Spinner';
 
 const UserAboutTab = () => {
-  const { currentUser, editingDetails, isAuthorizedUser, editUserDetails } =
-    useContext(UserProfileContext);
+  const { currentUser, editingDetails, isAuthorizedUser, editUserDetails } = useContext(UserProfileContext);
   const [editDetails, setEditDetails] = useState<string>(currentUser.details);
 
   const submitUserDetails = () => {

@@ -1,4 +1,4 @@
-import { ChangeEvent } from "react";
+import { ChangeEvent } from 'react';
 
 interface TextAreaFieldType {
   id?: string;
@@ -8,19 +8,10 @@ interface TextAreaFieldType {
   placeholder: string;
   onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
 }
-const TextAreaField = ({
-  id,
-  label,
-  value,
-  rows = 2,
-  onChange,
-}: TextAreaFieldType) => {
+const TextAreaField = ({ id, label, value, rows = 2, onChange }: TextAreaFieldType) => {
   return (
     <div className="w-full text-left my-4">
-      <label
-        htmlFor={id}
-        className="block mb-2 text-sm font-medium text-gray-900"
-      >
+      <label htmlFor={id} className="block mb-2 text-sm font-medium text-gray-900">
         {label}
       </label>
       <textarea

@@ -1,8 +1,7 @@
-import Appbar from "../components/Appbar";
-import Story from "../components/Blog/Story";
+import Appbar from '../components/Appbar';
+import Story from '../components/Blog/Story';
 
 const Blog = () => {
- 
   return (
     <>
       <Appbar />

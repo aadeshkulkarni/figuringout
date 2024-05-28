@@ -1,29 +1,17 @@
-# Blogging-app [Fullstack Javascript]
+## Blogging + AI
 
 ![blogging app](https://i.ibb.co/zxM16cs/Screenshot-2024-05-14-at-11-33-44-PM.png)
 
-[Medium-app](https://medium-app-zeta.vercel.app/) is a React frontend and Cloudflare workers backend application offering features replicating Medium, the popular blogging platform. The application comes with JWT authentication, Postgres database, and various user features.
+A React frontend and Cloudflare workers backend application offering features that replicate Medium, the popular blogging platform. 
+
+### Important links
+- Application [link](https://medium-app-zeta.vercel.app/)
+- A Name for Our Blogging App! [Vote now](https://github.com/aadeshkulkarni/medium-app/discussions/47)
+- Contributions [Open issues](https://github.com/aadeshkulkarni/medium-app/issues)
 
 ---
 
-## ✨ Features
-
-- Users can sign up and sign in securely via token-based authentication.
-- Users can view all published articles.
-- Users can create, edit, and delete their articles.
-- Users can view details of specific articles.
-- Users can bookmark an article (Save for later).
-- Users can like an article.
-- Users can search for articles.
-- Users have the option to filter articles.
-
-> (More features TBA)
-
----
-
-## 🛠 Tech Stack
-
-The application is built with the following technologies:
+### 🛠 Technologies & Libraries
 
 - [React](https://reactjs.org/) for the frontend.
 - [Cloudflare Workers](https://workers.cloudflare.com/) for the serverless backend.
@@ -33,9 +21,7 @@ The application is built with the following technologies:
 - [Postgres](https://www.postgresql.org/) as the database.
 - [JSON Web Tokens (JWT)](https://jwt.io/) for authentication.
 
-## 📁 Project Structure
-
-The project is structured into the following directories:
+### 📁 Project Structure
 
 - Backend: Contains server-side code and logic.
 - Common: Shared assets and modules used by frontend and backend. (NPM Library)
@@ -43,47 +29,71 @@ The project is structured into the following directories:
 
 ---
 
-## 💻 Local Setup
+### 💻 Local Setup
 
-### Backend
+#### Backend
 
-- Navigate into the backend directory `cd backend`
-- Set up Postgres DATABASE_URL in .env. You can get a free PostgreSQL connection string from [Aiven.io](https://aiven.io/).
+- Navigate into the backend directory 
+```bash
+cd backend
+```
+- Create a copy of .env.example and name the file `.env`
+- Set up Postgres DATABASE_URL in .env file. You can get a free PostgreSQL connection string from [Aiven.io](https://aiven.io/).
 - Set up Prisma connection pool DATABASE_URL in wrangler.toml file. You can get this for free from [Prisma](https://www.prisma.io/data-platform/accelerate).
 - Set up JWT Secret JWT_SECRET in wrangler.toml file. This can be any value.
-- Install dependencies using `npm install`
-- Run the application locally using `npm run dev`
+- Install dependencies using 
+```bash 
+npm install
+```
+- Run the application locally using 
+```bash
+npm run dev
+```
 
 > Note: wrangler.toml is the environment configuration file for a serverless backend. .env is used by Prisma for connection pooling. Ensure you configure both environment files accordingly.
 
-### Frontend
+#### Frontend
 
-- Navigate into the frontend directory using `cd frontend`
-- Install dependencies using `npm install`
-- Run the application locally using `npm run dev`
+- Navigate into the frontend directory using 
+```bash
+cd frontend
+```
+- Install dependencies using 
+```bash
+npm install
+```
+- Run the application locally using 
+```bash
+npm run dev
+```
+
+> Note: `frontend/src/config.ts` contains `BACKEND_URL`. If you need your frontend to point to local backend server, uncomment `export const BACKEND_URL = "http://localhost:8787"`. 
+---
+
+#### AI based Article content generation
+
+- set `FF_ENABLE_AI` = true in config.ts
+- set `OPENAI_API_KEY` in wrangler.toml file in the backend.
+- The feature is enabled only when title is atleast 10 characters long.
 
 ---
 
-### Docker-Setup
+### Contributing
 
-- For this setup complete all the Frontend, Backend process including the Postgres, Prisma connection pool and JWT secret
-- Navigate to the root directory and run command `docker-compose up -d`, runs command in detached mode.
-- At last Navigate to the url `http://localhost:80` for viewing the website.
+We welcome contributions from the community! To contribute, follow these steps:
 
----
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature/[feature-title]`).
+3. Make your changes and commit them (`git commit -am 'Add brief meaningful commit message'`).
+4. Push to the branch (`git push origin feature/[feature-title]`).
+5. Create a new Pull Request.
 
-## 🔧 Technologies & Libraries
+For major changes, please open an issue first to discuss what you would like to change.
 
-- [ReactJS](https://react.dev/)
-- [Typescript](https://www.typescriptlang.org/)
-- [Cloudflare Workers - Serverless Backend](https://www.cloudflare.com/)
-- [Aiven.io - PostgreSQL Database](https://www.aiven.io/)
-- [Prisma - ORM](https://www.prisma.io/)
-- [Hono](https://hono.dev/) - Small, simple, and ultra-fast web framework for the edges.
-- [Zod](https://zod.dev/) - TypeScript-first schema validation with static type inference
+Read our [contribution guidelines](./CONTRIBUTING.md) for more details.
 
----
+### 🤝 Contributors
 
-## 🚀 Deployments
-
-For detailed steps to deploy the application, refer to `backend/commands.md` and `common/commands.md` in their respective directories.
+<a href="https://github.com/aadeshkulkarni/medium-app/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=aadeshkulkarni/medium-app" />
+</a>

@@ -1,8 +1,7 @@
-import { useContext } from "react";
-import { BlogType } from "../../pages/Blogs";
-import BlogSkeleton from "../../skeletons/BlogsSkeleton";
-import BlogCard from "../BlogCard";
-import { UserProfileContext } from "./UserProfile";
+import { useContext } from 'react';
+import BlogSkeleton from '../../skeletons/BlogsSkeleton';
+import BlogCard from '../BlogCard';
+import { UserProfileContext } from './UserProfile';
 
 const UserHomeTab = () => {
   const { blogs, loadingUserBlogs } = useContext(UserProfileContext);
@@ -13,9 +12,11 @@ const UserHomeTab = () => {
         <BlogSkeleton />
       ) : (
         <div className="flex flex-col">
-          {blogs && blogs.length > 0 &&
-            blogs.map((blog: BlogType) => (
+          {blogs &&
+            blogs.length > 0 &&
+            blogs.map((blog) => (
               <BlogCard
+                key={blog?.id}
                 id={blog?.id}
                 author={blog?.author}
                 publishedDate={blog?.publishedDate}

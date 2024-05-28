@@ -16,7 +16,7 @@ export const clapRouter = new Hono<{
 clapRouter.use("/*", async (c, next) => {
 	try {
 		const header = c.req.header("authorization") || "";
-		const token = header.split(" ")[1];
+		const token = header && header.split(" ")[1];
 		const user = await verify(token, c.env.JWT_SECRET);
 		if (user) {
 			c.set("userId", user.id);

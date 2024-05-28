@@ -1,18 +1,19 @@
-import { useState, ChangeEvent } from "react";
-import PasswordEyeIcon from "./icons/PasswordEyeIcon";
+import { useState, ChangeEvent, KeyboardEvent } from 'react';
+import PasswordEyeIcon from './icons/PasswordEyeIcon';
 
 interface InputFieldType {
   id?: string;
   label: string;
   placeholder: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onKeyDown?: (e: KeyboardEvent<HTMLInputElement>) => void;
 }
 
-const PasswordField = ({ id, label, placeholder, onChange }: InputFieldType) => {
-  const [inputType, setInputType] = useState("password");
+const PasswordField = ({ id, label, placeholder, onChange, onKeyDown }: InputFieldType) => {
+  const [inputType, setInputType] = useState('password');
 
   const handleTogglePassword = () => {
-    setInputType((prevType) => (prevType === "password" ? "text" : "password"));
+    setInputType((prevType) => (prevType === 'password' ? 'text' : 'password'));
   };
 
   return (
@@ -24,15 +25,12 @@ const PasswordField = ({ id, label, placeholder, onChange }: InputFieldType) => 
         type={inputType}
         id={id}
         onChange={onChange}
+        onKeyDown={onKeyDown}
         className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 pr-10`}
         placeholder={placeholder}
         required
       />
-      <button
-        type="button"
-        onClick={handleTogglePassword}
-        className="absolute top-8 right-0 p-3.5 rounded-e-md"
-      >
+      <button type="button" onClick={handleTogglePassword} className="absolute top-8 right-0 p-3.5 rounded-e-md">
         <PasswordEyeIcon inputType={inputType} />
       </button>
     </div>
