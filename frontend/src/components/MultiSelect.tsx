@@ -19,7 +19,7 @@ const MultiSelectDropdown = ({
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [showDropdown, setShowDropdown] = useState(false);
 
-  const handleClickOutside = (event:any) => {
+  const handleClickOutside = (event: any) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setShowDropdown(false);
     }
@@ -32,7 +32,6 @@ const MultiSelectDropdown = ({
     };
   }, []);
 
-  
   const handleRemoveOption = (option: Option) => {
     setSelectedOptions(selectedOptions.filter((o: Option) => o.value !== option.value));
   };
@@ -118,24 +117,24 @@ const MultiSelectDropdown = ({
           </div>
 
           {showDropdown && (
-            <div className='pt-1'>
-            <div className="absolute shadow top-100 bg-white z-40 w-full h-[300px] left-0 rounded max-h-select overflow-y-auto">
-              <div className="flex flex-col w-full">
-                {options.map((option) => (
-                  <div
-                    key={option.value}
-                    className="cursor-pointer w-full border-gray-100 border-b hover:bg-teal-100"
-                    onClick={() => handleSelectOption(option)}
-                  >
-                    <div className="flex w-full items-center p-2 pl-2 border-transparent border-l-2 relative">
-                      <div className="w-full items-center flex">
-                        <div className="mx-2 leading-6">{option.text}</div>
+            <div className="pt-1">
+              <div className="absolute shadow top-100 bg-white z-40 w-full h-[300px] left-0 rounded max-h-select overflow-y-auto">
+                <div className="flex flex-col w-full">
+                  {options.map((option) => (
+                    <div
+                      key={option.value}
+                      className="cursor-pointer w-full border-gray-100 border-b hover:bg-teal-100"
+                      onClick={() => handleSelectOption(option)}
+                    >
+                      <div className="flex w-full items-center p-2 pl-2 border-transparent border-l-2 relative">
+                        <div className="w-full items-center flex">
+                          <div className="mx-2 leading-6">{option.text}</div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
             </div>
           )}
         </div>
