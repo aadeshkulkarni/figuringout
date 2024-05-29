@@ -20,8 +20,6 @@ const Blogs = () => {
         const [entry] = entries;
         if (entry.isIntersecting && !loading) {
           handleLoadMore();
-          setShowEndMessage(true);
-          setShowConfetti(true);
         }
       },
       { threshold: 0.1 }
@@ -29,10 +27,16 @@ const Blogs = () => {
 
     infiniteScrollRef && observer.observe(infiniteScrollRef);
 
-    return () => {
-      if (infiniteScrollRef) observer.unobserve(infiniteScrollRef);
-    };
   }, [infiniteScrollRef, loading]);
+
+  useEffect(() => {
+    if (!loading && blogs.length > 0) {
+      setTimeout(() => {
+      setShowEndMessage(true);
+      setShowConfetti(true);
+      }, 1000);
+    }
+  }, [blogs, loading]);
 
   return (
     <>

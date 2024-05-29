@@ -16,8 +16,8 @@ const animations = [
   'animate__fadeInUp',
   'animate__fadeInDown',
   'animate__fadeIn',
-  'animate__fadeInLeft',
-  'animate__fadeInRight',
+  'animate__bounce',
+  'animate__headShake',
 ];
 
 // Utility function to get random message and animation
