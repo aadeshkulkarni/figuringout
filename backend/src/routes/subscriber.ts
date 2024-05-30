@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import { Hono } from "hono";
 import { verify } from "hono/jwt";
+import { getDBInstance } from "../db/util";
 
 export const subscriberRouter = new Hono<{
   Bindings: {
@@ -34,13 +35,36 @@ subscriberRouter.use("/*", async (c, next) => {
 });
 
 subscriberRouter.post("/subscribe", async (c) => {
-  const prisma = new PrismaClient({
-    datasourceUrl: c.env.DATABASE_URL,
-  }).$extends(withAccelerate());
+  const prisma = getDBInstance(c);
 
   const { userId, subscriberId } = await c.req.json();
   
   try {
+
+    // Check if the user is trying to subscribe to themselves
+    if (userId === subscriberId) {
+      c.status(403)
+      return c.json({
+        error: "You cannot subscribe to yourself",
+      });
+    }
+
+    // Check if the user is already subscribed to the subscriber
+
+    const subscriber = await prisma.subscriber.findFirst({
+      where: {
+        userId,
+        subscriberId,
+      },
+    });
+
+    if (subscriber) {
+      c.status(403)
+      return c.json({
+        error: "You are already subscribed to this user",
+      });
+    }
+
     await prisma.subscriber.create({
       data: {
         userId,
@@ -49,6 +73,11 @@ subscriberRouter.post("/subscribe", async (c) => {
     });
     return c.json({
       message: "Subscribed successfully",
+      subscriberCount: await prisma.subscriber.count({
+        where: {
+          userId,
+        },
+      }),
     });
   } catch (ex) {
     c.status(403)
@@ -59,9 +88,7 @@ subscriberRouter.post("/subscribe", async (c) => {
 });
 
 subscriberRouter.post("/unsubscribe", async (c) => {
-  const prisma = new PrismaClient({
-    datasourceUrl: c.env.DATABASE_URL,
-  }).$extends(withAccelerate());
+  const prisma = getDBInstance(c);
 
   const { userId, subscriberId } = await c.req.json();
 
@@ -74,6 +101,11 @@ subscriberRouter.post("/unsubscribe", async (c) => {
     });
     return c.json({
       message: "Unsubscribed successfully",
+      subscriberCount: await prisma.subscriber.count({
+        where: {
+          userId,
+        },
+      }),
     });
   } catch (ex) {
     c.status(403)
@@ -84,9 +116,7 @@ subscriberRouter.post("/unsubscribe", async (c) => {
 });
 
 subscriberRouter.get("/:userId", async (c) => {
-  const prisma = new PrismaClient({
-    datasourceUrl: c.env.DATABASE_URL,
-  }).$extends(withAccelerate());
+  const prisma = getDBInstance(c);
   const userId = c.req.param("userId");
 
   try {
