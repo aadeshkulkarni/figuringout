@@ -23,7 +23,7 @@ const Story = () => {
 		id: id || '',
 	});
 	function handleClickOnAvatar() {
-		navigate('/profile' + '/' + blog?.author?.id);
+		navigate('/profile/' + blog?.author?.id);
 	}
 
 	if (loading) {
