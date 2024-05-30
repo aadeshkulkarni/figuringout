@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import 'react-quill/dist/quill.bubble.css';
 import { getPlainTextFromHTML } from '../util/string';
 import Avatar from './Avatar';
+import { useBlog } from '../hooks';
+import { Pill } from './Pill';
 
 interface BlogCardProps {
   author: {
@@ -18,6 +20,10 @@ interface BlogCardProps {
 const BlogCard = ({ author, title, content, publishedDate, id, fullWidth }: BlogCardProps) => {
   // split and slice combination is added so that the string doesn't get trimmed in middle of a word
   const quillContent = getPlainTextFromHTML(content).split(' ').slice(0, 40).join(' ') + '...';
+  
+  const {blog}=useBlog({
+    id:id
+  })
 
   return (
     <Link
@@ -35,11 +41,21 @@ const BlogCard = ({ author, title, content, publishedDate, id, fullWidth }: Blog
         <div className="tracking-wide py-4 text-slate-600">
           <ReactQuill value={quillContent} readOnly={true} theme={'bubble'} />
         </div>
-        <div className="text-gray-600">{Math.ceil(content.length / 300)} min read</div>
       </div>
       <div className="hidden col-span-0 md:col-span-3 p-4 md:flex justify-center items-center">
         <ArticleImage uniqueId={id} />
       </div>
+      <div className="flex col-span-full md:px-2">
+        <div className='flex'>
+					  {blog.tagsOnPost.slice(0,2).map((tagWrapper) => {
+						  return (
+							  <Pill id={tagWrapper.tag.id} tagName={tagWrapper.tag.tagName}/>
+						  )
+					})}
+				</div>
+        <div className="text-gray-600 pt-4">{Math.ceil(content.length / 300)} min read</div>
+
+        </div>
     </Link>
   );
 };
