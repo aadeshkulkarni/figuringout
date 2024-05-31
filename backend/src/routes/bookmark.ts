@@ -18,7 +18,7 @@ bookmarkRouter.use("/*", async (c, next) => {
     const header = c.req.header("authorization") || "";
     const token = header.split(" ")[1];
     const user = await verify(token, c.env.JWT_SECRET);
-    if (user) {
+		if (user && typeof user.id === "string") {
       c.set("userId", user.id);
       return next();
     } else {
@@ -49,25 +49,29 @@ bookmarkRouter.get("/", async (c) => {
 
   const userId = user.id;
   try {
-    const bookmarks = await prisma.bookmark.findMany({
-      where: { userId },
-      include: {
-        post: {
-          select: {
-            id: true,
-            title: true,
-            content: true,
-            publishedDate: true,
-            published: true,
-            author: true,
+		if (userId) {
+      const bookmarks = await prisma.bookmark.findMany({
+        where: { userId },
+        include: {
+          post: {
+            select: {
+              id: true,
+              title: true,
+              content: true,
+              publishedDate: true,
+              published: true,
+              author: true,
+            },
           },
         },
-      },
-    });
-    return c.json({
-      payload: bookmarks.map((bookmark) => bookmark.post),
-      message: "All posts bookmarked by user",
-    });
+      });
+      return c.json({
+        payload: bookmarks.map((bookmark) => bookmark.post),
+        message: "All posts bookmarked by user",
+      });
+		}
+		c.status(403);
+		return c.json({ error: "Invalid user Id" });
   } catch (ex) {
     return c.status(403);
   }

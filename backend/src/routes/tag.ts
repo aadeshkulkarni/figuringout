@@ -44,7 +44,7 @@ tagRouter.use("/*", async (c, next) => {
 		const header = c.req.header("authorization") || "";
 		const token = header && header.split(" ")[1];
 		const user = await verify(token, c.env.JWT_SECRET);
-		if (user) {
+		if (user && typeof user.id === "string") {
 			c.set("userId", user.id);
 			return next();
 		} else {
