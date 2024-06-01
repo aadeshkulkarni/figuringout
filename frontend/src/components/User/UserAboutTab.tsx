@@ -63,7 +63,7 @@ const UserAboutTab = () => {
                   <div>
                     <button
                       type="button"
-                      className="text-green-500 py-2 border-none"
+                      className="text-green-700 py-2 border-none"
                       onClick={() => inputFile?.current?.click()}
                     >
                       Update
@@ -72,7 +72,7 @@ const UserAboutTab = () => {
                       disabled={!editPicture}
                       type="button"
                       onClick={() => setEditPicture(null)}
-                      className="text-red-500 px-4 py-2 border-none disabled:opacity-50"
+                      className="text-red-700 px-4 py-2 border-none disabled:opacity-50"
                     >
                       Remove
                     </button>

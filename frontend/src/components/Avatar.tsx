@@ -28,13 +28,13 @@ const Avatar = ({ name, onClick, size = 'medium', imageSrc }: AvatarProps) => {
   return (
     <div
       onClick={onClick}
-      className={`cursor-pointer relative inline-flex items-center justify-center overflow-hidden bg-gray-200 hover:bg-gray-300 rounded-full ${containerSize}`}
+      className={`cursor-pointer border-2 border-green-700 relative inline-flex items-center justify-center overflow-hidden bg-gray-800 hover:bg-gray-300 rounded-full ${containerSize}`}
     >
       {imageSrc ? (
         <img src={imageSrc} />
       ) : (
         <>
-          <span className={`font-medium ${textSize} text-gray-600`}>
+          <span className={`font-medium ${textSize} text-gray-200 `}>
             {name.split(' ')?.[0]?.[0]}
             {name?.split(' ')?.[1]?.[0]}
           </span>
