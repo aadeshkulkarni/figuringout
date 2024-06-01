@@ -70,6 +70,9 @@ export const useBlog = ({ id }: { id: string }) => {
     author: {
       id: '',
       name: '',
+      email: '',
+      details: '',
+      profilePic: '',
     },
     claps: [],
     tagsOnPost: [],

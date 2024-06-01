@@ -5,7 +5,7 @@ interface PostQueryBase {
 		title?: boolean;
 		id?: boolean;
 		publishedDate?: boolean;
-		author?: { select: { name: boolean } };
+		author?: { select: { name: boolean, email?: boolean, details?: boolean, profilePic?: boolean } };
 		published?: boolean;
 		tagsOnPost?: { select: { tag: { select: { id: boolean; tagName: boolean } } } };
 	};
@@ -57,7 +57,7 @@ export const buildQuery = (
 			title: true,
 			id: true,
 			publishedDate: true,
-			author: { select: { name: true } },
+			author: { select: { name: true, details: true, profilePic: true, email: true } },
 			published: true,
 			tagsOnPost: { select: { tag: { select: { id: true, tagName: true } } } },
 		},
@@ -91,7 +91,7 @@ export const buildPostSearchQuery = (keyword: string): SearchQueryWithWhere => {
 			title: true,
 			id: true,
 			publishedDate: true,
-			author: { select: { name: true } },
+			author: { select: { name: true, details: true, profilePic: true, email: true } },
 		},
 		orderBy: [
 			{

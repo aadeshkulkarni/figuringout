@@ -28,3 +28,32 @@ npm run db:seed
 ```bash
 npm run deploy
 ```
+
+
+### Cloudfare R2 (CDN for Image uploads)
+
+On Development mode, You have only 1 option:
+1. Disable Image upload feature (frontend/config.ts > FF_IMAGE_UPLOADS = false)
+
+Setup Cloudfare R2 [Production mode guide]
+
+- Create a cloudfare account (dash.cloudfare.com)
+- From the dashboard > R2 > Use the free version (Card details, if required)
+- From backend, Login to Wrangler like this
+```bash
+npx wrangler login
+```
+- To check your cloudfare profile / access details: (optional)
+```bash
+npx wrangler whoami
+```
+- To check existing buckets in your R2: (optional)
+```bash
+npx wrangler r2 bucket list
+```
+- To create a bucket:
+```bash
+npx wrangler r2 bucket create [bucket-name]
+```
+- Enable R2.dev Subdomain from the Cloudfare dashboard.
+- Update Wrangler.toml file with bucket details, subdomain urls, etc.

@@ -8,6 +8,7 @@ import { Pill } from './Pill';
 interface BlogCardProps {
   author: {
     name: string;
+    profilePic?: string;
   };
   title: string;
   content: string;
@@ -28,7 +29,7 @@ const BlogCard = ({ author, title, content, publishedDate, id, fullWidth, tagsOn
     >
       <div className="col-span-12 md:col-span-9 md:px-4">
         <div className="flex items-center gap-4">
-          <Avatar name={author?.name || ''} />
+          <Avatar name={author?.name || ''} imageSrc={author?.profilePic} />
           <div>
             <span>{author?.name}</span> · <span className="text-sm text-slate-500">{publishedDate}</span>
           </div>

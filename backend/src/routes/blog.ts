@@ -183,7 +183,9 @@ blogRouter.get("/:id", async (c) => {
           select: {
             name: true,
             id: true,
-            details: true
+            details: true,
+            profilePic: true,
+            email: true
           },
         },
         id: true,

@@ -1,10 +1,11 @@
 type AvatarProps = {
   name: string;
   size?: 'small' | 'medium' | 'large';
+  imageSrc?: any;
   onClick?: React.MouseEventHandler<HTMLDivElement>;
 };
 
-const Avatar = ({ name, onClick, size = 'medium' }: AvatarProps) => {
+const Avatar = ({ name, onClick, size = 'medium', imageSrc }: AvatarProps) => {
   const getDimensions = () => {
     switch (size) {
       case 'small':
@@ -29,10 +30,16 @@ const Avatar = ({ name, onClick, size = 'medium' }: AvatarProps) => {
       onClick={onClick}
       className={`cursor-pointer relative inline-flex items-center justify-center overflow-hidden bg-gray-200 hover:bg-gray-300 rounded-full ${containerSize}`}
     >
-      <span className={`font-medium ${textSize} text-gray-600`}>
-        {name.split(' ')?.[0]?.[0]}
-        {name?.split(' ')?.[1]?.[0]}
-      </span>
+      {imageSrc ? (
+        <img src={imageSrc} />
+      ) : (
+        <>
+          <span className={`font-medium ${textSize} text-gray-600`}>
+            {name.split(' ')?.[0]?.[0]}
+            {name?.split(' ')?.[1]?.[0]}
+          </span>
+        </>
+      )}
     </div>
   );
 };

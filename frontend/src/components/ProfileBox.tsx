@@ -35,7 +35,7 @@ const ProfileBox = () => {
 
   return (
     <div className="relative cursor-pointer">
-      <Avatar name={user.name} onClick={() => setShow(!show)} />
+      <Avatar name={user.name} onClick={() => setShow(!show)} imageSrc={user?.profilePic} />
       {show && (
         <div
           ref={ref}

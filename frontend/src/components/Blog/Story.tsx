@@ -41,6 +41,7 @@ const Story = () => {
         <AuthorBox
           name={blog?.author?.name}
           details={blog?.author?.details}
+          profilePic={blog?.author?.profilePic}
           publishedDate={blog?.publishedDate}
           handleClickOnAvatar={handleClickOnAvatar}
         />
@@ -159,17 +160,19 @@ const ActionBox = () => {
 const AuthorBox = ({
   name,
   details,
+  profilePic,
   publishedDate,
   handleClickOnAvatar,
 }: {
   name: string;
   details: string | undefined;
   publishedDate: string;
+  profilePic?: string;
   handleClickOnAvatar: React.MouseEventHandler<HTMLDivElement>;
 }) => (
   <div className="p-4">
     <div className="flex items-center gap-4 py-4">
-      <Avatar name={name || 'Anonymous'} onClick={handleClickOnAvatar} />
+      <Avatar name={name || 'Anonymous'} onClick={handleClickOnAvatar} imageSrc={profilePic} />
       <div>
         <div className="font-bold">{name || 'Anonymous'}</div>
         <div>

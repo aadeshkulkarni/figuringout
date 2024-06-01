@@ -15,15 +15,16 @@ datasource db {
 }
 
 model User {
-  id        String     @id @default(uuid())
-  email     String     @unique
-  name      String?
-  details   String?
-  password  String
-  posts     Post[]
-  bookmarks Bookmark[]
-  claps     Clap[]
-  comments  Comment[]
+  id           String     @id @default(uuid())
+  email        String     @unique
+  name         String?
+  details      String?
+  profilePic   String?
+  password     String
+  posts        Post[]
+  bookmarks    Bookmark[]
+  claps        Clap[]
+  comments     Comment[]
   subscribers  Subscriber[] @relation("UserSubscribers")
   subscribedTo Subscriber[] @relation("UserSubscribedTo")
 }

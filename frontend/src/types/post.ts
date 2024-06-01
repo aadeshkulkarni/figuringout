@@ -6,7 +6,9 @@ export interface Post {
   author: {
     id: string;
     name: string;
+    email?: string;
     details?: string;
+    profilePic?: string;
   };
   published: boolean;
   tagsOnPost: Array<{ tag: Tag }>;
