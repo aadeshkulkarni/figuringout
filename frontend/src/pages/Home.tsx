@@ -5,7 +5,7 @@ import Hero from '../components/Hero';
 const Home = () => {
   return (
     <div>
-      <Appbar />
+      <Appbar skipAuthCheck/>
       <Hero />
       <BlogsList />
     </div>
