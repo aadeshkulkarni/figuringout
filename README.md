@@ -6,7 +6,6 @@ A React frontend and Cloudflare workers backend application offering features th
 
 ### Important links
 - Application [link](https://medium-app-zeta.vercel.app/)
-- A Name for Our Blogging App! [Vote now](https://github.com/aadeshkulkarni/medium-app/discussions/47)
 - Contributions [Open issues](https://github.com/aadeshkulkarni/medium-app/issues)
 
 ---
