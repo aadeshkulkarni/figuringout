@@ -56,8 +56,14 @@ const Appbar = ({ skipAuthCheck = false, pageActions, hideWriteAction = false }:
         ) : (
           <div className="ml-4">
             <Link
-              to="/signin"
+              to="/signup"
               className="focus:outline-none text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-3xl text-sm px-5 py-2.5"
+            >
+              Sign Up
+            </Link>
+            <Link
+              to="/signin"
+              className="ml-4 focus:outline-none text-gray-700 border border-gray-700 hover:bg-gray-800 hover:text-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-3xl text-sm px-5 py-2.5"
             >
               Sign In
             </Link>

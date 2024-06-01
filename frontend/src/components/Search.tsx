@@ -47,7 +47,7 @@ const Search: React.FC = () => {
     <div className="hidden md:block relative md:w-[400px]">
       <input
         type="text"
-        className="p-2 border rounded focus:outline-none focus:ring-black focus:ring-1 w-full"
+        className="p-2 px-6 border rounded-full focus:outline-none focus:ring-black focus:ring-1 w-full"
         placeholder="Search..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}

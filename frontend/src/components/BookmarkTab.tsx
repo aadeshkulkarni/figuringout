@@ -19,6 +19,7 @@ const BookmarkTab = ({ bookmarks }: BookmarkTabProps) => {
               publishedDate={bookmark?.publishedDate}
               title={bookmark?.title}
               content={bookmark?.content}
+              tagsOnPost={bookmark.tagsOnPost}
             />
           ))}
       </div>

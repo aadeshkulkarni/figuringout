@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import 'react-quill/dist/quill.bubble.css';
 import { getPlainTextFromHTML } from '../util/string';
 import Avatar from './Avatar';
-import { useBlog } from '../hooks';
 import { Pill } from './Pill';
 
 interface BlogCardProps {
@@ -15,15 +14,12 @@ interface BlogCardProps {
   publishedDate: string;
   id: string;
   fullWidth?: boolean;
+  tagsOnPost: Array<any>;
 }
 
-const BlogCard = ({ author, title, content, publishedDate, id, fullWidth }: BlogCardProps) => {
+const BlogCard = ({ author, title, content, publishedDate, id, fullWidth, tagsOnPost }: BlogCardProps) => {
   // split and slice combination is added so that the string doesn't get trimmed in middle of a word
   const quillContent = getPlainTextFromHTML(content).split(' ').slice(0, 40).join(' ') + '...';
-  
-  const {blog}=useBlog({
-    id:id
-  })
 
   return (
     <Link
@@ -47,7 +43,7 @@ const BlogCard = ({ author, title, content, publishedDate, id, fullWidth }: Blog
       </div>
       <div className="flex col-span-full md:px-2">
         <div className='flex'>
-					  {blog.tagsOnPost.slice(0,2).map((tagWrapper) => {
+					  {tagsOnPost.slice(0,2).map((tagWrapper) => {
 						  return (
 							  <Pill id={tagWrapper.tag.id} tagName={tagWrapper.tag.tagName}/>
 						  )

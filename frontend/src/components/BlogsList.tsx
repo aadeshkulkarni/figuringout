@@ -35,6 +35,7 @@ const BlogsList = () => {
               publishedDate={blog?.publishedDate}
               title={blog.title}
               content={blog.content}
+              tagsOnPost={blog.tagsOnPost}
             />
           ))}
       </div>
