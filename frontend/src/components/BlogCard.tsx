@@ -20,7 +20,7 @@ interface BlogCardProps {
 
 const BlogCard = ({ author, title, content, publishedDate, id, fullWidth, tagsOnPost }: BlogCardProps) => {
   // split and slice combination is added so that the string doesn't get trimmed in middle of a word
-  const quillContent = getPlainTextFromHTML(content).split(' ').slice(0, 40).join(' ') + '...';
+  const quillContent = getPlainTextFromHTML(content).split(' ')?.slice(0, 40).join(' ') + '...';
 
   return (
     <Link
@@ -44,7 +44,7 @@ const BlogCard = ({ author, title, content, publishedDate, id, fullWidth, tagsOn
       </div>
       <div className="flex col-span-full md:px-2">
         <div className='flex'>
-					  {tagsOnPost.slice(0,2).map((tagWrapper) => {
+					  {tagsOnPost?.slice(0,2).map((tagWrapper) => {
 						  return (
 							  <Pill id={tagWrapper.tag.id} tagName={tagWrapper.tag.tagName}/>
 						  )
