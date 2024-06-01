@@ -1,7 +1,7 @@
 import { createBlogInput, updateBlogInput } from "@aadeshk/medium-common";
 import { Hono } from "hono";
 import { verify } from "hono/jwt";
-import { getFormattedDate } from "../utils";
+import { getFormattedDate, shuffleArray } from "../utils";
 import { generateArticle } from "../genAI";
 import {
   buildQuery,
@@ -44,7 +44,7 @@ blogRouter.get("/bulk/:id?", async (c) => {
     delete countQuery.take;
     const totalCount = await prisma.post.count({ where: countQuery.where });
     return c.json({
-      posts: posts,
+      posts: shuffleArray(posts),
       totalCount: totalCount,
 			page: page,
 			pageSize: pageSize,

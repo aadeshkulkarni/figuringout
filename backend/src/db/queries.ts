@@ -69,7 +69,7 @@ export const buildQuery = (
 			},
 
 			{
-				publishedDate: "desc",
+				publishedDate: "asc",
 			},
 		],
 	};
