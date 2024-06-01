@@ -45,6 +45,11 @@ cd backend
 ```bash 
 npm install
 ```
+- DB Migration (This will create the DB Schema)
+```bash
+npm run prisma:migrate
+```
+- DB Seeding - optional (Check package.json for details)
 - Run the application locally using 
 ```bash
 npm run dev
