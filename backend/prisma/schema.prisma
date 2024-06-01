@@ -24,6 +24,8 @@ model User {
   bookmarks Bookmark[]
   claps     Clap[]
   comments  Comment[]
+  subscribers  Subscriber[] @relation("UserSubscribers")
+  subscribedTo Subscriber[] @relation("UserSubscribedTo")
 }
 
 model Post {
@@ -77,4 +79,14 @@ model TagsOnPost {
   tagId   String
   post    Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId  String
+}
+
+model Subscriber {
+  id            String   @id @default(uuid())
+  userId        String
+  subscriberId  String
+  creationDate  DateTime @default(now())
+  
+  user          User     @relation("UserSubscribers", fields: [userId], references: [id])
+  subscriber    User     @relation("UserSubscribedTo", fields: [subscriberId], references: [id])
 }
