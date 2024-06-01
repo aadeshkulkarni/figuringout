@@ -5,7 +5,7 @@
 A React frontend and Cloudflare workers backend application offering features that replicate Medium, the popular blogging platform. 
 
 ### Important links
-- Application [link](https://www.figuringout.life/)
+- Application link [figuringout.life](https://www.figuringout.life/)
 - Contributions [Open issues](https://github.com/aadeshkulkarni/medium-app/issues)
 
 ---
