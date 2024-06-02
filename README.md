@@ -1,6 +1,6 @@
 ## Blogging + AI
 
-![blogging app](https://i.ibb.co/zxM16cs/Screenshot-2024-05-14-at-11-33-44-PM.png)
+![Screenshot 2024-06-02 at 6 32 27 AM](https://github.com/aadeshkulkarni/medium-app/assets/67855887/e34de829-1ad8-49e8-af8d-ead5bd3c4d70)
 
 A React frontend and Cloudflare workers backend application offering features that replicate Medium, the popular blogging platform. 
 
