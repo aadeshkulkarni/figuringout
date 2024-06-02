@@ -28,7 +28,7 @@
     <a href="https://github.com/aadeshkulkarni/medium-app"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://figuringout.live">View App</a>
+    <a href="https://figuringout.life">View App</a>
     ·
     <a href="https://github.com/aadeshkulkarni/medium-app/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     ·
