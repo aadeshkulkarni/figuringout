@@ -44,7 +44,7 @@ const Search: React.FC = () => {
   }, [query, debouncedSearch]);
 
   return (
-    <div className="hidden md:block relative md:w-[400px]">
+    <div className="hidden md:block relative md:w-[190px] lg:w-[400px]">
       <input
         type="text"
         className="p-2 px-6 border rounded-full focus:outline-none focus:ring-black focus:ring-1 w-full"
@@ -54,7 +54,7 @@ const Search: React.FC = () => {
       />
       {query && (
         <>
-          <div className="absolute top-9 left-0 right-0 bg-white border border-gray-100 shadow-lg rounded mt-1 z-10 md:w-[600px]">
+          <div className="absolute top-9 left-0 right-0 bg-white border border-gray-100 shadow-lg rounded mt-1 z-10 md:w-[450px] lg:w-[600px]">
             <div className="p-2">
               <h3 className="text-lg font-semibold py-2 pb-1">Posts</h3>
               {results.posts.length > 0 ? (
