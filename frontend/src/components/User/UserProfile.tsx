@@ -15,7 +15,7 @@ type UserProfileContextType = {
   loadingUserBlogs?: boolean;
   editingDetails?: boolean;
   isAuthorizedUser?: boolean;
-  editUserDetails?: (details: string, fetchUserOnSuccess?: boolean) => void;
+  editUserDetails?: (formData: any) => void;
 };
 export const UserProfileContext = createContext<UserProfileContextType>({});
 
@@ -79,7 +79,7 @@ const UserProfile = ({ id }: UserProfileProps) => {
                 <div className="mt-3">{determineTabContent()}</div>
               </div>
               <div className="border-l border-slate-100 hidden md:block w-2/6 p-8 pr-36">
-                <Avatar name={currentUser?.name || ''} size="large" />
+                <Avatar name={currentUser?.name || ''} size="large" imageSrc={currentUser?.profilePic} />
                 <div className="text-lg mt-3">{currentUser?.name}</div>
                 <div className="text-sm mt-3">{currentUser?.details}</div>
               </div>

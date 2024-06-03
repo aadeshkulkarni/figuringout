@@ -1,8 +1,8 @@
 import axios from 'axios';
 import Appbar from '../components/Appbar';
 import { BACKEND_URL, FF_ENABLE_AI } from '../config';
-import { useEffect, useState, useRef } from 'react';
-import ReactQuill from 'react-quill';
+import { useState, useRef } from 'react';
+import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.bubble.css';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -12,16 +12,23 @@ import { useAI } from '../hooks/blog';
 import GenerateAIBtn from '../components/GenerateAIBtn';
 import PublishTags from '../components/PublishTags';
 import { htmlTagRegex } from '../util/string';
+import useAutoSaveDraft from '../hooks/useAutoSaveDraft';
+import { videoHandler, modules } from '../util/videoHandler';
+
+// Register the custom video handler with Quill toolbar
+Quill.register('modules/customToolbar', function (quill: any) {
+  quill.getModule('toolbar').addHandler('video', videoHandler.bind(quill));
+});
 
 const Publish = () => {
+  const { draft, deleteDraft } = useAutoSaveDraft('new_article', () => ({ title, content }));
+
   const { generateBlog } = useAI();
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+  const [title, setTitle] = useState(draft?.title || '');
+  const [content, setContent] = useState(draft?.content || '');
   const [blogId, setBlogId] = useState('');
 
   const writingPadRef = useRef<ReactQuill>(null);
-
-  useEffect(() => {}, [content]);
 
   async function publishArticle() {
     if (title.trim() && content.trim()) {
@@ -38,6 +45,8 @@ const Publish = () => {
             },
           }
         );
+        // Clear drafts when saved on server
+        deleteDraft();
         setBlogId(response?.data?.id);
       } catch (error) {
         toast.error('Failed to publish the article. Please try again.');
@@ -46,6 +55,7 @@ const Publish = () => {
       toast.error('Post title & content cannot be empty.');
     }
   }
+
   async function generateArticle() {
     const generation = await generateBlog(title);
     setContent(generation.article);
@@ -75,6 +85,7 @@ const Publish = () => {
             placeholder="Title"
             required
             autoFocus
+            value={title}
             onChange={(e) => setTitle((e.target as HTMLTextAreaElement).value)}
             onKeyUp={handleTitleKeyUp}
           ></AutogrowTextarea>
@@ -86,6 +97,7 @@ const Publish = () => {
           className="tracking-wide text-[#0B1215] font-light"
           value={content}
           onChange={(value) => setContent(htmlTagRegex.test(value) ? '' : value)}
+          modules={modules}
         ></ReactQuill>
       </div>
       <ToastWrapper />

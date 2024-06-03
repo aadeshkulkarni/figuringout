@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { BACKEND_URL } from '../config';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -66,27 +66,21 @@ export const useUser = (userId: string) => {
     fetchUser();
   }, []);
 
-  async function editUserDetails(details: string, updateUserOnSuccess: boolean = false) {
+  async function editUserDetails(formData: FormEvent) {
     try {
       const token = localStorage.getItem('token');
       if (!token) {
         navigate('/signin');
       }
       setEditingDetails(true);
-      const response = await axios.post(
-        `${BACKEND_URL}/api/v1/user/updateDetail`,
-        {
-          userId,
-          details,
-        },
-        {
+      const response = await axios.post( `${BACKEND_URL}/api/v1/user/updateDetail`, formData, {
           headers: {
             Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      if (updateUserOnSuccess) {
-        setCurrentUser((prev: any) => ({ ...prev, details }));
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+      if (response.status === 200) {
+        setCurrentUser((prev: any) => ({ ...prev, ...response.data }));
       }
       return response.data;
     } catch (e) {

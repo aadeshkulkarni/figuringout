@@ -18,7 +18,7 @@ clapRouter.use("/*", async (c, next) => {
 		const header = c.req.header("authorization") || "";
 		const token = header && header.split(" ")[1];
 		const user = await verify(token, c.env.JWT_SECRET);
-		if (user) {
+		if (user && typeof user.id === "string") {
 			c.set("userId", user.id);
 			return next();
 		} else {
@@ -49,13 +49,17 @@ clapRouter.get("/:postId", async (c) => {
 
 	const userId = user.id;
 	try {
-		const claps = await prisma.clap.findMany({
-			where: { userId: userId, postId: postId }
-		});
-		return c.json({
-			claps: claps.length,
-			message: "All posts bookmarked by user",
-		});
+		if(userId){
+			const claps = await prisma.clap.findMany({
+				where: { userId: userId, postId: postId }
+			});
+			return c.json({
+				claps: claps.length,
+				message: "All posts bookmarked by user",
+			});
+		}
+		c.status(403);
+		return c.json({error: "Invalid user Id"});
 	} catch (ex) {
 		return c.status(403);
 	}

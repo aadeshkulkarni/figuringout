@@ -7,18 +7,23 @@ import { useBlog } from '../hooks';
 import Spinner from '../components/Spinner';
 import EditPublishLayout from '../layouts/EditPublishLayout';
 import { useState, useEffect } from 'react';
+import useAutoSaveDraft from '../hooks/useAutoSaveDraft';
 
 const Edit = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { blog, loading, editBlog } = useBlog({ id: id || '' });
+  const { draft, deleteDraft } = useAutoSaveDraft(id || '', () => ({ title, content }));
 
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
-    if (!loading && blog) {
+    if (draft) {
+      setTitle(draft?.title);
+      setContent(draft?.content);
+    } else if (!loading && blog) {
       setTitle(blog.title);
       setContent(blog.content);
     }
@@ -34,6 +39,8 @@ const Edit = () => {
         } else {
           toast.info(response);
           navigate(`/blog/${response?.id}`);
+          // Clear draft when changes are saved on server
+          deleteDraft();
         }
         setIsSaving(false);
       }

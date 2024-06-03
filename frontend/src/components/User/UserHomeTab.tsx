@@ -22,6 +22,7 @@ const UserHomeTab = () => {
                 publishedDate={blog?.publishedDate}
                 title={blog.title}
                 content={blog.content}
+                tagsOnPost={blog.tagsOnPost}
                 fullWidth
               />
             ))}

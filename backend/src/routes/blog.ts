@@ -1,9 +1,14 @@
 import { createBlogInput, updateBlogInput } from "@aadeshk/medium-common";
 import { Hono } from "hono";
 import { verify } from "hono/jwt";
-import { getFormattedDate } from "../utils";
+import { getFormattedDate, shuffleArray } from "../utils";
 import { generateArticle } from "../genAI";
-import { buildQuery } from "../db/queries";
+import {
+  buildQuery,
+  buildPostSearchQuery,
+  buildUserSearchQuery,
+  buildTagSearchQuery,
+} from "../db/queries";
 import { getDBInstance } from "../db/util";
 
 const DEFAULT_PAGE = 1;
@@ -23,7 +28,6 @@ export const blogRouter = new Hono<{
 /* 
 This route should be kept above app.use("/*") middleware as it is unprotected
 */
-// TODO: add pagination
 blogRouter.get("/bulk/:id?", async (c) => {
   try {
     const userId = await c.req.param("id");
@@ -40,7 +44,7 @@ blogRouter.get("/bulk/:id?", async (c) => {
     delete countQuery.take;
     const totalCount = await prisma.post.count({ where: countQuery.where });
     return c.json({
-      posts: posts,
+      posts: shuffleArray(posts),
       totalCount: totalCount,
 			page: page,
 			pageSize: pageSize,
@@ -55,12 +59,40 @@ blogRouter.get("/bulk/:id?", async (c) => {
   }
 });
 
+blogRouter.get("/search", async (c) => {
+  try {
+    const keyword = c.req.query("keyword") || "";
+    const prisma = getDBInstance(c);
+    const postQuery = buildPostSearchQuery(keyword);
+    const userQuery = buildUserSearchQuery(keyword);
+    const tagQuery = buildTagSearchQuery(keyword);
+    const [posts, users, tags] = await Promise.all([
+      prisma.post.findMany(postQuery),
+      prisma.user.findMany(userQuery),
+      prisma.tag.findMany(tagQuery),
+    ]);
+    return c.json({
+      posts: posts,
+      users: users,
+      tags: tags,
+    });
+  } catch (e) {
+    c.status(411);
+    return c.json({
+      message: "Error while fetching post",
+      error: e,
+    });
+  }
+});
+/* 
+All routes above are unprotected (Users can access them without authentication)
+*/
 blogRouter.use("/*", async (c, next) => {
   try {
     const header = c.req.header("authorization") || "";
     const token = header.split(" ")[1];
     const user = await verify(token, c.env.JWT_SECRET);
-    if (user) {
+    if (user && typeof user.id === "string") {
       c.set("userId", user.id);
       return next();
     } else {
@@ -151,7 +183,9 @@ blogRouter.get("/:id", async (c) => {
           select: {
             name: true,
             id: true,
-            details: true
+            details: true,
+            profilePic: true,
+            email: true
           },
         },
         id: true,

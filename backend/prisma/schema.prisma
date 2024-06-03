@@ -15,15 +15,18 @@ datasource db {
 }
 
 model User {
-  id        String     @id @default(uuid())
-  email     String     @unique
-  name      String?
-  details   String?
-  password  String
-  posts     Post[]
-  bookmarks Bookmark[]
-  claps     Clap[]
-  comments  Comment[]
+  id           String     @id @default(uuid())
+  email        String     @unique
+  name         String?
+  details      String?
+  profilePic   String?
+  password     String
+  posts        Post[]
+  bookmarks    Bookmark[]
+  claps        Clap[]
+  comments     Comment[]
+  subscribers  Subscriber[] @relation("UserSubscribers")
+  subscribedTo Subscriber[] @relation("UserSubscribedTo")
 }
 
 model Post {
@@ -32,7 +35,7 @@ model Post {
   content       String
   publishedDate String     @default("")
   published     Boolean    @default(false)
-  author        User       @relation(fields: [authorId], references: [id])
+  author        User       @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId      String
   bookmarks     Bookmark[]
   claps         Clap[]
@@ -42,25 +45,25 @@ model Post {
 
 model Bookmark {
   id     String @id @default(uuid())
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
-  post   Post   @relation(fields: [postId], references: [id])
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId String
 }
 
 model Clap {
   id     String @id @default(uuid())
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
-  post   Post   @relation(fields: [postId], references: [id])
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId String
 }
 
 model Comment {
   id     String @id @default(uuid())
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
-  post   Post   @relation(fields: [postId], references: [id])
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId String
 }
 
@@ -73,8 +76,18 @@ model Tag {
 
 model TagsOnPost {
   id      String @id @default(uuid())
-  tag     Tag   @relation(fields: [tagId], references: [id])
+  tag     Tag   @relation(fields: [tagId], references: [id], onDelete: Cascade)
   tagId   String
   post    Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId  String
+}
+
+model Subscriber {
+  id            String   @id @default(uuid())
+  userId        String
+  subscriberId  String
+  creationDate  DateTime @default(now())
+  
+  user          User     @relation("UserSubscribers", fields: [userId], references: [id])
+  subscriber    User     @relation("UserSubscribedTo", fields: [subscriberId], references: [id])
 }
