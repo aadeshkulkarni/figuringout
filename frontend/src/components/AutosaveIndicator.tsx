@@ -9,14 +9,16 @@ interface Props {
 const AutosaveIndicator: React.FC<Props> = ({ lastSaved, isSaving, userName }) => {
   const style = {
     font: "noto-serif",
-    position: 'fixed' as 'fixed',
-    top: '100px',
-    left: '152px',
+    position: 'absolute' as 'absolute',
+    top: '100',
+    left: '152',
+    transform: 'translateY(-65%)', // Move it above the title
     color: '#888',
-    fontSize: '14px',
+    fontSize: '13px',
     display: 'flex',
     alignItems: 'center',
     gap: '8px',
+    whiteSpace: 'nowrap' as 'nowrap', // Prevent text from wrapping
   };
 
   const getStatusText = () => {
@@ -30,8 +32,7 @@ const AutosaveIndicator: React.FC<Props> = ({ lastSaved, isSaving, userName }) =
 
   return (
     <div style={style}>
-        <span style={{ fontWeight: 'bold', color: '#333' }}>Draft in </span>
-      <span style={{ fontWeight: 'bold', color: '#333' }}>{userName}</span>
+        <span style={{ fontWeight: 'bold', color: '#333' }}>Draft in {userName}</span>
       <span>·</span>
       <span>{statusText}</span>
     </div>

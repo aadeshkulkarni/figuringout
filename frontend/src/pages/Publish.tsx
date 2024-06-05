@@ -77,9 +77,9 @@ const Publish = () => {
           </div>
         }
       />
-      <AutosaveIndicator lastSaved={lastSaved} isSaving={isSaving} userName={userName} />
       <div className="flex flex-col gap-4 justify-center p-4 md:p-10 max-w-3xl m-auto">
         <div className="w-full">
+        <AutosaveIndicator lastSaved={lastSaved} isSaving={isSaving} userName={userName} />
           <AutogrowTextarea
             id="title"
             rows={1}

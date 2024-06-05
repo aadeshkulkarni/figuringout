@@ -13,11 +13,11 @@ const Edit = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { blog, loading, editBlog } = useBlog({ id: id || '' });
-  const { draft, deleteDraft } = useAutoSaveDraft(id || '', () => ({ title, content }));
+  const { draft, deleteDraft, lastSaved, isSaving, userName } = useAutoSaveDraft(id || '', () => ({ title, content }));
 
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [isSaving, setIsSaving] = useState(false);
+  const [isSavingEdit, setIsSavingEdit] = useState(false);
 
   useEffect(() => {
     if (draft) {
@@ -31,7 +31,7 @@ const Edit = () => {
 
   async function finishEdit() {
     if (title.trim() && content.trim()) {
-      setIsSaving(true);
+      setIsSavingEdit(true);
       const response = await editBlog({ id: blog.id, title, content });
       if (response) {
         if (response.error) {
@@ -42,7 +42,7 @@ const Edit = () => {
           // Clear draft when changes are saved on server
           deleteDraft();
         }
-        setIsSaving(false);
+        setIsSavingEdit(false);
       }
     } else {
       toast.error('Post title & content cannot be empty.');
@@ -58,10 +58,10 @@ const Edit = () => {
               type="submit"
               onClick={finishEdit}
               className="primary"
-              disabled={isSaving || title.trim().length === 0 || content.trim().length === 0}
+              disabled={isSavingEdit || title.trim().length === 0 || content.trim().length === 0}
             >
               <div className="flex items-center gap-2">
-                {isSaving && <Spinner className="h-4 w-4 !border-2" />}
+                {isSavingEdit && <Spinner className="h-4 w-4 !border-2" />}
                 Finish Edit
               </div>
             </button>
@@ -73,7 +73,7 @@ const Edit = () => {
           <Spinner />
         </div>
       ) : (
-        <EditPublishLayout title={title} content={content} setTitle={setTitle} setContent={setContent} />
+        <EditPublishLayout title={title} content={content} setTitle={setTitle} setContent={setContent} lastSaved={lastSaved} isSaving={isSaving} userName={userName} />
       )}
     </>
   );

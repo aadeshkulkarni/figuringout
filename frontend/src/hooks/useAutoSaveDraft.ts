@@ -12,7 +12,7 @@ const useAutoSaveDraft = (name: string, getDraft: () => Content) => {
   const userJSON = localStorage.getItem('user') || '{}';
   const user = JSON.parse(userJSON);
 
-  useTimerInterval(5000, autoSaveHandler);
+  useTimerInterval(15000, autoSaveHandler);
 
   async function autoSaveHandler() {
     setIsSaving(true);
