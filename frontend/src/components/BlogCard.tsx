@@ -25,7 +25,7 @@ const BlogCard = ({ author, title, content, publishedDate, id, fullWidth, tagsOn
   return (
     <Link
       to={`/blog/${id}`}
-      className={`blog-card px-4 py-8 ${fullWidth ? 'w-full' : 'md:w-3/6'} md:border-b md:border-gray-200 my-2 bg-white shadow-b-sm grid grid-cols-12 md:gap-6 lg:gap-0`}
+      className={`blog-card px-4 py-8 ${fullWidth ? 'w-full' : 'w-full md:w-3/6'} md:border-b md:border-gray-200 my-2 bg-white shadow-b-sm grid grid-cols-12 md:gap-6 lg:gap-0`}
     >
       <div className="col-span-12 md:col-span-9 md:px-4">
         <div className="flex items-center gap-4">
