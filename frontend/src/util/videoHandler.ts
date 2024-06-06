@@ -1,5 +1,5 @@
 //Register custom video handler with Quill
- const videoHandler = function (this: any) {
+const videoHandler = function (this: any) {
   const range = this.getSelection();
   const value = prompt('Please enter YouTube URL:');
   if (value) {
@@ -8,7 +8,7 @@
   }
 };
 
- const modules = {
+const modules = {
   toolbar: {
     container: [
       [{ header: '1' }, { header: '2' }, { font: [] }],

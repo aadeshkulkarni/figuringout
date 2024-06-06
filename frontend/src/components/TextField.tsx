@@ -16,7 +16,13 @@ const TextField = ({ id, label, suffix, name = 'txtField', value, type = 'text',
       <label htmlFor={id} className="block mb-2 text-sm font-medium text-gray-900">
         {label}
       </label>
-      <input type={type} name={name} className="w-full border rounded border-gray-100 resize-none p-3 mb-2 bg-gray-100" value={value} onChange={onChange} />
+      <input
+        type={type}
+        name={name}
+        className="w-full border rounded border-gray-100 resize-none p-3 mb-2 bg-gray-100"
+        value={value}
+        onChange={onChange}
+      />
       <label className="text-gray-600 text-xs">{suffix}</label>
     </div>
   );
