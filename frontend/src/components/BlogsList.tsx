@@ -3,6 +3,7 @@ import BlogCard from '../components/BlogCard';
 import { useBlogs } from '../hooks';
 import BlogSkeleton from '../skeletons/BlogsSkeleton';
 import AnimatedMessage from '../components/Blog/AnimatedMessage';
+import ScrollToTopButton from '../components/ScrollToTop';
 
 const BlogsList = () => {
   const [infiniteScrollRef, setInfiniteScrollRef] = useState<HTMLDivElement | null>(null);
@@ -73,6 +74,7 @@ const BlogsList = () => {
       {!loading && showEndMessage && (
         <AnimatedMessage showConfetti={showConfetti} onConfettiComplete={() => setShowConfetti(false)} />
       )}
+      <ScrollToTopButton />
     </>
   );
 };
