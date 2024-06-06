@@ -5,12 +5,16 @@ import 'react-toastify/dist/ReactToastify.css';
 import ToastWrapper from '../components/ToastWrapper';
 import AutogrowTextarea from '../components/AutogrowTextarea';
 import { htmlTagRegex } from '../util/string';
-import { videoHandler,modules } from '../util/videoHandler';
+import { videoHandler, modules } from '../util/videoHandler';
+import AutosaveIndicator from '../components/AutosaveIndicator';
 interface EditPublishLayoutProps {
   title?: string;
   content?: string;
   setTitle: (title: string) => void;
   setContent: (content: string) => void;
+  lastSaved: number | null;
+  isSaving: boolean;
+  userName: string;
 }
 
 const EditPublishLayout: React.FC<EditPublishLayoutProps> = ({
@@ -18,6 +22,9 @@ const EditPublishLayout: React.FC<EditPublishLayoutProps> = ({
   content,
   setTitle,
   setContent,
+  lastSaved,
+  isSaving,
+  userName,
 }: EditPublishLayoutProps) => {
   const writingPadRef = useRef<ReactQuill>(null);
 
@@ -30,12 +37,11 @@ const EditPublishLayout: React.FC<EditPublishLayoutProps> = ({
     quill.getModule('toolbar').addHandler('video', videoHandler.bind(quill));
   });
 
-  
-
   return (
     <>
       <div className="flex flex-col gap-8 justify-center p-4 md:p-10 max-w-3xl m-auto">
         <div className="w-full">
+        <AutosaveIndicator lastSaved={lastSaved} isSaving={isSaving} userName={userName} />
           <AutogrowTextarea
             id="title"
             rows={1}
