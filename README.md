@@ -39,7 +39,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Screenshot 2024-06-02 at 6 32 27 AM](https://github.com/aadeshkulkarni/medium-app/assets/67855887/e34de829-1ad8-49e8-af8d-ead5bd3c4d70)](https://figuringout.life)
+[![Screenshot 2024-06-02 at 6 32 27 AM](https://ucarecdn.com/bb958f8f-63b3-4209-a1c4-c5a21ceed7af/cover.jpeg)](https://figuringout.life)
 
 A React frontend and Cloudflare workers backend application offering features that replicate Medium, the popular blogging platform. 
 
