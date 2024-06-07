@@ -43,7 +43,6 @@ model Post {
   comments      Comment[]
   tagsOnPost    TagsOnPost[]
 }
-
 model Bookmark {
   id     String @id @default(uuid())
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -58,6 +57,8 @@ model Clap {
   userId String
   post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId String
+  comment Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  commentId String
 }
 
 model Comment {
@@ -66,6 +67,13 @@ model Comment {
   userId String
   post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId String
+  message String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  parent Comment? @relation("ParentChild", fields: [parentId], references: [id], onDelete: Cascade)
+  children Comment[] @relation("ParentChild")
+  parentId String?
+  claps Clap[]
 }
 
 model Tag {
