@@ -5,6 +5,7 @@ import UserHomeTab from './UserHomeTab';
 import { useUser, useUserBlogs } from '../../hooks/user';
 import Avatar from '../Avatar';
 import { Post } from '../../types/post';
+import { useSubscribe } from '../../hooks/subscribe';
 
 type UserProfileProps = {
   id: string;
@@ -13,6 +14,7 @@ type UserProfileContextType = {
   currentUser?: any;
   blogs?: Post[];
   loadingUserBlogs?: boolean;
+  loadingSubscriber?: boolean;
   editingDetails?: boolean;
   isAuthorizedUser?: boolean;
   editUserDetails?: (formData: any) => void;
@@ -22,6 +24,10 @@ export const UserProfileContext = createContext<UserProfileContextType>({});
 const UserProfile = ({ id }: UserProfileProps) => {
   const { currentUser, loading: loadingUser, isAuthorizedUser, editingDetails, editUserDetails, error } = useUser(id);
   const { blogs, loading: loadingUserBlogs } = useUserBlogs(id);
+  const { subscribe, subscribed, loading: loadingSubscriber, error: SubscriberError, unsubscribe, subscribers } = useSubscribe(id);
+  // console.log(subscribers);
+  console.log(subscribed);
+  // console.log(localStorage.getItem('userId'));
 
   const [currentTab, setCurrentTab] = useState('Home');
 
@@ -35,6 +41,13 @@ const UserProfile = ({ id }: UserProfileProps) => {
         return <></>;
     }
   };
+  const toggleSubscription = () => {
+    if (subscribed) {
+      unsubscribe();
+    } else {
+      subscribe();
+    }
+  }
   return (
     <>
       {loadingUser ? (
@@ -60,17 +73,15 @@ const UserProfile = ({ id }: UserProfileProps) => {
                 <div className="text-3xl">{currentUser?.name}</div>
                 <nav className="flex flex-row gap-5 mt-3 border-b">
                   <div
-                    className={`cursor-pointer hover:text-black py-3 ${
-                      currentTab === 'Home' ? 'text-black border-b border-black' : 'text-gray-500'
-                    }`}
+                    className={`cursor-pointer hover:text-black py-3 ${currentTab === 'Home' ? 'text-black border-b border-black' : 'text-gray-500'
+                      }`}
                     onClick={() => setCurrentTab('Home')}
                   >
                     Home
                   </div>
                   <div
-                    className={`cursor-pointer hover:text-black py-3 ${
-                      currentTab === 'About' ? 'text-black border-b border-black' : 'text-gray-500'
-                    }`}
+                    className={`cursor-pointer hover:text-black py-3 ${currentTab === 'About' ? 'text-black border-b border-black' : 'text-gray-500'
+                      }`}
                     onClick={() => setCurrentTab('About')}
                   >
                     About
@@ -82,6 +93,7 @@ const UserProfile = ({ id }: UserProfileProps) => {
                 <Avatar name={currentUser?.name || ''} size="large" imageSrc={currentUser?.profilePic} />
                 <div className="text-lg mt-3">{currentUser?.name}</div>
                 <div className="text-sm mt-3">{currentUser?.details}</div>
+                <div><button onClick={toggleSubscription}>{subscribed ? "Unfollow" : "Follow"}</button></div>
               </div>
             </div>
           </div>
