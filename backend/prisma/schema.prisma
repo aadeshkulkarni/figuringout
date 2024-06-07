@@ -21,6 +21,7 @@ model User {
   details      String?
   profilePic   String?
   password     String
+  creationDate DateTime  @default(now())
   posts        Post[]
   bookmarks    Bookmark[]
   claps        Clap[]
