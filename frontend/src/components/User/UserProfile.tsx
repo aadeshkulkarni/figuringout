@@ -78,6 +78,19 @@ const UserProfile = ({ id }: UserProfileProps) => {
             <div className="flex flex-row justify-center">
               <div className="flex flex-col w-full p-5 md:p-24 md:w-4/6 md:pl-36">
                 <div className="text-3xl hidden md:block">{currentUser?.name}</div>
+                <div className='md:hidden w-full'>
+                  <div className='flex items-center gap-5'>
+                    <Avatar name={currentUser?.name || ''} size="medium" imageSrc={currentUser?.profilePic} />
+                    <div>
+                      <div className="text-md font-bold">{currentUser?.name}</div>
+                      <p className='text-gray-400 text-sm'> {subscribers.length} Followers</p>
+                    </div>
+                  </div>
+                  <button
+                      className="flex gap-5 w-full justify-center items-center cursor-pointer focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 mt-4"
+                      disabled={loadingSubscriber}
+                      onClick={toggleSubscription}>{loadingSubscriber && <Spinner className="w-4 h-4" />}{subscribed ? "Unfollow" : "Follow"} </button>
+                </div>
                 <nav className="flex flex-row gap-5 mt-3 border-b">
                   <div
                     className={`cursor-pointer hover:text-black py-3 ${currentTab === 'Home' ? 'text-black border-b border-black' : 'text-gray-500'
@@ -98,25 +111,25 @@ const UserProfile = ({ id }: UserProfileProps) => {
               </div>
               <div className="border-l border-slate-100 hidden md:block w-2/6 p-8 pr-36">
                 <Avatar name={currentUser?.name || ''} size="large" imageSrc={currentUser?.profilePic} />
-                
-                
+
+
                 {isSameUser ? (<div>
-                  <div className="text-lg mt-3">{currentUser?.name}</div>
+                  <div className="text-lg mt-3 font-bold">{currentUser?.name}</div>
                   <p className='text-gray-400'> {subscribers.length} Followers</p>
                   <div className="text-sm mt-3">{currentUser?.details}</div>
 
                 </div>)
                   : (<div>
-                    <div className="text-lg mt-3">{currentUser?.name}</div>
-                    
+                    <div className="text-lg mt-3 font-bold">{currentUser?.name}</div>
+
                     <p className='text-gray-400'>{subscribers.length} Followers</p>
                     <div className="text-sm mt-3">{currentUser?.details}</div>
                     <button
-                    className="flex gap-1 items-center cursor-pointer focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 mt-4"
-                    disabled={loadingSubscriber}
-                    onClick={toggleSubscription}>{loadingSubscriber && <Spinner className="w-4 h-4" />}{subscribed ? "Unfollow" : "Follow"} </button>
+                      className="flex gap-1 items-center cursor-pointer focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 mt-4"
+                      disabled={loadingSubscriber}
+                      onClick={toggleSubscription}>{loadingSubscriber && <Spinner className="w-4 h-4" />}{subscribed ? "Unfollow" : "Follow"} </button>
 
-                    </div>)}
+                  </div>)}
               </div>
             </div>
           </div>
