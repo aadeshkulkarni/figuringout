@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BACKEND_URL } from '../config';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -24,7 +24,7 @@ export const useSubscribe = (userId: string) => {
             navigate('/signin');
         }
         try {
-            const response = await axios.post(
+            await axios.post(
                 `${BACKEND_URL}/api/v1/subscriber/subscribe`,
                 {
                     userId,
@@ -56,7 +56,7 @@ export const useSubscribe = (userId: string) => {
             navigate('/signin');
         }
         try {
-            const response = await axios.post(
+             await axios.post(
                 `${BACKEND_URL}/api/v1/subscriber/unsubscribe`,
                 {
                     userId,
