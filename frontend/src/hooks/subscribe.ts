@@ -8,7 +8,8 @@ export const useSubscribe = (userId: string) => {
     const [loading, setLoading] = useState(false);
     const [subscribed, setSubscribed] = useState(false);
     const [error, setError] = useState<string>('');
-    const [subscribers, setSubscribers] = useState([]);
+    const [subscribers, setSubscribers] = useState<any>([]);
+    const [isSameUser, setIsSameUser] = useState(false);
 
     async function subscribe() {
         if (loading) {
@@ -18,6 +19,7 @@ export const useSubscribe = (userId: string) => {
         setLoading(true);
         const token = localStorage.getItem('token');
         const subscriberId = JSON.parse(localStorage.getItem('user') || '');
+        
         if (!token) {
             navigate('/signin');
         }
@@ -35,6 +37,7 @@ export const useSubscribe = (userId: string) => {
                 }
             );
             setSubscribed(true);
+            setSubscribers([...subscribers, subscriberId]);
         } catch (e) {
             setError('Failed to subscribe');
         } finally {
@@ -66,6 +69,7 @@ export const useSubscribe = (userId: string) => {
                 }
             );
             setSubscribed(false);
+            setSubscribers(subscribers.filter((subscriber: any) => subscriber.id !== subscriberId.id));
         } catch (e) {
             setError('Failed to unsubscribe');
         } finally {
@@ -80,6 +84,10 @@ export const useSubscribe = (userId: string) => {
         setLoading(true);
         const token = localStorage.getItem('token');
         const subscriberId = JSON.parse(localStorage.getItem('user') || '');
+        if(userId === subscriberId.id) {
+            setIsSameUser(true);
+            return;
+        }
 
         if (!token) {
             navigate('/signin');
@@ -117,6 +125,6 @@ export const useSubscribe = (userId: string) => {
         subscribe,
         unsubscribe,
         subscribers,
-
+        isSameUser
     };
 };
