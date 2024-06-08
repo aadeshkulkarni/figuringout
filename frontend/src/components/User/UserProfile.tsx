@@ -27,9 +27,6 @@ const UserProfile = ({ id }: UserProfileProps) => {
   const { currentUser, loading: loadingUser, isAuthorizedUser, editingDetails, editUserDetails, error } = useUser(id);
   const { blogs, loading: loadingUserBlogs } = useUserBlogs(id);
   const { subscribe, subscribed, loading: loadingSubscriber, error: SubscriberError, unsubscribe, subscribers, isSameUser } = useSubscribe(id);
-  // console.log(subscribers);
-  // console.log(subscribed);
-  // console.log(localStorage.getItem('userId'));
 
   const [currentTab, setCurrentTab] = useState('Home');
 
@@ -50,7 +47,6 @@ const UserProfile = ({ id }: UserProfileProps) => {
       subscribe();
     }
     if (SubscriberError.length > 0) {
-      console.log(SubscriberError.length);
       toast.error(SubscriberError);
     }
 
