@@ -18,7 +18,7 @@ const Hero = () => {
           Start reading
         </span>
       </Link>
-      <div className="container pt-16 md:hidden">
+      <div className="container-chevron pt-16 md:hidden">
           <div className="chevron"></div>
           <div className="chevron"></div>
           <div className="chevron"></div>
