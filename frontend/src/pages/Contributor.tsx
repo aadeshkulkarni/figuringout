@@ -40,7 +40,7 @@ const Contributors: React.FC = () => {
   return (
     <>
       <Appbar skipAuthCheck={true} />
-      <div className="container p-4 flex flex-col justify-center items-center w-screen">
+      <div className="p-4 flex flex-col justify-center items-center w-screen">
         <h1 className="text-2xl mb-4 text-center">Contributors</h1>
         <div className="md:w-4/5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {contributors.map((contributor: any) => (
