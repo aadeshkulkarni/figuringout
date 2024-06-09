@@ -194,8 +194,7 @@ blogRouter.post("/", async (c) => {
       data: {
         title: body.title,
         content: body.content,
-        authorId: authorId,
-        publishedDate: getFormattedDate(),
+        authorId: authorId
       },
     });
     return c.json({
@@ -203,7 +202,7 @@ blogRouter.post("/", async (c) => {
     });
   } catch (ex) {
     c.status(403);
-    return c.json({ error: "Something went wrong " });
+    return c.json({ error: "Something went wrong ", stackTrace: ex });
   }
 });
 
@@ -225,7 +224,6 @@ blogRouter.put("/", async (c) => {
       data: {
         title: body.title,
         content: body.content,
-        publishedDate: getFormattedDate(),
       },
     });
     return c.json({
@@ -233,7 +231,7 @@ blogRouter.put("/", async (c) => {
     });
   } catch (ex) {
     c.status(403);
-    return c.json({ error: "Something went wrong " });
+    return c.json({ error: "Something went wrong ", stackTrace: ex });
   }
 });
 
