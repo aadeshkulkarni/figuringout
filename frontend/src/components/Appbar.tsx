@@ -20,8 +20,8 @@ const Appbar = ({ skipAuthCheck = false, pageActions, hideWriteAction = false }:
   return (
     <div className="border-b border-slate-100 flex justify-between items-center p-4 md:px-16 md:flex-wrap">
       <div className="flex justify-center items-center gap-4">
-        <Link to="/" className="text-xl font-light">
-        <span className="text-gray-700">figuring</span><span className="text-black">out</span><span className="text-green-700">.Life</span>
+        <Link to="/" className="text-xl font-medium">
+        <span className="text-gray-700">Figuring</span><span className="text-black">out</span><span className="text-green-700">.Life</span>
         </Link>
         <Search />
       </div>
