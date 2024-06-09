@@ -50,6 +50,7 @@ Features:
 * Generate Blog using AI
 * Autosave
 * User profiles
+* Subscriber
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
