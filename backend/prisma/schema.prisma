@@ -34,7 +34,7 @@ model Post {
   id            String     @id @default(uuid())
   title         String
   content       String
-  publishedDate String     @default("")
+  publishedDate DateTime   @default(now())
   published     Boolean    @default(false)
   author        User       @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId      String

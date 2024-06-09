@@ -1,7 +1,7 @@
 import ReactQuill from 'react-quill';
 import { Link } from 'react-router-dom';
 import 'react-quill/dist/quill.bubble.css';
-import { getPlainTextFromHTML } from '../util/string';
+import { formatDateString, getPlainTextFromHTML } from '../util/string';
 import Avatar from './Avatar';
 import { Pill } from './Pill';
 
@@ -31,7 +31,7 @@ const BlogCard = ({ author, title, content, publishedDate, id, fullWidth, tagsOn
         <div className="flex items-center gap-4">
           <Avatar name={author?.name || ''} imageSrc={author?.profilePic} />
           <div>
-            <span>{author?.name}</span> · <span className="text-sm text-slate-500">{publishedDate}</span>
+            <span>{author?.name}</span> · <span className="text-sm text-slate-500">{formatDateString(publishedDate)}</span>
           </div>
         </div>
         <div className="text-xl font-bold pt-4">{title}</div>

@@ -62,14 +62,13 @@ export const buildQuery = (
 			tagsOnPost: { select: { tag: { select: { id: true, tagName: true } } } },
 		},
 		orderBy: [
+			// {
+			// 	claps: {
+			// 		_count: "desc",
+			// 	},
+			// },
 			{
-				claps: {
-					_count: "desc",
-				},
-			},
-
-			{
-				publishedDate: "asc",
+				publishedDate: "desc",
 			},
 		],
 	};
