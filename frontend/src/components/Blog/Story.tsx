@@ -72,7 +72,7 @@ const ActionBox = () => {
   });
   if (loading) <Loader />;
   const user = JSON.parse(localStorage.getItem('user') || '{}') || {};
-  const isAuthor = user?.id === blog?.author?.id;
+  const isAuthor = user?.id && user?.id === blog?.author?.id;
 
   const deleteStory = async () => {
     if (id) {
