@@ -93,6 +93,10 @@ npm install
 npm run prisma:migrate
 ```
 - DB Seeding - optional (Check package.json for details)
+- Generate Prisma client
+```bash
+npx prisma generate
+```
 - Run the application locally using 
 ```bash
 npm run dev
