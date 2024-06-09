@@ -84,6 +84,77 @@ blogRouter.get("/search", async (c) => {
     });
   }
 });
+
+blogRouter.get("/:id", async (c) => {
+  try {
+		const prisma = getDBInstance(c);
+    const postId = await c.req.param("id");
+    const userId = c.get("userId");
+    const post = await prisma.post.findFirst({
+      where: {
+        id: postId,
+      },
+      select: {
+        title: true,
+        content: true,
+        publishedDate: true,
+        author: {
+          select: {
+            name: true,
+            id: true,
+            details: true,
+            profilePic: true,
+            email: true
+          },
+        },
+        id: true,
+        bookmarks: {
+          select: {
+            id: true,
+            user: {
+              select: {
+                id: true,
+              },
+            },
+          },
+        },
+        claps: {
+          select: {
+            id: true
+          }
+        },
+        tagsOnPost: {
+          select: {
+            tag: {
+              select: {
+                id: true,
+                tagName: true,
+              }
+            }
+          }
+        }
+      },
+    });
+
+    const userBookmarkId = post?.bookmarks.find(
+      (bookmark) => bookmark.user.id === userId
+    );
+
+    return c.json({
+      post: {
+        ...post,
+        bookmarkId: userBookmarkId?.id,
+      },
+    });
+  } catch (e) {
+    console.log(e);
+    c.status(411);
+    return c.json({
+      message: "Error while fetching post",
+    });
+  }
+});
+
 /* 
 All routes above are unprotected (Users can access them without authentication)
 */
@@ -163,76 +234,6 @@ blogRouter.put("/", async (c) => {
   } catch (ex) {
     c.status(403);
     return c.json({ error: "Something went wrong " });
-  }
-});
-
-blogRouter.get("/:id", async (c) => {
-  try {
-		const prisma = getDBInstance(c);
-    const postId = await c.req.param("id");
-    const userId = c.get("userId");
-    const post = await prisma.post.findFirst({
-      where: {
-        id: postId,
-      },
-      select: {
-        title: true,
-        content: true,
-        publishedDate: true,
-        author: {
-          select: {
-            name: true,
-            id: true,
-            details: true,
-            profilePic: true,
-            email: true
-          },
-        },
-        id: true,
-        bookmarks: {
-          select: {
-            id: true,
-            user: {
-              select: {
-                id: true,
-              },
-            },
-          },
-        },
-        claps: {
-          select: {
-            id: true
-          }
-        },
-        tagsOnPost: {
-          select: {
-            tag: {
-              select: {
-                id: true,
-                tagName: true,
-              }
-            }
-          }
-        }
-      },
-    });
-
-    const userBookmarkId = post?.bookmarks.find(
-      (bookmark) => bookmark.user.id === userId
-    );
-
-    return c.json({
-      post: {
-        ...post,
-        bookmarkId: userBookmarkId?.id,
-      },
-    });
-  } catch (e) {
-    console.log(e);
-    c.status(411);
-    return c.json({
-      message: "Error while fetching post",
-    });
   }
 });
 
