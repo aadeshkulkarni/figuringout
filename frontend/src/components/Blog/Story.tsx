@@ -15,6 +15,7 @@ import SingleBlogSkeleton from '../../skeletons/SingleBlogSkeleton';
 import { Tags } from '../Tags';
 import ClapButton from '../ClapButton';
 import Avatar from '../Avatar';
+import { formatDateString } from '../../util/string';
 
 const Story = () => {
   const { id } = useParams();
@@ -71,7 +72,7 @@ const ActionBox = () => {
   });
   if (loading) <Loader />;
   const user = JSON.parse(localStorage.getItem('user') || '{}') || {};
-  const isAuthor = user?.id === blog?.author?.id;
+  const isAuthor = user?.id && user?.id === blog?.author?.id;
 
   const deleteStory = async () => {
     if (id) {
@@ -177,7 +178,7 @@ const AuthorBox = ({
         <div className="font-bold">{name || 'Anonymous'}</div>
         <div>
           <span>{details ? details : 'An artist at living. My work of art is my life.'} </span> ·{' '}
-          <span className="text-sm text-slate-500">{publishedDate}</span>
+          <span className="text-sm text-slate-500">{formatDateString(publishedDate)}</span>
         </div>
       </div>
     </div>

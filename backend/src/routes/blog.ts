@@ -84,87 +84,6 @@ blogRouter.get("/search", async (c) => {
     });
   }
 });
-/* 
-All routes above are unprotected (Users can access them without authentication)
-*/
-blogRouter.use("/*", async (c, next) => {
-  try {
-    const header = c.req.header("authorization") || "";
-    const token = header.split(" ")[1];
-    const user = await verify(token, c.env.JWT_SECRET);
-    if (user && typeof user.id === "string") {
-      c.set("userId", user.id);
-      return next();
-    } else {
-      c.status(403);
-      return c.json({ error: "Unauthorized " });
-    }
-  } catch (e) {
-    c.status(403);
-    return c.json({
-      error: "Credentials failed",
-    });
-  }
-});
-
-blogRouter.post("/", async (c) => {
-  const prisma = getDBInstance(c);
-  const body = await c.req.json();
-  const { success } = createBlogInput.safeParse(body);
-  if (!success) {
-    c.status(411);
-    return c.json({
-      message: "Inputs incorrect",
-    });
-  }
-  const authorId = c.get("userId");
-  try {
-    const post = await prisma.post.create({
-      data: {
-        title: body.title,
-        content: body.content,
-        authorId: authorId,
-        publishedDate: getFormattedDate(),
-      },
-    });
-    return c.json({
-      id: post.id,
-    });
-  } catch (ex) {
-    c.status(403);
-    return c.json({ error: "Something went wrong " });
-  }
-});
-
-blogRouter.put("/", async (c) => {
-  const prisma = getDBInstance(c);
-  const body = await c.req.json();
-  const { success } = updateBlogInput.safeParse(body);
-  if (!success) {
-    c.status(411);
-    return c.json({
-      message: "Inputs incorrect",
-    });
-  }
-  try {
-    const post = await prisma.post.update({
-      where: {
-        id: body.id,
-      },
-      data: {
-        title: body.title,
-        content: body.content,
-        publishedDate: getFormattedDate(),
-      },
-    });
-    return c.json({
-      id: post.id,
-    });
-  } catch (ex) {
-    c.status(403);
-    return c.json({ error: "Something went wrong " });
-  }
-});
 
 blogRouter.get("/:id", async (c) => {
   try {
@@ -233,6 +152,86 @@ blogRouter.get("/:id", async (c) => {
     return c.json({
       message: "Error while fetching post",
     });
+  }
+});
+
+/* 
+All routes above are unprotected (Users can access them without authentication)
+*/
+blogRouter.use("/*", async (c, next) => {
+  try {
+    const header = c.req.header("authorization") || "";
+    const token = header.split(" ")[1];
+    const user = await verify(token, c.env.JWT_SECRET);
+    if (user && typeof user.id === "string") {
+      c.set("userId", user.id);
+      return next();
+    } else {
+      c.status(403);
+      return c.json({ error: "Unauthorized " });
+    }
+  } catch (e) {
+    c.status(403);
+    return c.json({
+      error: "Credentials failed",
+    });
+  }
+});
+
+blogRouter.post("/", async (c) => {
+  const prisma = getDBInstance(c);
+  const body = await c.req.json();
+  const { success } = createBlogInput.safeParse(body);
+  if (!success) {
+    c.status(411);
+    return c.json({
+      message: "Inputs incorrect",
+    });
+  }
+  const authorId = c.get("userId");
+  try {
+    const post = await prisma.post.create({
+      data: {
+        title: body.title,
+        content: body.content,
+        authorId: authorId
+      },
+    });
+    return c.json({
+      id: post.id,
+    });
+  } catch (ex) {
+    c.status(403);
+    return c.json({ error: "Something went wrong ", stackTrace: ex });
+  }
+});
+
+blogRouter.put("/", async (c) => {
+  const prisma = getDBInstance(c);
+  const body = await c.req.json();
+  const { success } = updateBlogInput.safeParse(body);
+  if (!success) {
+    c.status(411);
+    return c.json({
+      message: "Inputs incorrect",
+    });
+  }
+  try {
+    const post = await prisma.post.update({
+      where: {
+        id: body.id,
+      },
+      data: {
+        title: body.title,
+        content: body.content,
+      },
+    });
+    return c.json({
+      id: post.id,
+    });
+  } catch (ex) {
+    c.status(403);
+    return c.json({ error: "Something went wrong ", stackTrace: ex });
   }
 });
 
