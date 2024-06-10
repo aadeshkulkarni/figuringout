@@ -1,6 +1,6 @@
 const Quote = () => {
   return (
-    <div className="bg-gray-100 flex justify-center items-center text-center w-full h-screen md:h-auto">
+    <div className="bg-gray-100 flex justify-center items-center text-center w-full h-screen md:h-auto dark:bg-gray-950">
       <div className="w-full px-4">
         <h1 className="text-md md:text-2xl text-center font-light md:tracking-wide leading-6 md:leading-8">
           " To laugh often and much: To win the respect of intelligent people and the affection of children, to earn the

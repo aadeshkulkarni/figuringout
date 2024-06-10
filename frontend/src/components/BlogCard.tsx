@@ -30,11 +30,11 @@ const BlogCard = ({ author, title, content, publishedDate, id, fullWidth, tagsOn
       <div className="col-span-12 md:col-span-9 md:px-4">
         <div className="flex items-center gap-4">
           <Avatar name={author?.name || ''} imageSrc={author?.profilePic} />
-          <div>
-            <span>{author?.name}</span> · <span className="text-sm text-slate-500">{publishedDate}</span>
+          <div className='className="text-sm text-slate-500 dark:text-gray-900"'>
+            <span>{author?.name}</span> · <span >{publishedDate}</span>
           </div>
         </div>
-        <div className="text-xl font-bold pt-4">{title}</div>
+        <div className="text-xl font-bold pt-4 dark:text-gray-900">{title}</div>
         <div className="tracking-wide py-4 text-slate-600">
           <ReactQuill value={quillContent} readOnly={true} theme={'bubble'} />
         </div>

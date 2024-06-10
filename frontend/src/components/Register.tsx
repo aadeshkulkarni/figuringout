@@ -92,7 +92,7 @@ const Register = () => {
           onChange={(event) => {
             setAuthInputs({ ...authInputs, email: event.target.value });
           }}
-        />
+        /> 
         <div className="relative">
           <PasswordField
             label="Password"

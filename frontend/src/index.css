@@ -5,92 +5,96 @@
 @tailwind utilities;
 
 @layer base {
-    body {
-        font-family: "Noto Sans", sans-serif;
-        box-sizing: border-box;
-    }
+  body {
+    @apply bg-white text-black; /* Light mode styles */
+    font-family: "Noto Sans", sans-serif;
+    box-sizing: border-box;
+  }
 
-    /* Keep adding variants for button here */
-    button.primary {
-        @apply block text-white bg-green-700 text-sm rounded-3xl px-4 py-2 m-0 hover:bg-green-800;
-    }
+  .dark body {
+    @apply bg-gray-950 text-white; /* Dark mode styles */
+  }
 
-    button.primary:disabled {
-        @apply opacity-60 pointer-events-none;
-    }
+  /* Keep adding variants for button here */
+  button.primary {
+    @apply block text-white bg-green-700 text-sm rounded-3xl px-4 py-2 m-0 hover:bg-green-800;
+  }
 
-     button.secondary {
-        @apply block bg-white text-sm rounded-3xl px-4 py-2 m-0 hover:bg-gray-200 border;
-    }
+  button.primary:disabled {
+    @apply opacity-60 pointer-events-none;
+  }
 
-    button.secondary:disabled {
-        @apply opacity-60 pointer-events-none;
-    }
+  button.secondary {
+    @apply block bg-white text-sm rounded-3xl px-4 py-2 m-0 hover:bg-gray-200 dark:hover:bg-gray-700 border dark:border-gray-600;
+  }
+
+  button.secondary:disabled {
+    @apply opacity-60 pointer-events-none;
+  }
 }
 
 .ql-editor {
-    @apply font-noto-serif text-lg !p-0 md:p-4;
+  @apply font-noto-serif text-lg !p-0 md:p-4;
 }
 
 .ql-editor.ql-blank::before {
-    @apply inset-0 not-italic text-gray-400 font-light text-xl;
+  @apply inset-0 not-italic text-gray-400 font-light text-xl;
 }
 
 .quill {
-    min-height: 500px;
+  min-height: 500px;
 }
 
 .blog-card .quill {
-    min-height: 50px;
+  min-height: 50px;
 }
 
 .blog-card .ql-editor {
-    padding: 0;
+  padding: 0;
 }
 
 .blog-card .ql-editor p,
 .blog-card .ql-editor h1,
 .blog-card .ql-editor h2,
 .blog-card .ql-editor h3 {
-    @apply text-sm
+  @apply text-sm;
 }
 
 .sparkle {
-    width: 5px;
-    height: 5px;
-    position: absolute;
-    border-radius: 50%;
+  width: 5px;
+  height: 5px;
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0;
+  animation: sparkle-animation 0.5s forwards;
+}
+
+.star {
+  width: 0;
+  height: 0;
+  border-left: 3px solid transparent;
+  border-right: 3px solid transparent;
+  border-bottom: 5px solid;
+}
+
+@keyframes sparkle-animation {
+  0% {
+    opacity: 1;
+    transform: scale(0);
+  }
+  100% {
     opacity: 0;
-    animation: sparkle-animation 0.5s forwards;
-  }
-  
-  .star {
-    width: 0;
-    height: 0;
-    border-left: 3px solid transparent;
-    border-right: 3px solid transparent;
-    border-bottom: 5px solid;
-  }
-  
-  @keyframes sparkle-animation {
-    0% {
-      opacity: 1;
-      transform: scale(0);
-    }
-    100% {
-      opacity: 0;
-      transform: scale(1.5);
-    }
-  }
-  
-  .clap-button {
-    display: inline-flex;
-    align-items: center;
-    cursor: pointer;
-    transition: transform 0.3s ease-in-out;
-  }
-  
-  .clapping {
     transform: scale(1.5);
   }
-  
+}
+
+.clap-button {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+}
+
+.clapping {
+  transform: scale(1.5);
+}

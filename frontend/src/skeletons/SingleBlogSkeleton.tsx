@@ -1,7 +1,7 @@
 const SingleBlogSkeleton = () => {
   return (
     <div role="status" className="animate-pulse h-full w-full md:w-3/6 shadow-sm px-4 py-8 bg-white">
-      <div className="my-4 h-32 w-full bg-gray-200 rounded"></div>
+      <div className="my-4 h-32 w-full  bg-gray-200 rounded"></div>
       <div className="flex items-center gap-4">
         <div className="w-10 h-10 rounded-full bg-gray-200"></div>
         <div>
