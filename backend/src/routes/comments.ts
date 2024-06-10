@@ -12,6 +12,47 @@ export const commentRouter = new Hono<{
   };
 }>();
 
+
+// Get comments for a post(unprotected)
+commentRouter.get("/post/:postId", async (c) => {
+  try {
+    const prisma = getDBInstance(c);
+    const postId = c.req.param("postId");
+    const page = parseInt(c.req.query("page") || "1");
+    const pageSize = parseInt(c.req.query("pageSize") || "10");
+
+    const comments = await prisma.comment.findMany({
+      where: { postId: postId, parentId: null }, // only top-level comments
+      include: {
+        user: { select: { id: true, name: true, profilePic: true } },
+        children: {
+          include: {
+            user: { select: { id: true, name: true, profilePic: true } },
+            claps: { select: { id: true } },
+          },
+        },
+        claps: { select: { id: true } },
+      },
+      orderBy: { createdAt: "desc" },
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+    });
+
+    const totalCount = await prisma.comment.count({
+      where: { postId: postId, parentId: null },
+    });
+
+    return c.json({
+      comments,
+      totalPages: Math.ceil(totalCount / pageSize),
+      currentPage: page,
+    });
+  } catch (e) {
+    c.status(500);
+    return c.json({ error: "Failed to fetch comments" });
+  }
+});
+
 // Middleware for authentication
 commentRouter.use("/*", async (c, next) => {
   try {
@@ -58,47 +99,6 @@ commentRouter.post("/", async (c) => {
     return c.json({ error: "Failed to create comment" });
   }
 });
-
-// Get comments for a post
-commentRouter.get("/post/:postId", async (c) => {
-  try {
-    const prisma = getDBInstance(c);
-    const postId = c.req.param("postId");
-    const page = parseInt(c.req.query("page") || "1");
-    const pageSize = parseInt(c.req.query("pageSize") || "10");
-
-    const comments = await prisma.comment.findMany({
-      where: { postId: postId, parentId: null }, // only top-level comments
-      include: {
-        user: { select: { id: true, name: true, profilePic: true } },
-        children: {
-          include: {
-            user: { select: { id: true, name: true, profilePic: true } },
-            claps: { select: { id: true } },
-          },
-        },
-        claps: { select: { id: true } },
-      },
-      orderBy: { createdAt: "desc" },
-      skip: (page - 1) * pageSize,
-      take: pageSize,
-    });
-
-    const totalCount = await prisma.comment.count({
-      where: { postId: postId, parentId: null },
-    });
-
-    return c.json({
-      comments,
-      totalPages: Math.ceil(totalCount / pageSize),
-      currentPage: page,
-    });
-  } catch (e) {
-    c.status(500);
-    return c.json({ error: "Failed to fetch comments" });
-  }
-});
-
 // Update a comment
 commentRouter.put("/:id", async (c) => {
   const prisma = getDBInstance(c);
@@ -162,6 +162,17 @@ commentRouter.post("/:id/clap", async (c) => {
   const userId = c.get("userId");
 
   try {
+    // First, fetch the comment to get its postId
+    const comment = await prisma.comment.findUnique({
+      where: { id: commentId },
+      select: { postId: true },
+    });
+
+    if (!comment) {
+      c.status(404);
+      return c.json({ error: "Comment not found" });
+    }
+
     const existingClap = await prisma.clap.findFirst({
       where: { userId, commentId },
     });
@@ -171,13 +182,18 @@ commentRouter.post("/:id/clap", async (c) => {
       return c.json({ message: "Clap removed" });
     } else {
       const clap = await prisma.clap.create({
-        data: { userId, commentId, postId: "" }, // postId is required, but not used here
+        data: { 
+          userId, 
+          commentId, 
+          postId: comment.postId // Use the postId from the comment
+        },
       });
       return c.json(clap);
     }
   } catch (ex) {
+    console.error("Error toggling clap:", ex);
     c.status(500);
-    return c.json({ error: "Failed to toggle clap" });
+    return c.json({ error: "An unexpected error occurred while toggling the clap" });
   }
 });
 
