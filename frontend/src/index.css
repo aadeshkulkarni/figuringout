@@ -190,33 +190,3 @@
     opacity: 1;
   }
 }
-
-.empty-state-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 20px;
-}
-
-.empty-state-message {
-  font-size: 1.5rem;
-  color: #555;
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-.write-blog-button {
-  padding: 10px 20px;
-  font-size: 1rem;
-  color: white;
-  background-color: #007BFF;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  text-decoration: none;
-  transition: background-color 0.3s ease;
-}
-
-.write-blog-button:hover {
-  background-color: #0056b3;
-}
