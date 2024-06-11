@@ -1,13 +1,12 @@
 /*
   Warnings:
 
-  - Added the required column `commentId` to the `Clap` table without a default value. This is not possible if the table is not empty.
   - Added the required column `message` to the `Comment` table without a default value. This is not possible if the table is not empty.
   - Added the required column `updatedAt` to the `Comment` table without a default value. This is not possible if the table is not empty.
 
 */
 -- AlterTable
-ALTER TABLE "Clap" ADD COLUMN     "commentId" TEXT NOT NULL;
+ALTER TABLE "Clap" ADD COLUMN     "commentId" TEXT;
 
 -- AlterTable
 ALTER TABLE "Comment" ADD COLUMN     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
