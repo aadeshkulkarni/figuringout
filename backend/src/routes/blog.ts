@@ -3,6 +3,7 @@ import { Hono } from "hono";
 import { verify } from "hono/jwt";
 import { getFormattedDate, shuffleArray } from "../utils";
 import { generateArticle } from "../genAI";
+import OpenAI from "openai";
 import {
   buildQuery,
   buildPostSearchQuery,
@@ -319,5 +320,36 @@ blogRouter.get("/bulkUser/:id", async (c) => {
     return c.json({
       message: "Error while fetching post",
     });
+  }
+});
+blogRouter.post("/chat", async (c) => {
+  try {
+    if (!c.env.OPENAI_API_KEY) {
+      return c.json({
+        message: "This feature is disabled.",
+      });
+    }
+
+    const body = await c.req.json();
+    const { blogContent, userQuery } = body;
+
+    const openai = new OpenAI({  // Changed configuration
+      apiKey: c.env.OPENAI_API_KEY,
+    });
+
+    const response = await openai.chat.completions.create({  // Updated method call
+      model: "gpt-3.5-turbo",
+      messages: [
+        { role: "system", content: "You are a helpful assistant that answers questions about blog content." },
+        { role: "user", content: `Given this blog content: "${blogContent}", answer the following question: ${userQuery}` },
+      ],
+    });
+
+    return c.json({
+      message: response.choices[0].message?.content || "Sorry, I couldn't generate a response.",
+    });
+  } catch (ex) {
+    c.status(403);
+    return c.json({ error: "Something went wrong", stackTrace: ex });
   }
 });

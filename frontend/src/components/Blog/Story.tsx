@@ -16,6 +16,7 @@ import { Tags } from '../Tags';
 import ClapButton from '../ClapButton';
 import Avatar from '../Avatar';
 import { formatDateString } from '../../util/string';
+import ChatModule from '../ChatModule';
 
 const Story = () => {
   const { id } = useParams();
@@ -50,6 +51,7 @@ const Story = () => {
         <div className="py-4">
           <ReactQuill value={blog?.content} readOnly={true} theme={'bubble'} />
         </div>
+        <ChatModule blogContent={blog?.content || ''} />
       </div>
       <Tags />
     </div>
