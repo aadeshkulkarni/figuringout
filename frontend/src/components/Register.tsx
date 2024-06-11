@@ -106,7 +106,7 @@ const Register = () => {
         </div>
         <button
           onClick={sendRequest}
-          className="w-full bg-black text-white p-4 rounded-md flex justify-center items-center gap-4"
+          className="w-full bg-black text-white p-4 rounded-md flex justify-center items-center gap-4 dark:bg-white dark:text-black"
           disabled={loading}
         >
           Sign Up

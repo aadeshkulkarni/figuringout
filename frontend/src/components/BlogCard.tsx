@@ -25,7 +25,7 @@ const BlogCard = ({ author, title, content, publishedDate, id, fullWidth, tagsOn
   return (
     <Link
       to={`/blog/${id}`}
-      className={`blog-card px-4 py-8 ${fullWidth ? 'w-full' : 'w-full md:w-3/6'} md:border-b md:border-gray-200 my-2 bg-white shadow-b-sm grid grid-cols-12 md:gap-6 lg:gap-0`}
+      className={`blog-card px-4 py-8 ${fullWidth ? 'w-full' : 'w-full md:w-3/6'} md:border-b md:border-gray-200 my-2 bg-white shadow-b-sm grid grid-cols-12 md:gap-6 lg:gap-0 dark:bg-gray-950 dark:border`}
     >
       <div className="col-span-12 md:col-span-9 md:px-4">
         <div className="flex items-center gap-4">
@@ -34,8 +34,8 @@ const BlogCard = ({ author, title, content, publishedDate, id, fullWidth, tagsOn
             <span>{author?.name}</span> · <span >{publishedDate}</span>
           </div>
         </div>
-        <div className="text-xl font-bold pt-4 dark:text-gray-900">{title}</div>
-        <div className="tracking-wide py-4 text-slate-600">
+        <div className="text-xl font-bold pt-4 dark:text-white">{title}</div>
+        <div className="tracking-wide py-4 text-slate-600 dark:text-white">
           <ReactQuill value={quillContent} readOnly={true} theme={'bubble'} />
         </div>
       </div>
@@ -50,7 +50,7 @@ const BlogCard = ({ author, title, content, publishedDate, id, fullWidth, tagsOn
 						  )
 					})}
 				</div>
-        <div className="text-gray-600 pt-4">{Math.ceil(content.length / 300)} min read</div>
+        <div className="text-gray-600 pt-4 dark:text-gray-400">{Math.ceil(content.length / 300)} min read</div>
 
         </div>
     </Link>

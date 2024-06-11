@@ -38,7 +38,7 @@ const EditPublishLayout: React.FC<EditPublishLayoutProps> = ({
   });
 
   return (
-    <>
+    <> 
       <div className="flex flex-col gap-8 justify-center p-4 md:p-10 max-w-3xl m-auto">
         <div className="w-full">
         <AutosaveIndicator lastSaved={lastSaved} isSaving={isSaving} userName={userName} />

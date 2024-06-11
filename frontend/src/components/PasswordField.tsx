@@ -18,7 +18,7 @@ const PasswordField = ({ id, label, placeholder, onChange, onKeyDown }: InputFie
 
   return (
     <div className="w-full text-left my-4 relative">
-      <label htmlFor={id} className="block mb-2 text-sm font-medium text-gray-900">
+      <label htmlFor={id} className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
         {label}
       </label>
       <input

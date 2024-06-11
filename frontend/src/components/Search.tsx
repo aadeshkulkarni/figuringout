@@ -44,7 +44,7 @@ const Search: React.FC = () => {
   }, [query, debouncedSearch]);
 
   return (
-    <div className="hidden md:block relative md:w-[190px] lg:w-[400px]">
+    <div className="hidden md:block relative md:w-[190px] lg:w-[400px] dark:text-black">
       <input
         type="text"
         className="p-2 px-6 border rounded-full focus:outline-none focus:ring-black focus:ring-1 w-full"
@@ -54,12 +54,12 @@ const Search: React.FC = () => {
       />
       {query && (
         <>
-          <div className="absolute top-9 left-0 right-0 bg-white border border-gray-100 shadow-lg rounded mt-1 z-10 md:w-[450px] lg:w-[600px]">
+          <div className="absolute top-9 left-0 right-0 bg-white border shadow-lg rounded mt-1 z-10 md:w-[450px] lg:w-[600px] dark:bg-gray-950">
             <div className="p-2">
-              <h3 className="text-lg font-semibold py-2 pb-1">Posts</h3>
+              <h3 className="text-lg font-semibold py-2 pb-1 dark:text-white">Posts</h3>
               {results.posts.length > 0 ? (
                 results.posts.map((post) => (
-                  <Link key={post.id} to={`/blog/${post.id}`} className="block p-1 cursor-pointer hover:bg-gray-50">
+                  <Link key={post.id} to={`/blog/${post.id}`} className="block p-1 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-900 dark:text-white">
                     <div>{post.title}</div>
                   </Link>
                 ))
@@ -68,10 +68,10 @@ const Search: React.FC = () => {
               )}
             </div>
             <div className="p-2">
-              <h3 className="text-lg font-semibold">Users</h3>
+              <h3 className="text-lg font-semibold dark:text-white">Users</h3>
               {results.users.length > 0 ? (
                 results.users.map((user) => (
-                  <Link key={user.id} to={`/profile/${user.id}`} className="block p-1 cursor-pointer hover:bg-gray-50">
+                  <Link key={user.id} to={`/profile/${user.id}`} className="block p-1 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-900 dark:text-white">
                     <div>{user.name}</div>
                   </Link>
                 ))
@@ -80,10 +80,10 @@ const Search: React.FC = () => {
               )}
             </div>
             <div className="p-2">
-              <h3 className="text-lg font-semibold">Tags</h3>
+              <h3 className="text-lg font-semibold dark:text-white">Tags</h3>
               {results.tags.length > 0 ? (
                 results.tags.map((tag) => (
-                  <div key={tag.id} className="p-1 cursor-pointer">
+                  <div key={tag.id} className="p-1 cursor-pointer dark:text-white dark:hover:bg-gray-900">
                     {tag.tagName}
                   </div>
                 ))
@@ -93,7 +93,7 @@ const Search: React.FC = () => {
             </div>
           </div>
           <div
-            className="overlay h-screen w-screen fixed top-0 left-0 bg-black bg-opacity-10"
+            className="overlay h-screen w-screen fixed top-0 left-0 bg-black bg-opacity-10 "
             onClick={() => setQuery('')}
           ></div>
         </>
