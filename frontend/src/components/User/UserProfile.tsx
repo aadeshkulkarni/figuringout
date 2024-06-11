@@ -28,7 +28,7 @@ const NoBlogsMessage = () => (
     <p className="text-lg text-gray-600 mb-3">You haven't written any blogs yet.</p>
     <Link to="/publish">
     <button
-      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+      className="bg-green-900 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full"
       onClick={() => console.log('Navigate to write blog')}
     >
       Write your first blog
