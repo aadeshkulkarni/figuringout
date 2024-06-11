@@ -163,6 +163,8 @@ Aadesh Kulkarni - aadeshkulkarni08@gmail.com
 
 Project Link: [https://github.com/aadeshkulkarni/medium-app](https://github.com/aadeshkulkarni/medium-app)
 
+Discord: [https://discord.gg/TmRYQhca](https://discord.gg/TmRYQhca)
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
