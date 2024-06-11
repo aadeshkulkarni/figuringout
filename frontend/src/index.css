@@ -191,13 +191,6 @@
   }
 }
 
-
-
-
-
-
-
-/* Styling for the empty state message and button */
 .empty-state-container {
   display: flex;
   flex-direction: column;

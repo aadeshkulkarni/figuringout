@@ -7,11 +7,11 @@ import Avatar from '../Avatar';
 import { Post } from '../../types/post';
 import { useSubscribe } from '../../hooks/subscribe';
 import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 
 type UserProfileProps = {
   id: string;
 };
-
 type UserProfileContextType = {
   currentUser?: any;
   blogs?: Post[];
@@ -21,8 +21,21 @@ type UserProfileContextType = {
   isAuthorizedUser?: boolean;
   editUserDetails?: (formData: any) => void;
 };
-
 export const UserProfileContext = createContext<UserProfileContextType>({});
+
+const NoBlogsMessage = () => (
+  <div className="flex flex-col items-center justify-center p-5 border border-gray-200 rounded-lg mt-5">
+    <p className="text-lg text-gray-600 mb-3">You haven't written any blogs yet.</p>
+    <Link to="/publish">
+    <button
+      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+      onClick={() => console.log('Navigate to write blog')}
+    >
+      Write your first blog
+    </button>
+    </Link>
+  </div>
+);
 
 const UserProfile = ({ id }: UserProfileProps) => {
   const { currentUser, loading: loadingUser, isAuthorizedUser, editingDetails, editUserDetails, error } = useUser(id);
@@ -32,23 +45,13 @@ const UserProfile = ({ id }: UserProfileProps) => {
   const [currentTab, setCurrentTab] = useState('Home');
 
   const determineTabContent = () => {
-    if (currentTab === 'Home') {
-      if (loadingUserBlogs) {
-        return <Spinner />;
-      } else if (!blogs || blogs.length === 0) {
-        return (
-          <div className="empty-state-container">
-            <div className="empty-state-message">You have not written any articles yet.</div>
-            <a href="/publish" className="write-blog-button">Write Blog</a>
-          </div>
-        );
-      } else {
-        return <UserHomeTab />;
-      }
-    } else if (currentTab === 'About') {
-      return <UserAboutTab />;
-    } else {
-      return <></>;
+    switch (currentTab) {
+      case 'Home':
+        return blogs?.length === 0 ? <NoBlogsMessage /> : <UserHomeTab />;
+      case 'About':
+        return <UserAboutTab />;
+      default:
+        return <></>;
     }
   };
 
@@ -91,7 +94,7 @@ const UserProfile = ({ id }: UserProfileProps) => {
                     <Avatar name={currentUser?.name || ''} size="medium" imageSrc={currentUser?.profilePic} />
                     <div>
                       <div className="text-md font-bold">{currentUser?.name}</div>
-                      <p className="text-gray-400 text-sm">{subscribers.length} Followers</p>
+                      <p className="text-gray-400 text-sm"> {subscribers.length} Followers</p>
                     </div>
                   </div>
                   <button
@@ -124,7 +127,7 @@ const UserProfile = ({ id }: UserProfileProps) => {
                 {isSameUser ? (
                   <div>
                     <div className="text-lg mt-3 font-bold">{currentUser?.name}</div>
-                    <p className="text-gray-400">{subscribers.length} Followers</p>
+                    <p className="text-gray-400"> {subscribers.length} Followers</p>
                     <div className="text-sm mt-3">{currentUser?.details}</div>
                   </div>
                 ) : (
