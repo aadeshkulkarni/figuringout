@@ -24,21 +24,16 @@ const BookmarkTab = ({ bookmarks }: BookmarkTabProps) => {
             />
           ))}
       </div>
-      {(bookmarks.length === 0 && user) ? (<div className="flex justify-center mt-10">
-        <h6 className="text-xl font-bold py-2">
-          No bookmarks yet! You can bookmark blogs in the blogs page{' '}
-          <Link to="/blogs" className="underline">
-            here
-          </Link>
-        </h6>
-      </div>) : (<div className="flex justify-center mt-10">
-        <h6 className="text-xl font-bold py-2">
-          No bookmarks yet! You can bookmark blogs in the blogs page{' '}
-          <Link to="/signin" className="underline">
-            here
-          </Link>
-        </h6>
-      </div>)}
+      {bookmarks.length === 0 && (
+        <div className="flex justify-center mt-10">
+          <h6 className="text-xl font-bold py-2">
+            No bookmarks yet! You can bookmark blogs in the blogs page{' '}
+            <Link to={user ? "/blogs" : "/signin"} className="underline">
+              here
+            </Link>
+          </h6>
+        </div>
+      )}
     </div>
   );
 };
