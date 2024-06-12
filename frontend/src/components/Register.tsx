@@ -61,9 +61,9 @@ const Register = () => {
       } else {
         toast.error('Name, Email & Password are mandatory fields.');
       }
-    } catch (ex) {
+    } catch (ex: any) {
       console.log(ex);
-      toast.error('Something went wrong');
+      toast.error(ex.response.data.error);
     } finally {
       setLoading(false);
     }

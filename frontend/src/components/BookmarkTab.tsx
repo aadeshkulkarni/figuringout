@@ -6,6 +6,7 @@ type BookmarkTabProps = {
   bookmarks: Post[];
 };
 const BookmarkTab = ({ bookmarks }: BookmarkTabProps) => {
+  const user = localStorage.getItem("user");
   return (
     <div className="p-4 md:p-10 ">
       <h1 className="text-2xl font-bold mb-2">Bookmarks</h1>
@@ -27,7 +28,7 @@ const BookmarkTab = ({ bookmarks }: BookmarkTabProps) => {
         <div className="flex justify-center mt-10">
           <h6 className="text-xl font-bold py-2">
             No bookmarks yet! You can bookmark blogs in the blogs page{' '}
-            <Link to="/signin" className="underline">
+            <Link to={user ? "/blogs" : "/signin"} className="underline">
               here
             </Link>
           </h6>
@@ -36,5 +37,4 @@ const BookmarkTab = ({ bookmarks }: BookmarkTabProps) => {
     </div>
   );
 };
-
 export default BookmarkTab;
