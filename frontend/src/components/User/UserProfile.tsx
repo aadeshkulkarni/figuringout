@@ -129,16 +129,16 @@ const UserProfile = ({ id }: UserProfileProps) => {
                     <div className="text-lg mt-3 font-bold">{currentUser?.name}</div>
                     <p className="text-gray-400">{subscribers.length} Followers</p>
                     <div className="text-sm mt-3">{currentUser?.details}</div>
-                  {isSameUser ? ("") : (
-                    <button
-                      className="flex gap-1 items-center cursor-pointer focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 mt-4"
-                      disabled={loadingSubscriber}
-                      onClick={toggleSubscription}
-                    >
-                      {loadingSubscriber && <Spinner className="w-4 h-4" />}
-                      {subscribed ? 'Unfollow' : 'Follow'}
-                    </button>
-                )}
+                    {!isSameUser && (
+                      <button
+                        className="flex gap-1 items-center cursor-pointer focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 mt-4"
+                        disabled={loadingSubscriber}
+                        onClick={toggleSubscription}
+                      >
+                        {loadingSubscriber && <Spinner className="w-4 h-4" />}
+                        {subscribed ? 'Unfollow' : 'Follow'}
+                      </button>
+                    )}
                 </div>
               </div>
             </div>
