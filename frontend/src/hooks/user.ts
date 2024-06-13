@@ -64,7 +64,7 @@ export const useUser = (userId: string) => {
 
   useEffect(() => {
     fetchUser();
-  }, []);
+  }, [userId]);
 
   async function editUserDetails(formData: FormEvent) {
     try {

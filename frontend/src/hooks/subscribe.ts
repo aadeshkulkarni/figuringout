@@ -86,7 +86,6 @@ export const useSubscribe = (userId: string) => {
         const subscriberId = JSON.parse(localStorage.getItem('user') || '');
         if(userId === subscriberId.id) {
             setIsSameUser(true);
-            return;
         }
 
         if (!token) {
