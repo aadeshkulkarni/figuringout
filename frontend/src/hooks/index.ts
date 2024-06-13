@@ -4,6 +4,9 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { BlogResponse } from '../types/blog';
 import { Post } from '../types/post';
+import { useSearchParams } from 'react-router-dom';
+
+const PAGE_SIZE = 10;
 
 export const useBlogs = () => {
   const [loading, setLoading] = useState(false);
@@ -11,11 +14,24 @@ export const useBlogs = () => {
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(0);
 
-  const fetchBlogs = async () => {
-    if (loading) return;
+  let [searchParams] = useSearchParams();
+  const tagId = searchParams.get('tag');
 
+  const resetPage = () => {
+    setPage(1);
+  };
+  const fetchBlogs = async () => {
     setLoading(true);
-    const response = await axios.get(`${BACKEND_URL}/api/v1/blog/bulk?page=${page}&pageSize=10`);
+
+    let queryString = '';
+    if (tagId) {
+      queryString = `tagId=${tagId}`;
+    }
+
+
+    const response = await axios.get(
+      `${BACKEND_URL}/api/v1/blog/bulk?page=${page}&pageSize=${PAGE_SIZE}&${queryString}`
+    );
 
     setData((prev) => {
       const dataExists = prev.find((item) => item.page === page);
@@ -38,7 +54,7 @@ export const useBlogs = () => {
 
   useEffect(() => {
     fetchBlogs();
-  }, [page]);
+  }, [page, tagId]);
 
   const blogs = useMemo(() => {
     return data.flatMap((item) => item?.posts ?? []);
@@ -55,6 +71,7 @@ export const useBlogs = () => {
     loading,
     blogs,
     handleLoadMore,
+    resetPage,
   };
 };
 
@@ -81,11 +98,9 @@ export const useBlog = ({ id }: { id: string }) => {
 
   async function fetchBlog() {
     const token = localStorage.getItem('token');
-    /* Temporarily removing this feature
     if (!token) {
       navigate('/signup');
     }
-    */
     const response = await axios.get(`${BACKEND_URL}/api/v1/blog/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
