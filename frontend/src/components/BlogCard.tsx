@@ -46,7 +46,7 @@ const BlogCard = ({ author, title, content, publishedDate, id, fullWidth, tagsOn
       <div className="order-3 md:order-none md:flex col-span-full pb-8 px-2 border-b md:border-none border-gray-100">
         <div className="flex">
           {tagsOnPost?.slice(0, 2).map((tagWrapper) => {
-            return <Pill id={tagWrapper.tag.id} tagName={tagWrapper.tag.tagName} />;
+            return <Pill key={tagWrapper.tag.id} tagName={tagWrapper.tag.tagName} />;
           })}
         </div>
         <div className="order-3 md:order-none text-gray-600 pt-4">{Math.ceil(content.length / 300)} min read</div>
