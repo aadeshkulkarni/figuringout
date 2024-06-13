@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import debounce from 'lodash.debounce';
 import { BACKEND_URL } from '../config';
@@ -11,10 +11,13 @@ interface SearchResult {
 }
 
 const Search: React.FC = () => {
+  const { id } = useParams();
   const [query, setQuery] = useState<string>('');
   const [results, setResults] = useState<SearchResult>({ posts: [], users: [], tags: [] });
   const [loading, setLoading] = useState<boolean>(false);
-
+  useEffect(() => {
+    setQuery('');
+  }, [id]);
   const handleSearch = async (keyword: string) => {
     if (keyword.trim().length === 0) {
       setResults({ posts: [], users: [], tags: [] });
