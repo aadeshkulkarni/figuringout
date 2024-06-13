@@ -322,6 +322,11 @@ blogRouter.get("/bulkUser/:id", async (c) => {
     });
   }
 });
+interface ChatCompletionMessageParam {
+  role: 'system' | 'user' | 'assistant';
+  content: string;
+  name?: string;
+}
 blogRouter.post("/chat", async (c) => {
   try {
     if (!c.env.OPENAI_API_KEY) {
@@ -331,25 +336,31 @@ blogRouter.post("/chat", async (c) => {
     }
 
     const body = await c.req.json();
-    const { blogContent, userQuery } = body;
+    const { blogContent, userQuery, chatHistory, blogTitle } = body;
 
-    const openai = new OpenAI({  // Changed configuration
+    const openai = new OpenAI({
       apiKey: c.env.OPENAI_API_KEY,
     });
 
-    const response = await openai.chat.completions.create({  // Updated method call
+    const messages: ChatCompletionMessageParam[] = [
+      { role: "system", content: "You are a helpful assistant that answers questions about blog content." },
+      {
+        role: "user",
+        content: `Title: ${blogTitle}\n\nBlog Content: "${blogContent}"\n\nPrevious Chat History:\n${chatHistory.map((message: ChatCompletionMessageParam) => `${message.role.toUpperCase()}: ${message.content}`).join("\n")}\n\nCurrent Question: ${userQuery}`,
+        name: "User"
+      },
+    ];
+
+    const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
-      messages: [
-        { role: "system", content: "You are a helpful assistant that answers questions about blog content." },
-        { role: "user", content: `Given this blog content: "${blogContent}", answer the following question: ${userQuery}` },
-      ],
+      messages,
     });
 
     return c.json({
       message: response.choices[0].message?.content || "Sorry, I couldn't generate a response.",
     });
-  } catch (ex) {
+  } catch (ex: unknown) {
     c.status(403);
-    return c.json({ error: "Something went wrong", stackTrace: ex });
+    return c.json({ error: "Something went wrong", stackTrace: ex instanceof Error ? ex.toString() : JSON.stringify(ex) });
   }
 });

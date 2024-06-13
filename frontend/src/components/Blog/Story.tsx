@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ReactQuill from 'react-quill';
 import { toast } from 'react-toastify';
 import Spinner from '../Spinner';
@@ -24,6 +24,13 @@ const Story = () => {
   const { blog, loading } = useBlog({
     id: id || '',
   });
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user') || 'null'));
+
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem('user') || 'null');
+    setUser(storedUser);
+  }, []);
+
   function handleClickOnAvatar() {
     navigate(`/profile/${blog?.author?.id}`);
   }
@@ -51,7 +58,7 @@ const Story = () => {
         <div className="py-4">
           <ReactQuill value={blog?.content} readOnly={true} theme={'bubble'} />
         </div>
-        <ChatModule blogContent={blog?.content || ''} />
+        <ChatModule blogContent={blog?.content || ''} blogTitle={blog?.title} userId={user?.id || null} blogId={id || ''} />
       </div>
       <Tags />
     </div>

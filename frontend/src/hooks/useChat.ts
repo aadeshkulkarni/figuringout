@@ -1,25 +1,22 @@
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { BACKEND_URL } from '../config';
+import useLocalStorage from './useLocalStorage';
 
 interface ChatMessage {
   role: 'user' | 'assistant';
   content: string;
 }
 
-const CHAT_HISTORY_KEY = 'chatHistory';
-const MAX_CHAT_HISTORY = 20; // Example limit
+const getChatHistoryKey = (userId: string, blogId: string) => `chatHistory_${userId}_${blogId}`;
+const CHAT_LIMIT = 20;
 
-export const useChat = (blogContent: string) => {
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+export const useChat = (blogContent: string, blogTitle: string, userId: string | null, blogId: string) => {
+  const chatHistoryKey = userId ? getChatHistoryKey(userId, blogId) : null;
+  const [messages, setMessages] = useLocalStorage<ChatMessage[]>(chatHistoryKey || '', []);
   const [userInput, setUserInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const chatContainerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const storedMessages = JSON.parse(localStorage.getItem(CHAT_HISTORY_KEY) || '[]');
-    setMessages(storedMessages);
-  }, []);
 
   useEffect(() => {
     if (chatContainerRef.current) {
@@ -27,12 +24,14 @@ export const useChat = (blogContent: string) => {
     }
   }, [messages]);
 
-  useEffect(() => {
-    localStorage.setItem(CHAT_HISTORY_KEY, JSON.stringify(messages.slice(-MAX_CHAT_HISTORY)));
-  }, [messages]);
+  const stripHtmlTags = (html: string) => {
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = html;
+    return tempDiv.textContent || tempDiv.innerText || '';
+  };
 
   const sendMessage = async () => {
-    if (!userInput.trim()) return;
+    if (!userInput.trim() || !userId || messages.length >= CHAT_LIMIT) return;
 
     const newUserMessage: ChatMessage = { role: 'user', content: userInput };
     setMessages((prevMessages) => [...prevMessages, newUserMessage]);
@@ -40,22 +39,22 @@ export const useChat = (blogContent: string) => {
     setIsLoading(true);
 
     try {
-      const token = localStorage.getItem('token'); // Get the token from local storage or any other storage you use
+      const token = localStorage.getItem('token');
       const response = await axios.post(
-        `${BACKEND_URL}/api/v1/blog/chat`, 
-        { blogContent, userQuery: userInput, chatHistory: messages },
+        `${BACKEND_URL}/api/v1/blog/chat`,
+        { blogContent, userQuery: userInput, chatHistory: messages, blogTitle },
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-      const newAssistantMessage: ChatMessage = { role: 'assistant', content: response.data.message };
-      setMessages((prevMessages) => [...prevMessages, newAssistantMessage]);
+      const newAssistantMessage: ChatMessage = { role: 'assistant', content: stripHtmlTags(response.data.message) };
+      setMessages((prevMessages) => [...prevMessages, newUserMessage, newAssistantMessage]);
     } catch (error) {
       console.error('Error in chat:', error);
       const errorMessage: ChatMessage = { role: 'assistant', content: 'Sorry, an error occurred.' };
-      setMessages((prevMessages) => [...prevMessages, errorMessage]);
+      setMessages((prevMessages) => [...prevMessages, newUserMessage, errorMessage]);
     } finally {
       setIsLoading(false);
     }
@@ -63,7 +62,9 @@ export const useChat = (blogContent: string) => {
 
   const resetChat = () => {
     setMessages([]);
-    localStorage.removeItem(CHAT_HISTORY_KEY);
+    if (chatHistoryKey) {
+      localStorage.removeItem(chatHistoryKey);
+    }
   };
 
   return {
