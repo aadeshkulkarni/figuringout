@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react';
+import { createContext, useState, useEffect } from 'react';
 import Spinner from '../Spinner';
 import UserAboutTab from './UserAboutTab';
 import UserHomeTab from './UserHomeTab';
@@ -12,6 +12,7 @@ import { Link } from 'react-router-dom';
 type UserProfileProps = {
   id: string;
 };
+
 type UserProfileContextType = {
   currentUser?: any;
   blogs?: Post[];
@@ -21,18 +22,19 @@ type UserProfileContextType = {
   isAuthorizedUser?: boolean;
   editUserDetails?: (formData: any) => void;
 };
+
 export const UserProfileContext = createContext<UserProfileContextType>({});
 
 const NoBlogsMessage = () => (
   <div className="flex flex-col items-center justify-center p-5 border border-gray-200 rounded-lg mt-5">
     <p className="text-lg text-gray-600 mb-3">You haven't written any blogs yet.</p>
     <Link to="/publish">
-    <button
-      className="bg-green-900 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full"
-      onClick={() => console.log('Navigate to write blog')}
-    >
-      Write your first blog
-    </button>
+      <button
+        className="bg-green-900 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full"
+        onClick={() => console.log('Navigate to write blog')}
+      >
+        Write your first blog
+      </button>
     </Link>
   </div>
 );
@@ -40,9 +42,23 @@ const NoBlogsMessage = () => (
 const UserProfile = ({ id }: UserProfileProps) => {
   const { currentUser, loading: loadingUser, isAuthorizedUser, editingDetails, editUserDetails, error } = useUser(id);
   const { blogs, loading: loadingUserBlogs } = useUserBlogs(id);
-  const { subscribe, subscribed, loading: loadingSubscriber, error: SubscriberError, unsubscribe, subscribers, isSameUser } = useSubscribe(id);
+  const {
+    subscribe,
+    subscribed,
+    loading: loadingSubscriber,
+    error: SubscriberError,
+    unsubscribe,
+    subscribers,
+    isSameUser,
+  } = useSubscribe(id);
 
   const [currentTab, setCurrentTab] = useState('Home');
+
+  useEffect(() => {
+    if (SubscriberError) {
+      toast.error(SubscriberError);
+    }
+  }, [SubscriberError]);
 
   const determineTabContent = () => {
     switch (currentTab) {
@@ -60,9 +76,6 @@ const UserProfile = ({ id }: UserProfileProps) => {
       unsubscribe();
     } else {
       subscribe();
-    }
-    if (SubscriberError.length > 0) {
-      toast.error(SubscriberError);
     }
   };
 
@@ -94,7 +107,7 @@ const UserProfile = ({ id }: UserProfileProps) => {
                     <Avatar name={currentUser?.name || ''} size="medium" imageSrc={currentUser?.profilePic} />
                     <div>
                       <div className="text-md font-bold">{currentUser?.name}</div>
-                      <p className="text-gray-400 text-sm"> {subscribers.length} Followers</p>
+                      <p className="text-black-400 text-sm font-bold"> {subscribers.length} Followers</p>
                     </div>
                   </div>
                   <button

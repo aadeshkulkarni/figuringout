@@ -38,52 +38,40 @@ subscriberRouter.post("/subscribe", async (c) => {
   const prisma = getDBInstance(c);
 
   const { userId, subscriberId } = await c.req.json();
-  
-  try {
 
+  try {
     // Check if the user is trying to subscribe to themselves
     if (userId === subscriberId) {
-      c.status(403)
-      return c.json({
-        error: "You cannot subscribe to yourself",
-      });
+      c.status(403);
+      return c.json({ error: "You cannot subscribe to yourself" });
     }
 
     // Check if the user is already subscribed to the subscriber
-
-    const subscriber = await prisma.subscriber.findFirst({
-      where: {
-        userId,
-        subscriberId,
-      },
+    const existingSubscription = await prisma.subscriber.findFirst({
+      where: { userId, subscriberId },
     });
 
-    if (subscriber) {
-      c.status(403)
-      return c.json({
-        error: "You are already subscribed to this user",
-      });
+    if (existingSubscription) {
+      c.status(403);
+      return c.json({ error: "You are already subscribed to this user" });
     }
 
+    // Create a new subscription
     await prisma.subscriber.create({
-      data: {
-        userId,
-        subscriberId,
-      },
+      data: { userId, subscriberId },
+    });
+
+    // Get the updated subscriber count for the subscriberId (the user being followed)
+    const subscriberCount = await prisma.subscriber.count({
+      where: { subscriberId },
     });
     return c.json({
       message: "Subscribed successfully",
-      subscriberCount: await prisma.subscriber.count({
-        where: {
-          userId,
-        },
-      }),
+      subscriberCount,
     });
   } catch (ex) {
-    c.status(403)
-    return c.json({
-      error: "Subscription failed",
-    });
+    c.status(403);
+    return c.json({ error: "Subscription failed" });
   }
 });
 
@@ -108,7 +96,7 @@ subscriberRouter.post("/unsubscribe", async (c) => {
       }),
     });
   } catch (ex) {
-    c.status(403)
+    c.status(403);
     return c.json({
       error: "Unsubscription failed",
     });
@@ -132,7 +120,7 @@ subscriberRouter.get("/:userId", async (c) => {
       subscribers: subscribers.map((sub) => sub.subscriber),
     });
   } catch (ex) {
-    c.status(403)
+    c.status(403);
     return c.json({
       error: "Failed to fetch subscribers",
     });

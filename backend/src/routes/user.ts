@@ -13,8 +13,8 @@ export const userRouter = new Hono<{
     R2_SUBDOMAIN_URL: string;
   };
   Variables: {
-		userId: string;
-	};
+    userId: string;
+  };
 }>();
 
 userRouter.post("/signup", async (c) => {
@@ -44,7 +44,7 @@ userRouter.post("/signup", async (c) => {
       data: {
         email: body.email,
         password: body.password,
-        name: body.name
+        name: body.name,
       },
     });
     const token = await sign({ id: newUser.id }, c.env.JWT_SECRET);
@@ -55,8 +55,8 @@ userRouter.post("/signup", async (c) => {
       user: {
         id: newUser.id,
         email: newUser.email,
-        name: newUser.name
-      }
+        name: newUser.name,
+      },
     });
   } catch (ex) {
     return c.status(403);
@@ -142,6 +142,7 @@ userRouter.get("/:id", async (c) => {
       c.status(400);
       return c.json({ error: "User does not exist" });
     }
+
     return c.json({
       user,
       isAuthorizedUser: authorizedUserId === userId,
@@ -195,7 +196,7 @@ userRouter.post("/updateDetail", async (c) => {
         name: user.name,
         details: user.details,
         profilePic: user.profilePic,
-        email: user.email
+        email: user.email,
       });
     }
     c.status(411);
