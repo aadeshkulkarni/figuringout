@@ -50,9 +50,9 @@ const ChatModule: React.FC<{ blogContent: string; blogTitle: string; userId: str
   }
 
   return (
-    <div className="mt-6 p-6 border border-gray-200 bg-white rounded-lg max-w-3xl mx-auto">
-      <hr className="mb-6 border-gray-300" />
+    <div className="mt-6 p-6 bg-white rounded-lg max-w-3xl mx-auto">
       <div className="text-2xl font-semibold mb-6 text-gray-800">Have any doubts? Ask AI.</div>
+      <hr className="mb-6 border-gray-300" />
       <div
         ref={chatContainerRef}
         className="h-96 overflow-y-auto mb-4 p-4  rounded-lg flex flex-col space-y-4 transition-all duration-300"
@@ -60,7 +60,7 @@ const ChatModule: React.FC<{ blogContent: string; blogTitle: string; userId: str
         {messages.map((msg, index) => (
           <div
             key={index}
-            className={`p-4 rounded-lg max-w-lg ${msg.role === 'user' ? 'bg-[#d1e7dd] border border-gray-300 self-end' : 'bg-white border border-gray-200 self-start'}`}
+            className={`p-4 rounded-lg max-w-lg ${msg.role === 'user' ? 'bg-[#e2f2e9] border border-gray-300 self-end' : 'bg-white border border-gray-200 self-start'}`}
           >
             <strong className="font-semibold">{msg.role === 'user' ? 'You:' : 'Assistant:'}</strong> {msg.content}
           </div>
@@ -92,13 +92,13 @@ const ChatModule: React.FC<{ blogContent: string; blogTitle: string; userId: str
             </svg>
           </button>
         </form>
-        <div className="ml-4 cursor-pointer" onClick={resetChat}>
-          <svg className="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v1M4.93 4.93l.707.707M2 12h1m16.071 0h1M19.07 4.93l.707.707M12 19v1m7.071-7.071l.707.707M12 12l-8 8m0-16l8 8" />
+        <div className="ml-4 cursor-pointer p-3 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors" onClick={resetChat}>
+          <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 50 50">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M 25 2 C 12.309534 2 2 12.309534 2 25 C 2 37.690466 12.309534 48 25 48 C 37.690466 48 48 37.690466 48 25 A 1.0001 1.0001 0 1 0 46 25 C 46 36.609534 36.609534 46 25 46 C 13.390466 46 4 36.609534 4 25 C 4 13.390466 13.390466 4 25 4 C 31.692686 4 37.635193 7.130711 41.480469 12 L 35 12 A 1.0001 1.0001 0 1 0 35 14 L 43.449219 14 L 45 14 L 45 4 A 1.0001 1.0001 0 0 0 43.984375 2.9863281 A 1.0001 1.0001 0 0 0 43 4 L 43 10.699219 C 38.785186 5.4020866 32.287796 2 25 2 z"></path>
           </svg>
         </div>
       </div>
-      <div className="text-sm text-gray-500 mt-2">* Resetting the chat will delete the chat history.</div>
+      <div className="text-sm text-gray-500 ml-5 mt-2">* Resetting the chat will delete the chat history.</div>
     </div>
   );
 };
