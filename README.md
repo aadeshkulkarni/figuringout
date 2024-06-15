@@ -48,9 +48,12 @@ Features:
 * Create, Read, Update, Delete Blogs
 * Bookmark, Like, Search, Filter Blogs
 * Generate Blog using AI
+* Voice over for blogs, so you can listen to blogs while working out / having food.
+* Chat with AI to deepen your understand around a particular blog.
 * Autosave
 * User profiles
 * Subscriber
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
