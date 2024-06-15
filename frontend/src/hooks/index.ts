@@ -98,9 +98,9 @@ export const useBlog = ({ id }: { id: string }) => {
 
   async function fetchBlog() {
     const token = localStorage.getItem('token');
-    if (!token) {
-      navigate('/signup');
-    }
+    // if (!token) {
+    //   navigate('/signup');
+    // }
     const response = await axios.get(`${BACKEND_URL}/api/v1/blog/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,

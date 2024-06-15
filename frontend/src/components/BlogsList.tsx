@@ -2,13 +2,14 @@ import { useEffect, useState } from 'react';
 import BlogCard from '../components/BlogCard';
 import { useBlogs } from '../hooks';
 import BlogSkeleton from '../skeletons/BlogsSkeleton';
-
-
+import AnimatedMessage from './Blog/AnimatedMessage';
+import ScrollToTopButton from './ScrollToTop';
 
 
 const BlogsList = () => {
   const [infiniteScrollRef, setInfiniteScrollRef] = useState<HTMLDivElement | null>(null);
-
+  const [showEndMessage, setShowEndMessage] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false);
   const { blogs, loading, handleLoadMore } = useBlogs();
 
  
@@ -28,6 +29,16 @@ const BlogsList = () => {
 
     infiniteScrollRef && observer.observe(infiniteScrollRef);
   }, [infiniteScrollRef]);
+
+  useEffect(() => {
+    if (!loading && blogs.length > 0) {
+      const timer = setTimeout(() => {
+      setShowEndMessage(true);
+      setShowConfetti(true);
+      }, 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [blogs, loading]);
   return (
     <>
       <div className="flex flex-col justify-center items-center">
@@ -58,6 +69,10 @@ const BlogsList = () => {
           }}
         />
       )}
+        {!loading && showEndMessage && (
+        <AnimatedMessage showConfetti={showConfetti} onConfettiComplete={() => setShowConfetti(false)} />
+      )}
+      <ScrollToTopButton />
     </>
   );
 };
