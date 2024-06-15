@@ -124,7 +124,7 @@ npm run dev
 #### AI based Article content generation
 
 - set `FF_ENABLE_AI` = true in config.ts
-- set `OPENAI_API_KEY` in wrangler.toml file in the backend.
+- set `OPENAI_API_KEY` in wrangler.toml file in the backend. (https://platform.openai.com/api-keys)
 - The feature is enabled only when title is atleast 10 characters long.
 
 
@@ -162,6 +162,8 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 Aadesh Kulkarni - aadeshkulkarni08@gmail.com
 
 Project Link: [https://github.com/aadeshkulkarni/medium-app](https://github.com/aadeshkulkarni/medium-app)
+
+Discord: [https://discord.gg/TmRYQhca](https://discord.gg/TmRYQhca)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

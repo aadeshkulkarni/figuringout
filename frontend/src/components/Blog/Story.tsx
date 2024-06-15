@@ -16,6 +16,8 @@ import { Tags } from '../Tags';
 import ClapButton from '../ClapButton';
 import Avatar from '../Avatar';
 import { formatDateString } from '../../util/string';
+import VoiceOver from '../VoiceOver';
+import { getPlainTextFromHTML } from '../../util/string';
 
 const Story = () => {
   const { id } = useParams();
@@ -23,6 +25,7 @@ const Story = () => {
   const { blog, loading } = useBlog({
     id: id || '',
   });
+
   function handleClickOnAvatar() {
     navigate(`/profile/${blog?.author?.id}`);
   }
@@ -47,6 +50,9 @@ const Story = () => {
           handleClickOnAvatar={handleClickOnAvatar}
         />
         <ActionBox />
+        <div className="pt-4">
+          <VoiceOver content={getPlainTextFromHTML(blog?.content)} />
+        </div>
         <div className="py-4">
           <ReactQuill value={blog?.content} readOnly={true} theme={'bubble'} />
         </div>
