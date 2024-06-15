@@ -9,7 +9,7 @@ export function Tags() {
   });
 
   return (
-    <div className="md:flex">
+    <div className="flex flex-wrap justify-center">
       {blog.tagsOnPost.map((tagWrapper) => {
         return <Pill key={tagWrapper.tag.id} id={tagWrapper.tag.id} tagName={tagWrapper.tag.tagName} />;
       })}
