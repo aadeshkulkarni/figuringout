@@ -47,14 +47,16 @@ Features:
 * Token based Authentication.
 * Create, Read, Update, Delete Blogs.
 * Bookmark, Like, Search, Filter Blogs.
-* Generate Blog using AI.
-* Voice over for blogs, so you can listen to blogs while working out / having food.
-* Chat with AI to deepen your understanding around a particular blog.
 * Autosave blog while writing.
 * User profiles.
-* Subscribe.
+* Topics.
+* Subscribe profiles.
 * Comment.
 
+Unique Features:
+* Generate Blog using AI.
+* Chat with AI to deepen your understanding around a particular blog.
+* Voice over for blogs, so you can listen to blogs while working out / having food.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
