@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import Confetti from 'react-confetti';
 import 'animate.css';
 import { useWindowSize } from 'react-use';
-
 // Messages and animations arrays
 const messages = [
   "🎉 You've reached the end of the feed, but not the end of your journey! 🎉",
@@ -33,7 +32,7 @@ interface AnimatedMessageProps {
   onConfettiComplete: () => void;
 }
 
-const AnimatedMessage: React.FC<AnimatedMessageProps> = ({ showConfetti, onConfettiComplete }) => {
+const AnimatedMessage = ({ showConfetti, onConfettiComplete }: AnimatedMessageProps) => {
   const [confettiVisible, setConfettiVisible] = useState(showConfetti);
   const { randomMessage, randomAnimation } = getRandomMessageAndAnimation();
   const { width } = useWindowSize();
@@ -62,5 +61,4 @@ const AnimatedMessage: React.FC<AnimatedMessageProps> = ({ showConfetti, onConfe
     </div>
   );
 };
-
 export default AnimatedMessage;

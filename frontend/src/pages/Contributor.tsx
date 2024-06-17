@@ -70,7 +70,7 @@ const ContributionNotification = () => (
 const ContributorsList = ({ contributors }: { contributors: ContributorProp[] }) => (
   <div className="md:w-3/5 grid grid-cols-12 gap-4">
     {contributors.map((contributor: any) => (
-      <ContributorCard contributor={contributor} />
+      <ContributorCard key={contributor?.id} contributor={contributor} />
     ))}
   </div>
 );

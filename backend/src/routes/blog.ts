@@ -322,11 +322,6 @@ blogRouter.get("/bulkUser/:id", async (c) => {
     });
   }
 });
-interface ChatCompletionMessageParam {
-  role: 'system' | 'user' | 'assistant';
-  content: string;
-  name?: string;
-}
 blogRouter.post("/chat", async (c) => {
   try {
     if (!c.env.OPENAI_API_KEY) {
