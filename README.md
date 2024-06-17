@@ -80,30 +80,21 @@ Features:
 
 #### Backend
 
-- Navigate into the backend directory 
-```bash
-cd backend
-```
+##### Pre-requisities:
+
 - Create a copy of .env.example and name the file `.env`
 - Set up Postgres DATABASE_URL in .env file. You can get a free PostgreSQL connection string from [Aiven.io](https://aiven.io/).
 - Set up Prisma connection pool DATABASE_URL in wrangler.toml file. You can get this for free from [Prisma](https://www.prisma.io/data-platform/accelerate).
 - Set up JWT Secret JWT_SECRET in wrangler.toml file. This can be any value.
-- Install dependencies using 
+
 ```bash 
+
+cd backend
 npm install
-```
-- DB Migration (This will create the DB Schema)
-```bash
 npm run prisma:migrate
-```
-- DB Seeding - optional (Check package.json for details)
-- Generate Prisma client
-```bash
 npx prisma generate
-```
-- Run the application locally using 
-```bash
 npm run dev
+
 ```
 
 > Note: wrangler.toml is the environment configuration file for a serverless backend. .env is used by Prisma for connection pooling. Ensure you configure both environment files accordingly.
@@ -112,15 +103,11 @@ npm run dev
 
 - Navigate into the frontend directory using 
 ```bash
+
 cd frontend
-```
-- Install dependencies using 
-```bash
 npm install
-```
-- Run the application locally using 
-```bash
 npm run dev
+
 ```
 
 > Note: `frontend/src/config.ts` contains `BACKEND_URL`. If you need your frontend to point to local backend server, uncomment `export const BACKEND_URL = "http://localhost:8787"`. 
