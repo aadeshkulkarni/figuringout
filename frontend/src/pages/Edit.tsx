@@ -73,7 +73,15 @@ const Edit = () => {
           <Spinner />
         </div>
       ) : (
-        <EditPublishLayout title={title} content={content} setTitle={setTitle} setContent={setContent} lastSaved={lastSaved} isSaving={isSaving} userName={userName} />
+        <EditPublishLayout
+          title={title}
+          content={content}
+          setTitle={setTitle}
+          setContent={setContent}
+          lastSaved={lastSaved}
+          isSaving={isSaving}
+          userName={userName}
+        />
       )}
     </>
   );

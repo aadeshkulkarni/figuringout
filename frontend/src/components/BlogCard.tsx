@@ -49,7 +49,7 @@ const BlogCard = ({ author, title, content, publishedDate, id, fullWidth, tagsOn
             return <Pill key={tagWrapper.tag.id} id={tagWrapper.tag.id} tagName={tagWrapper.tag.tagName} />;
           })}
           <div className="text-gray-600 ">{Math.ceil(content.length / 300)} min read</div>
-        </div>   
+        </div>
       </div>
     </Link>
   );

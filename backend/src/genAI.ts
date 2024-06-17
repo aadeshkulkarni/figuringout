@@ -19,3 +19,28 @@ export async function generateArticle(text: string, model = "gpt", apiKey: strin
         // TODO: GEMINI Implementation goes here
 	}
 }
+interface ChatCompletionMessageParam {
+	role: 'system' | 'user' | 'assistant';
+	content: string;
+	name?: string;
+  }
+  
+  export async function generateChatResponse(apiKey: string, blogContent: string, userQuery: string, chatHistory: ChatCompletionMessageParam[], blogTitle: string) {
+	const openai = new OpenAI({ apiKey: apiKey });
+  
+	const messages: ChatCompletionMessageParam[] = [
+	  { role: "system", content: "You are a helpful assistant that answers questions about blog content. Do not answer questions unrelated to the blog content." },
+	  {
+		role: "user",
+		content: `Title: ${blogTitle}\n\nBlog Content: "${blogContent}"\n\nPrevious Chat History:\n${chatHistory.map((message: ChatCompletionMessageParam) => `${message.role.toUpperCase()}: ${message.content}`).join("\n")}\n\nCurrent Question: ${userQuery}`,
+		name: "User"
+	  },
+	];
+  
+	const response = await openai.chat.completions.create({
+	  model: "gpt-3.5-turbo",
+	  messages,
+	});
+  
+	return response.choices[0].message?.content || "Sorry, I couldn't generate a response.";
+  }

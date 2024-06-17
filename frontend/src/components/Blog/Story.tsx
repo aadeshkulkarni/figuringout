@@ -18,6 +18,7 @@ import Avatar from '../Avatar';
 import { formatDateString } from '../../util/string';
 import VoiceOver from '../VoiceOver';
 import { getPlainTextFromHTML } from '../../util/string';
+import ChatModule from '../ChatModule';
 
 const Story = () => {
   const { id } = useParams();
@@ -56,6 +57,7 @@ const Story = () => {
         <div className="py-4">
           <ReactQuill value={blog?.content} readOnly={true} theme={'bubble'} />
         </div>
+        <ChatModule />
       </div>
       <Tags />
     </div>

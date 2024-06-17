@@ -2,7 +2,8 @@ import { createBlogInput, updateBlogInput } from "@aadeshk/medium-common";
 import { Hono } from "hono";
 import { verify } from "hono/jwt";
 import { getFormattedDate, shuffleArray } from "../utils";
-import { generateArticle } from "../genAI";
+import { generateArticle,generateChatResponse } from "../genAI";
+import OpenAI from "openai";
 import {
   buildQuery,
   buildPostSearchQuery,
@@ -319,5 +320,25 @@ blogRouter.get("/bulkUser/:id", async (c) => {
     return c.json({
       message: "Error while fetching post",
     });
+  }
+});
+blogRouter.post("/chat", async (c) => {
+  try {
+    if (!c.env.OPENAI_API_KEY) {
+      return c.json({
+        message: "This feature is disabled.",
+      });
+    }
+
+    const body = await c.req.json();
+    const { blogContent, userQuery, chatHistory, blogTitle } = body;
+    const response = await generateChatResponse(c.env.OPENAI_API_KEY, blogContent, userQuery, chatHistory, blogTitle);
+
+    return c.json({
+      message: response,
+    });
+  } catch (ex: unknown) {
+    c.status(403);
+    return c.json({ error: "Something went wrong", stackTrace: ex instanceof Error ? ex.toString() : JSON.stringify(ex) });
   }
 });

@@ -27,12 +27,12 @@ const NoBlogsMessage = () => (
   <div className="flex flex-col items-center justify-center p-5 border border-gray-200 rounded-lg mt-5">
     <p className="text-lg text-gray-600 mb-3">You haven't written any blogs yet.</p>
     <Link to="/publish">
-    <button
-      className="bg-green-900 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full"
-      onClick={() => console.log('Navigate to write blog')}
-    >
-      Write your first blog
-    </button>
+      <button
+        className="bg-green-900 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full"
+        onClick={() => console.log('Navigate to write blog')}
+      >
+        Write your first blog
+      </button>
     </Link>
   </div>
 );
@@ -40,7 +40,15 @@ const NoBlogsMessage = () => (
 const UserProfile = ({ id }: UserProfileProps) => {
   const { currentUser, loading: loadingUser, isAuthorizedUser, editingDetails, editUserDetails, error } = useUser(id);
   const { blogs, loading: loadingUserBlogs } = useUserBlogs(id);
-  const { subscribe, subscribed, loading: loadingSubscriber, error: SubscriberError, unsubscribe, subscribers, isSameUser } = useSubscribe(id);
+  const {
+    subscribe,
+    subscribed,
+    loading: loadingSubscriber,
+    error: SubscriberError,
+    unsubscribe,
+    subscribers,
+    isSameUser,
+  } = useSubscribe(id);
 
   const [currentTab, setCurrentTab] = useState('Home');
 
@@ -124,21 +132,21 @@ const UserProfile = ({ id }: UserProfileProps) => {
               </div>
               <div className="border-l border-slate-100 hidden md:block w-2/6 p-8 pr-36">
                 <Avatar name={currentUser?.name || ''} size="large" imageSrc={currentUser?.profilePic} />
-                
-                  <div>
-                    <div className="text-lg mt-3 font-bold">{currentUser?.name}</div>
-                    <p className="text-gray-400">{subscribers.length} Followers</p>
-                    <div className="text-sm mt-3">{currentUser?.details}</div>
-                    {!isSameUser && (
-                      <button
-                        className="flex gap-1 items-center cursor-pointer focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 mt-4"
-                        disabled={loadingSubscriber}
-                        onClick={toggleSubscription}
-                      >
-                        {loadingSubscriber && <Spinner className="w-4 h-4" />}
-                        {subscribed ? 'Unfollow' : 'Follow'}
-                      </button>
-                    )}
+
+                <div>
+                  <div className="text-lg mt-3 font-bold">{currentUser?.name}</div>
+                  <p className="text-gray-400">{subscribers.length} Followers</p>
+                  <div className="text-sm mt-3">{currentUser?.details}</div>
+                  {!isSameUser && (
+                    <button
+                      className="flex gap-1 items-center cursor-pointer focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 mt-4"
+                      disabled={loadingSubscriber}
+                      onClick={toggleSubscription}
+                    >
+                      {loadingSubscriber && <Spinner className="w-4 h-4" />}
+                      {subscribed ? 'Unfollow' : 'Follow'}
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

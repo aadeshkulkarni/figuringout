@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import LeftArrowIcon from "./icons/LeftArrowIcon"
+import LeftArrowIcon from './icons/LeftArrowIcon';
 import RightArrowIcon from './icons/RightArrowIcon';
 import useFetchTopicTags from '../hooks/useFetchTopicTags';
 import SkeletonLoader from '../skeletons/TopicsSkeleton';
@@ -7,18 +7,17 @@ import AddTopicIcon from './icons/AddTopicIcon';
 import { useNavigate } from 'react-router-dom';
 
 interface topicProps {
-  selectedTopic:string,
-  setSelectedTopic:React.Dispatch<React.SetStateAction<string>>
+  selectedTopic: string;
+  setSelectedTopic: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const TopicsSlider: React.FC<topicProps> = ({selectedTopic,setSelectedTopic}:topicProps) => {
+const TopicsSlider: React.FC<topicProps> = ({ selectedTopic, setSelectedTopic }: topicProps) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const { tagOptions, loading } = useFetchTopicTags();
 
-  const navigate  = useNavigate();
+  const navigate = useNavigate();
 
   const [atStart, setAtStart] = useState(true);
-
 
   const scrollRight = () => {
     if (scrollContainerRef.current) {
@@ -45,8 +44,8 @@ const TopicsSlider: React.FC<topicProps> = ({selectedTopic,setSelectedTopic}:top
 
   const handleTopicClick = (value: string) => {
     setSelectedTopic(value);
-    
-    navigate(`/blogs?tag=${value}`)
+
+    navigate(`/blogs?tag=${value}`);
   };
 
   useEffect(() => {
@@ -59,8 +58,6 @@ const TopicsSlider: React.FC<topicProps> = ({selectedTopic,setSelectedTopic}:top
       }
     };
   }, []);
-
-  
 
   return (
     <div className="relative flex justify-center  items-center w-4/5 mx-auto pt-5 pb-5">

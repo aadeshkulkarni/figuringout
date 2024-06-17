@@ -19,11 +19,11 @@ const Hero = () => {
         </span>
       </Link>
       <div className="container-chevron pt-16 md:hidden">
-          <div className="chevron"></div>
-          <div className="chevron"></div>
-          <div className="chevron"></div>
-          <span className="text">Scroll down</span>
-        </div>
+        <div className="chevron"></div>
+        <div className="chevron"></div>
+        <div className="chevron"></div>
+        <span className="text">Scroll down</span>
+      </div>
     </div>
   );
 };

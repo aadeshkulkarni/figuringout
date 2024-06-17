@@ -14,7 +14,7 @@ export const useBlogs = () => {
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(0);
 
-  let [searchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const tagId = searchParams.get('tag');
 
   const resetPage = () => {
@@ -27,7 +27,6 @@ export const useBlogs = () => {
     if (tagId) {
       queryString = `tagId=${tagId}`;
     }
-
 
     const response = await axios.get(
       `${BACKEND_URL}/api/v1/blog/bulk?page=${page}&pageSize=${PAGE_SIZE}&${queryString}`
