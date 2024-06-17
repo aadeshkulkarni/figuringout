@@ -19,9 +19,9 @@ const useAutoSaveDraft = (name: string, getDraft: () => Content) => {
     const draft = { ...getDraft() };
     const currentDrafts = readDraftFromLocalStorage();
     currentDrafts[name] = draft;
-    currentDrafts[name] = undefined
+    currentDrafts[name] = undefined;
     localStorage.setItem(STORAGE_KEY.WRITE_DRAFT(user.id), JSON.stringify(currentDrafts));
-    await new Promise(resolve => setTimeout(resolve,500));
+    await new Promise((resolve) => setTimeout(resolve, 500));
     setLastSaved(Date.now());
     setIsSaving(false);
   }
@@ -52,7 +52,7 @@ const useAutoSaveDraft = (name: string, getDraft: () => Content) => {
     deleteDraft,
     lastSaved,
     isSaving,
-    userName: user.name || 'User'
+    userName: user.name || 'User',
   };
 };
 

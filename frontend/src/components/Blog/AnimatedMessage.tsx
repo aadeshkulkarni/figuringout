@@ -8,8 +8,8 @@ const messages = [
   "🎉 You've reached the end of the feed, but not the end of your journey! 🎉",
   "👏 You've successfully surfed the infinite wave of content. Time to ride the next one! 👏",
   "🚀 You've made it to the center of the content universe. Now, let's explore new galaxies! 🚀",
-  "🌟 No more content to load, but infinite possibilities await! Keep chasing your dreams..🌟",
-  "🎁 Bravo! You've reached the depths of the feed. Now, let's dive into something new! 🎁"
+  '🌟 No more content to load, but infinite possibilities await! Keep chasing your dreams..🌟',
+  "🎁 Bravo! You've reached the depths of the feed. Now, let's dive into something new! 🎁",
 ];
 
 const animations = [
@@ -50,17 +50,14 @@ const AnimatedMessage: React.FC<AnimatedMessageProps> = ({ showConfetti, onConfe
   }, [showConfetti, onConfettiComplete]);
 
   return (
-    <div style={{ position: 'relative', textAlign: 'center',marginTop: "20px", marginBottom: '60px' }}>
+    <div style={{ position: 'relative', textAlign: 'center', marginTop: '20px', marginBottom: '60px' }}>
       {confettiVisible && (
         <div style={{ position: 'absolute', top: -30, transform: 'translateX(-20%)' }}>
-          <Confetti width={width} height={100} recycle={false}
-          />
+          <Confetti width={width} height={100} recycle={false} />
         </div>
       )}
       <div className={`animate__animated ${randomAnimation}`}>
-        <p className="text-l pt-4 text-slate-700">
-          {randomMessage}
-        </p>
+        <p className="text-l pt-4 text-slate-700">{randomMessage}</p>
       </div>
     </div>
   );

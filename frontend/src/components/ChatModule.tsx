@@ -1,12 +1,23 @@
 import React, { useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useChat } from '../hooks/useChat';
+import SendIcon from './icons/SendIcon';
+import ResetIcon from './icons/ResetIcon';
+import { CHAT_LIMIT } from '../config';
+import { useBlog } from './../hooks';
 
-const ChatModule: React.FC<{ blogContent: string; blogTitle: string; userId: string | null; blogId: string }> = ({ blogContent, blogTitle, userId, blogId }) => {
+const ChatModule = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
-  const { messages, userInput, isLoading, setUserInput, sendMessage, resetChat, chatContainerRef } = useChat(blogContent, blogTitle, userId, blogId);
+  const { blog, loading } = useBlog({ id: id || '' });
+  const userId = localStorage.getItem('user');
+  const { messages, userInput, isLoading, setUserInput, sendMessage, resetChat, chatContainerRef } = useChat(
+    blog.content,
+    blog.title,
+    userId,
+    id || ''
+  );
   const inputRef = useRef<HTMLInputElement>(null);
-  const CHAT_LIMIT = 20; // This should match the limit in useChat.ts
 
   useEffect(() => {
     if (chatContainerRef.current) {
@@ -33,6 +44,10 @@ const ChatModule: React.FC<{ blogContent: string; blogTitle: string; userId: str
       sendMessage();
     }
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   if (!userId) {
     return (
@@ -71,7 +86,10 @@ const ChatModule: React.FC<{ blogContent: string; blogTitle: string; userId: str
         )}
       </div>
       <div className="flex items-center">
-        <form onSubmit={handleSubmit} className="flex-grow flex items-center bg-white rounded-full border border-gray-300 p-2 shadow-inner">
+        <form
+          onSubmit={handleSubmit}
+          className="flex-grow flex items-center bg-white rounded-full border border-gray-300 p-2 shadow-inner"
+        >
           <input
             type="text"
             ref={inputRef}
@@ -87,15 +105,14 @@ const ChatModule: React.FC<{ blogContent: string; blogTitle: string; userId: str
             className="bg-[#e2f2e9] p-2 rounded-full hover:bg-[#c0dfd3] transition-colors"
             disabled={isLoading || !userId || messages.length >= CHAT_LIMIT}
           >
-            <svg className="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-            </svg>
+            <SendIcon className="w-6 h-6 text-gray-500" />
           </button>
         </form>
-        <div className="ml-4 cursor-pointer p-3 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors" onClick={resetChat}>
-          <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 50 50">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M 25 2 C 12.309534 2 2 12.309534 2 25 C 2 37.690466 12.309534 48 25 48 C 37.690466 48 48 37.690466 48 25 A 1.0001 1.0001 0 1 0 46 25 C 46 36.609534 36.609534 46 25 46 C 13.390466 46 4 36.609534 4 25 C 4 13.390466 13.390466 4 25 4 C 31.692686 4 37.635193 7.130711 41.480469 12 L 35 12 A 1.0001 1.0001 0 1 0 35 14 L 43.449219 14 L 45 14 L 45 4 A 1.0001 1.0001 0 0 0 43.984375 2.9863281 A 1.0001 1.0001 0 0 0 43 4 L 43 10.699219 C 38.785186 5.4020866 32.287796 2 25 2 z"></path>
-          </svg>
+        <div
+          className="ml-4 cursor-pointer p-3 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors"
+          onClick={resetChat}
+        >
+          <ResetIcon className="w-6 h-6 text-gray-500" />
         </div>
       </div>
       <div className="text-sm text-gray-500 ml-5 mt-2">* Resetting the chat will delete the chat history.</div>

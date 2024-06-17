@@ -1,15 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { BACKEND_URL } from '../config';
+import { BACKEND_URL, CHAT_LIMIT } from '../config';
 import useLocalStorage from './useLocalStorage';
-
+import stripHtmlTags from '../util/stripHtmlTags';
 interface ChatMessage {
   role: 'user' | 'assistant';
   content: string;
 }
 
 const getChatHistoryKey = (userId: string, blogId: string) => `chatHistory_${userId}_${blogId}`;
-const CHAT_LIMIT = 20;
 
 export const useChat = (blogContent: string, blogTitle: string, userId: string | null, blogId: string) => {
   const chatHistoryKey = userId ? getChatHistoryKey(userId, blogId) : null;
@@ -23,13 +22,6 @@ export const useChat = (blogContent: string, blogTitle: string, userId: string |
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
   }, [messages]);
-
-  const stripHtmlTags = (html: string) => {
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = html;
-    return tempDiv.textContent || tempDiv.innerText || '';
-  };
-
   const sendMessage = async () => {
     if (!userInput.trim() || !userId || messages.length >= CHAT_LIMIT) return;
 

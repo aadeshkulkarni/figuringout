@@ -22,7 +22,10 @@ Quill.register('modules/customToolbar', function (quill: any) {
 });
 
 const Publish = () => {
-  const { draft, deleteDraft, lastSaved, isSaving, userName } = useAutoSaveDraft('new_article', () => ({ title, content }));
+  const { draft, deleteDraft, lastSaved, isSaving, userName } = useAutoSaveDraft('new_article', () => ({
+    title,
+    content,
+  }));
 
   const { generateBlog } = useAI();
   const [title, setTitle] = useState(draft?.title || '');
@@ -79,7 +82,7 @@ const Publish = () => {
       />
       <div className="flex flex-col gap-4 justify-center p-4 md:p-10 max-w-3xl m-auto">
         <div className="w-full">
-        <AutosaveIndicator lastSaved={lastSaved} isSaving={isSaving} userName={userName} />
+          <AutosaveIndicator lastSaved={lastSaved} isSaving={isSaving} userName={userName} />
           <AutogrowTextarea
             id="title"
             rows={1}
