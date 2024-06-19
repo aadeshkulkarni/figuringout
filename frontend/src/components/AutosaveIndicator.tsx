@@ -17,7 +17,7 @@ const AutosaveIndicator: React.FC<Props> = ({ lastSaved, isSaving, userName }) =
   if (!statusText) return null;
 
   return (
-    <div className="fixed top-24 left-38 transform -translate-y-2/3 text-gray-500 text-xs flex items-center gap-2 whitespace-nowrap md:mt-2">
+    <div className="h-8 max-h-8 text-gray-500 text-xs flex items-center gap-2 whitespace-nowrap md:mt-2">
       <span className="font-bold text-gray-800">Draft in {userName}</span>
       <span>·</span>
       <span>{statusText}</span>
