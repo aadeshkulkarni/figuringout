@@ -73,6 +73,7 @@ const Loader = () => (
 const ActionBox = () => {
   const navigate = useNavigate();
   const [openUnbookmarkModal, setOpenUnbookmarkModal] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
   const { id } = useParams();
   const { blog, loading, deleteBlog, bookmarkBlog, unbookmarkBlog, submittingBookmark, likeBlog } = useBlog({
@@ -101,6 +102,11 @@ const ActionBox = () => {
   const onConfirmUnbookmark = () => {
     unbookmarkBlog(blog.bookmarkId!);
     setOpenUnbookmarkModal(false);
+  };
+
+  const onConfirmDelete = () => {
+    deleteStory();
+    setOpenDeleteModal(false);
   };
 
   const beginEditStory = () => {
@@ -145,7 +151,7 @@ const ActionBox = () => {
             </Tooltip>
             <Tooltip message="Remove">
               <button
-                onClick={deleteStory}
+                onClick={() => setOpenDeleteModal(true)}
                 type="button"
                 name="delete-story"
                 className="focus:outline-none font-medium rounded-lg text-sm px-2"
@@ -161,6 +167,12 @@ const ActionBox = () => {
         openModal={openUnbookmarkModal}
         onConfirm={onConfirmUnbookmark}
         onCloseModal={() => setOpenUnbookmarkModal(false)}
+      />
+      <Modal
+        message={'Are you sure that you want to delete this post?'}
+        openModal={openDeleteModal}
+        onConfirm={onConfirmDelete}
+        onCloseModal={() => setOpenDeleteModal(false)}
       />
     </div>
   );
