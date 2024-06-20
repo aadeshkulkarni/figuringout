@@ -23,7 +23,6 @@ const youtube = google.youtube({
     auth: process.env.YOUTUBE_DATAAPI_KEY // Replace with your YouTube API key
 });
 
-console.log(process.env.GEMINI_API_KEY) //  --> undefinded
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY); // Replace with your Gemini API key
 const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 const query = selectedTopic;
