@@ -35,7 +35,7 @@ const Avatar = ({ name, onClick, size = 'medium', imageSrc }: AvatarProps) => {
       ) : (
         <>
           <span className={`font-medium ${textSize} text-gray-200 group-hover:text-gray-950 `}>
-            {name.split(' ')?.[0]?.[0]}
+            {name?.split(' ')?.[0]?.[0]}
             {name?.split(' ')?.[1]?.[0]}
           </span>
         </>
