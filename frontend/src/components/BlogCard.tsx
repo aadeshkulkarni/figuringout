@@ -4,6 +4,8 @@ import 'react-quill/dist/quill.bubble.css';
 import { formatDateString, getPlainTextFromHTML } from '../util/string';
 import Avatar from './Avatar';
 import { Pill } from './Pill';
+import ClapButton from './ClapButton';
+import { useBlog } from '../hooks';
 
 interface BlogCardProps {
   author: {
@@ -21,6 +23,9 @@ interface BlogCardProps {
 const BlogCard = ({ author, title, content, publishedDate, id, fullWidth, tagsOnPost }: BlogCardProps) => {
   // split and slice combination is added so that the string doesn't get trimmed in middle of a word
   const quillContent = getPlainTextFromHTML(content).split(' ')?.slice(0, 100).join(' ') + '...';
+  const { blog, likeBlog } = useBlog({
+    id: id || '',
+  });
 
   return (
     <Link
@@ -30,9 +35,14 @@ const BlogCard = ({ author, title, content, publishedDate, id, fullWidth, tagsOn
       <div className="order-2 flex flex-col md:order-none md:col-span-9 p-4 md:px-4">
         <div className="order-3 md:order-none flex items-center gap-4">
           <Avatar name={author?.name || ''} imageSrc={author?.profilePic} />
-          <div>
-            <span>{author?.name}</span> ·{' '}
-            <span className="text-sm text-slate-500">{formatDateString(publishedDate)}</span>
+          <div className="flex gap-1">
+            <div>
+              <span>{author?.name}</span> ·{' '}
+              <span className="text-sm text-slate-500">{formatDateString(publishedDate)}</span>
+            </div>
+            <span>
+              <ClapButton className="w-6 h-6" clapCount={blog?.claps?.length || 0} handleClap={likeBlog} />
+            </span>
           </div>
         </div>
         <div className="order-1 md:order-none text-xl font-bold pt-4">{title}</div>
