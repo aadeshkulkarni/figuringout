@@ -1,10 +1,17 @@
 import { Link } from 'react-router-dom';
+import TypewriterComponent from 'typewriter-effect';
 
 const Hero = () => {
   return (
-    <div className="w-screen h-[100vh] md:h-[40vh] bg-gradient-to-r from-emerald-500 to-emerald-800 flex flex-col justify-center items-center text-white">
-      <h1 className="text-4xl md:text-5xl tracking-wide font-extrabold text-center md:text-left drop-shadow-lg">
-        Stay Curious.
+    <div className="w-screen h-[100vh] md:h-[40vh] bg-gradient-to-r from-slate-800 via-zinc-700 to-gray-800 flex flex-col justify-center items-center text-white">
+      <h1 className="text-4xl md:pt-8 md:text-4xl tracking-wide font-extrabold text-center md:text-left drop-shadow-2xl">
+        <TypewriterComponent
+          options={{
+            strings: ['Stay Curious.', 'Stay hungry.', 'Stay fresh.', 'Introspect.'],
+            autoStart: true,
+            loop: true,
+          }}
+        />
       </h1>
       <h6 className="px-8 text-xl md:text-2xl tracking-wide font-light text-center md:text-left py-6 drop-shadow-lg">
         A place to read, write, and deepen your understanding.
