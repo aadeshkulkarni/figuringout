@@ -86,6 +86,40 @@ blogRouter.get("/search", async (c) => {
   }
 });
 
+blogRouter.get("/recommended", async (c) => {
+  try {
+    const prisma = getDBInstance(c);
+    const recommendedPosts = await prisma.clap.groupBy({
+      by: ["postId"],
+      _count: {
+        userId: true
+      },  
+      orderBy: {
+        _count: {
+          userId: "desc"
+        }
+      },
+      take: 5
+    });
+
+    const grps = await prisma.clap.groupBy({
+      by: ["postId"]
+    })
+    
+    const topFiveRecommendedPosts = recommendedPosts.map((post) => post.postId)
+    return c.json({
+      recommendedPosts: topFiveRecommendedPosts
+    });
+
+  } catch(error) {
+    console.log(error);
+    c.status(411);
+    return c.json({
+      message: "Error while fetching post",
+    });
+  }
+});
+
 blogRouter.get("/:id", async (c) => {
   try {
 		const prisma = getDBInstance(c);
