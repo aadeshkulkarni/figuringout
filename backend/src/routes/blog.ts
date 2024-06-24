@@ -102,15 +102,10 @@ blogRouter.get("/recommended", async (c) => {
       take: 5
     });
 
-    const grps = await prisma.clap.groupBy({
-      by: ["postId"]
-    })
-    
     const topFiveRecommendedPosts = recommendedPosts.map((post) => post.postId)
     return c.json({
       recommendedPosts: topFiveRecommendedPosts
     });
-
   } catch(error) {
     console.log(error);
     c.status(411);
