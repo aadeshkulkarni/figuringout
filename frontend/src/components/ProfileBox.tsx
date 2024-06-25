@@ -13,8 +13,7 @@ const ProfileBox = () => {
   const [show, setShow] = useState(false);
 
   const logout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    localStorage.clear();
     navigate('/');
   };
 
