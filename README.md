@@ -112,7 +112,13 @@ npm run dev
 
 ```
 
-> Note: `frontend/src/config.ts` contains `BACKEND_URL`. If you need your frontend to point to local backend server, uncomment `export const BACKEND_URL = "http://localhost:8787"`. 
+> Note: `frontend/src/config.ts` contains `BACKEND_URL`. If you need your frontend to point to local backend server, uncomment `export const BACKEND_URL = "http://localhost:8787"`.
+
+## Usage
+
+1. Login using any provided user credentials
+   - (email: `testuser1@example.com`, password: `A1test#1234`)
+   - (email: `testuser2@example.com`, password: `A1test#1234`)
 
 #### AI based Article content generation
 
