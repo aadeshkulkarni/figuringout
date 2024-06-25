@@ -89,7 +89,7 @@ blogRouter.get("/search", async (c) => {
 blogRouter.get("/recommended", async (c) => {
   try {
     const prisma = getDBInstance(c);
-    const recommendedPosts = await prisma.clap.groupBy({
+    const recommendedPostsIds = await prisma.clap.groupBy({
       by: ["postId"],
       _count: {
         userId: true
@@ -102,9 +102,17 @@ blogRouter.get("/recommended", async (c) => {
       take: 5
     });
 
-    const topFiveRecommendedPosts = recommendedPosts.map((post) => post.postId)
+    const topFiveRecommendedPostsIds = recommendedPostsIds.map((post) => post.postId)
+    const recommendedPosts = await prisma.post.findMany({
+      where: {
+        id: {
+          in: topFiveRecommendedPostsIds
+        }
+      }
+    });
+
     return c.json({
-      recommendedPosts: topFiveRecommendedPosts
+      recommendedPosts
     });
   } catch(error) {
     console.log(error);
