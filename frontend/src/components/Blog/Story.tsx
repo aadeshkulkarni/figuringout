@@ -1,10 +1,15 @@
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
+import ReactQuill from 'react-quill';
+import { toast } from 'react-toastify';
 import { useBlog } from './../../hooks';
 import { useNavigate, useParams } from 'react-router-dom';
 import BookmarkIcon from '../icons/Bookmark';
 import BookmarkSolid from '../icons/BookmarkSolid';
 import Tooltip from '../Tooltip';
 import Modal from '../Modal';
+import 'react-quill/dist/quill.bubble.css';
+import RemoveIcon from '../icons/Remove';
+import EditIcon from '../icons/Edit';
 import SingleBlogSkeleton from '../../skeletons/SingleBlogSkeleton';
 import { Tags } from '../Tags';
 import ClapButton from '../ClapButton';
@@ -13,18 +18,11 @@ import { formatDateString } from '../../util/string';
 import VoiceOver from '../VoiceOver';
 import { getPlainTextFromHTML } from '../../util/string';
 import ChatModule from '../ChatModule';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.bubble.css';
-import { toast } from 'react-toastify';
-import RemoveIcon from '../icons/Remove';
-import EditIcon from '../icons/Edit';
 
 const Story = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { blog, loading, isBookmarked, bookmarkBlog, unbookmarkBlog, bookmarkId } = useBlog({
-    id: id || '',
-  });
+  const { blog, loading } = useBlog({ id: id || '' });
 
   function handleClickOnAvatar() {
     navigate(`/profile/${blog?.author?.id}`);
@@ -49,11 +47,7 @@ const Story = () => {
           publishedDate={blog?.publishedDate}
           handleClickOnAvatar={handleClickOnAvatar}
         />
-        <ActionBox
-          isBookmarked={isBookmarked}
-          bookmarkBlog={bookmarkBlog}
-          unbookmarkBlog={() => unbookmarkBlog(bookmarkId!)}
-        />
+        <ActionBox />
         <div className="pt-4">
           <VoiceOver content={getPlainTextFromHTML(blog?.content)} />
         </div>
@@ -66,27 +60,24 @@ const Story = () => {
     </div>
   );
 };
-
-interface ActionBoxProps {
-  isBookmarked: boolean;
-  bookmarkBlog: () => Promise<void>;
-  unbookmarkBlog: (bookmarkId: string) => Promise<void>;
-}
-
-const ActionBox: React.FC<ActionBoxProps> = ({ isBookmarked, bookmarkBlog, unbookmarkBlog }) => {
+const ActionBox = () => {
   const navigate = useNavigate();
   const [openUnbookmarkModal, setOpenUnbookmarkModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const { id } = useParams();
-  const { blog, loading, deleteBlog, submittingBookmark, likeBlog, bookmarkId } = useBlog({
+  const { blog, deleteBlog, bookmarkBlog, unbookmarkBlog, likeBlog } = useBlog({
     id: id || '',
   });
-  const [bookmarking, setBookmarking] = useState(false);
-
-  if (loading) return null;
-
+  
+  const [bookmarked, setBookmarked] = useState(false);
   const user = JSON.parse(localStorage.getItem('user') || '{}') || {};
   const isAuthor = user?.id && user?.id === blog?.author?.id;
+
+  useEffect(() => {
+    if (blog?.bookmarks?.some((bookmark: any) => bookmark.id)) {
+      setBookmarked(true);
+    }
+  }, [blog?.bookmarks, user.id]);
 
   const deleteStory = async () => {
     if (id) {
@@ -96,18 +87,25 @@ const ActionBox: React.FC<ActionBoxProps> = ({ isBookmarked, bookmarkBlog, unboo
     }
   };
 
-  const bookmarkPost = async () => {
-    setBookmarking(true);
-    await bookmarkBlog();
-    setBookmarking(false);
-  };
-
-  const unbookmarkPost = () => {
-    setOpenUnbookmarkModal(true);
+  const handleBookmark = async () => {
+    if (bookmarked) {
+      setOpenUnbookmarkModal(true);
+    } else {
+      await bookmarkBlog();
+      setBookmarked(true);
+    }
   };
 
   const onConfirmUnbookmark = async () => {
-    await unbookmarkBlog(bookmarkId!);
+    const userBookmarks = blog.bookmarks?.filter((bookmark) => bookmark.id ) || [];
+    if (userBookmarks.length === 0) {
+      console.error("No bookmarks found for the user");
+      return;
+    }
+    for (const bookmark of userBookmarks) {
+      await unbookmarkBlog(bookmark.id);
+    }
+    setBookmarked(false);
     setOpenUnbookmarkModal(false);
   };
 
@@ -119,40 +117,17 @@ const ActionBox: React.FC<ActionBoxProps> = ({ isBookmarked, bookmarkBlog, unboo
   const beginEditStory = () => {
     navigate(`/edit/${blog.id}`);
   };
-
-  const determineBookmarkView = () => {
-    if (bookmarking || submittingBookmark) {
-      return (
-        <div className="w-10 h-10 p-2 cursor-pointer text-gray-400">
-          <BookmarkSolid />
-        </div>
-      );
-    }
-    if (!isBookmarked) {
-      return (
-        <Tooltip message="Save">
-          <div onClick={bookmarkPost} className="w-10 h-10 p-2 cursor-pointer">
-            <BookmarkIcon />
-          </div>
-        </Tooltip>
-      );
-    }
-    return (
-      <Tooltip message="Unsave">
-        <div onClick={unbookmarkPost} className="w-10 h-10 p-2 cursor-pointer text-gray-900">
-          <BookmarkSolid />
-        </div>
-      </Tooltip>
-    );
-  };
-
   return (
     <div className="text-slate-500 py-2 items-center justify-between flex border-y border-slate-200">
       <div className="text-sm">
         <ClapButton clapCount={blog?.claps?.length || 0} handleClap={likeBlog} />
       </div>
       <div className="flex justify-center items-center">
-        {determineBookmarkView()}
+        <Tooltip message={bookmarked ? "Unsave" : "Save"}>
+          <div onClick={handleBookmark} className="w-10 h-10 p-2 cursor-pointer">
+            {bookmarked ? <BookmarkSolid /> : <BookmarkIcon />}
+          </div>
+        </Tooltip>
         {isAuthor && (
           <>
             <Tooltip message="Edit">
@@ -220,5 +195,4 @@ const AuthorBox = ({
     </div>
   </div>
 );
-
 export default Story;

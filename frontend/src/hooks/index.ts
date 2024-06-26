@@ -77,7 +77,6 @@ export const useBlogs = () => {
 export const useBlog = ({ id }: { id: string }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-  const [submittingBookmark, setSubmittingBookmark] = useState(false);
   const [blog, setBlog] = useState<Post>({
     id: '',
     title: '',
@@ -92,13 +91,15 @@ export const useBlog = ({ id }: { id: string }) => {
     },
     claps: [],
     tagsOnPost: [],
+    bookmarks: [],
     published: true,
   });
-  const [isBookmarked, setIsBookmarked] = useState(false);
-  const [bookmarkId, setBookmarkId] = useState<string | null>(null);
 
   async function fetchBlog() {
     const token = localStorage.getItem('token');
+    // if (!token) {
+    //   navigate('/signup');
+    // }
     const response = await axios.get(`${BACKEND_URL}/api/v1/blog/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -106,14 +107,6 @@ export const useBlog = ({ id }: { id: string }) => {
     });
     setBlog(response.data.post);
     setLoading(false);
-
-    const bookmarkResponse = await axios.get(`${BACKEND_URL}/api/v1/bookmark/check/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    setIsBookmarked(bookmarkResponse.data.isBookmarked);
-    setBookmarkId(bookmarkResponse.data.bookmarkId);
   }
 
   useEffect(() => {
@@ -166,7 +159,6 @@ export const useBlog = ({ id }: { id: string }) => {
     if (!token) {
       navigate('/signin');
     }
-    setSubmittingBookmark(true);
     try {
       const response = await axios.post(
         `${BACKEND_URL}/api/v1/bookmark`,
@@ -179,13 +171,10 @@ export const useBlog = ({ id }: { id: string }) => {
           },
         }
       );
-      setIsBookmarked(true);
-      setBookmarkId(response.data.id);
+      fetchBlog();
       return response.data;
     } catch (e) {
       return { error: 'An error has occurred trying to bookmark the blog' };
-    } finally {
-      setSubmittingBookmark(false);
     }
   }
 
@@ -194,20 +183,16 @@ export const useBlog = ({ id }: { id: string }) => {
     if (!token) {
       navigate('/signin');
     }
-    setSubmittingBookmark(true);
     try {
       const response = await axios.delete(`${BACKEND_URL}/api/v1/bookmark/${bookmarkId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      setIsBookmarked(false);
-      setBookmarkId(null);
+      fetchBlog();
       return response.data;
     } catch (e) {
       return { error: 'An error has occurred trying to unbookmark the blog' };
-    } finally {
-      setSubmittingBookmark(false);
     }
   }
 
@@ -238,14 +223,11 @@ export const useBlog = ({ id }: { id: string }) => {
   return {
     loading,
     blog,
-    submittingBookmark,
     deleteBlog,
     editBlog,
     bookmarkBlog,
     unbookmarkBlog,
     likeBlog,
-    isBookmarked,
-    bookmarkId,
   };
 };
 
