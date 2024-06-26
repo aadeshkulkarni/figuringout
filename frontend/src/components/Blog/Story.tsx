@@ -1,15 +1,10 @@
-import { useState, useEffect } from 'react';
-import ReactQuill from 'react-quill';
-import { toast } from 'react-toastify';
+import { useState } from 'react';
 import { useBlog } from './../../hooks';
 import { useNavigate, useParams } from 'react-router-dom';
 import BookmarkIcon from '../icons/Bookmark';
 import BookmarkSolid from '../icons/BookmarkSolid';
 import Tooltip from '../Tooltip';
 import Modal from '../Modal';
-import 'react-quill/dist/quill.bubble.css';
-import RemoveIcon from '../icons/Remove';
-import EditIcon from '../icons/Edit';
 import SingleBlogSkeleton from '../../skeletons/SingleBlogSkeleton';
 import { Tags } from '../Tags';
 import ClapButton from '../ClapButton';
@@ -18,21 +13,19 @@ import { formatDateString } from '../../util/string';
 import VoiceOver from '../VoiceOver';
 import { getPlainTextFromHTML } from '../../util/string';
 import ChatModule from '../ChatModule';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.bubble.css';
+import { toast } from 'react-toastify';
+import RemoveIcon from '../icons/Remove';
+import EditIcon from '../icons/Edit';
 
 const Story = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { blog, loading } = useBlog({
+  const { blog, loading, isBookmarked, bookmarkBlog, unbookmarkBlog, bookmarkId } = useBlog({
     id: id || '',
   });
 
-  const [isBookmarked, setIsBookmarked] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (blog && blog.bookmarkId !== undefined) {
-      setIsBookmarked(!!blog.bookmarkId);
-    }
-  }, [blog]);
   function handleClickOnAvatar() {
     navigate(`/profile/${blog?.author?.id}`);
   }
@@ -56,7 +49,11 @@ const Story = () => {
           publishedDate={blog?.publishedDate}
           handleClickOnAvatar={handleClickOnAvatar}
         />
-        <ActionBox isBookmarked={isBookmarked} setIsBookmarked={setIsBookmarked} />
+        <ActionBox
+          isBookmarked={isBookmarked}
+          bookmarkBlog={bookmarkBlog}
+          unbookmarkBlog={() => unbookmarkBlog(bookmarkId!)}
+        />
         <div className="pt-4">
           <VoiceOver content={getPlainTextFromHTML(blog?.content)} />
         </div>
@@ -72,15 +69,16 @@ const Story = () => {
 
 interface ActionBoxProps {
   isBookmarked: boolean;
-  setIsBookmarked: React.Dispatch<React.SetStateAction<boolean>>;
+  bookmarkBlog: () => Promise<void>;
+  unbookmarkBlog: (bookmarkId: string) => Promise<void>;
 }
 
-const ActionBox: React.FC<ActionBoxProps> = ({ isBookmarked, setIsBookmarked }) => {
+const ActionBox: React.FC<ActionBoxProps> = ({ isBookmarked, bookmarkBlog, unbookmarkBlog }) => {
   const navigate = useNavigate();
   const [openUnbookmarkModal, setOpenUnbookmarkModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const { id } = useParams();
-  const { blog, loading, deleteBlog, bookmarkBlog, unbookmarkBlog, submittingBookmark, likeBlog } = useBlog({
+  const { blog, loading, deleteBlog, submittingBookmark, likeBlog, bookmarkId } = useBlog({
     id: id || '',
   });
   const [bookmarking, setBookmarking] = useState(false);
@@ -101,7 +99,6 @@ const ActionBox: React.FC<ActionBoxProps> = ({ isBookmarked, setIsBookmarked }) 
   const bookmarkPost = async () => {
     setBookmarking(true);
     await bookmarkBlog();
-    setIsBookmarked(true);
     setBookmarking(false);
   };
 
@@ -110,8 +107,7 @@ const ActionBox: React.FC<ActionBoxProps> = ({ isBookmarked, setIsBookmarked }) 
   };
 
   const onConfirmUnbookmark = async () => {
-    await unbookmarkBlog(blog.bookmarkId!);
-    setIsBookmarked(false);
+    await unbookmarkBlog(bookmarkId!);
     setOpenUnbookmarkModal(false);
   };
 

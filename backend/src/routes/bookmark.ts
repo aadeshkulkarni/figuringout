@@ -122,13 +122,55 @@ bookmarkRouter.delete("/:id", async (c) => {
   }
 
   try {
-    const bookmark = await prisma.bookmark.delete({
+    const bookmark = await prisma.bookmark.findUnique({
       where: {
         id: bookmarkId,
       },
     });
+    if(!bookmark){
+      c.status(404);
+      return c.json({
+        error: "Bookmark not found",
+      });
+    }
+    await prisma.bookmark.delete({
+      where: { id: bookmarkId },
+    });
+    
     return c.json({
       id: bookmark.id,
+    });
+  } catch (ex) {
+    console.log("ERROR ", ex);
+    c.status(500);
+    return c.json({ error: "Something went wrong " });
+  }
+});
+bookmarkRouter.get("/check/:blogId", async (c) => {
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL,
+  }).$extends(withAccelerate());
+  const userId = c.get("userId");
+  const blogId = c.req.param("blogId");
+
+  if (!userId || !blogId) {
+    c.status(400);
+    return c.json({
+      message: "Inputs incorrect",
+    });
+  }
+
+  try {
+    const bookmark = await prisma.bookmark.findFirst({
+      where: {
+        userId,
+        postId: blogId,
+      },
+    });
+
+    return c.json({
+      isBookmarked: bookmark,
+      bookmarkId: bookmark ? bookmark.id : null,
     });
   } catch (ex) {
     console.log("ERROR ", ex);

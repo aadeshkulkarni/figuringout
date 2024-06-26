@@ -94,12 +94,11 @@ export const useBlog = ({ id }: { id: string }) => {
     tagsOnPost: [],
     published: true,
   });
+  const [isBookmarked, setIsBookmarked] = useState(false);
+  const [bookmarkId, setBookmarkId] = useState<string | null>(null);
 
   async function fetchBlog() {
     const token = localStorage.getItem('token');
-    // if (!token) {
-    //   navigate('/signup');
-    // }
     const response = await axios.get(`${BACKEND_URL}/api/v1/blog/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -107,6 +106,14 @@ export const useBlog = ({ id }: { id: string }) => {
     });
     setBlog(response.data.post);
     setLoading(false);
+
+    const bookmarkResponse = await axios.get(`${BACKEND_URL}/api/v1/bookmark/check/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    setIsBookmarked(bookmarkResponse.data.isBookmarked);
+    setBookmarkId(bookmarkResponse.data.bookmarkId);
   }
 
   useEffect(() => {
@@ -148,7 +155,7 @@ export const useBlog = ({ id }: { id: string }) => {
       );
       return response.data;
     } catch (e) {
-      return { error: 'An error has occured trying to edit the blog' };
+      return { error: 'An error has occurred trying to edit the blog' };
     } finally {
       setLoading(false);
     }
@@ -172,10 +179,11 @@ export const useBlog = ({ id }: { id: string }) => {
           },
         }
       );
-      fetchBlog();
+      setIsBookmarked(true);
+      setBookmarkId(response.data.id);
       return response.data;
     } catch (e) {
-      return { error: 'An error has occured trying to edit the blog' };
+      return { error: 'An error has occurred trying to bookmark the blog' };
     } finally {
       setSubmittingBookmark(false);
     }
@@ -193,10 +201,11 @@ export const useBlog = ({ id }: { id: string }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      fetchBlog();
+      setIsBookmarked(false);
+      setBookmarkId(null);
       return response.data;
     } catch (e) {
-      return { error: 'An error has occured trying to edit the blog' };
+      return { error: 'An error has occurred trying to unbookmark the blog' };
     } finally {
       setSubmittingBookmark(false);
     }
@@ -222,7 +231,7 @@ export const useBlog = ({ id }: { id: string }) => {
       fetchBlog();
       return response.data;
     } catch (e) {
-      return { error: 'An error has occured trying to edit the blog' };
+      return { error: 'An error has occurred trying to like the blog' };
     }
   }
 
@@ -235,6 +244,8 @@ export const useBlog = ({ id }: { id: string }) => {
     bookmarkBlog,
     unbookmarkBlog,
     likeBlog,
+    isBookmarked,
+    bookmarkId,
   };
 };
 
