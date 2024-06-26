@@ -31,8 +31,10 @@ const Publish = () => {
   const [title, setTitle] = useState(draft?.title || '');
   const [content, setContent] = useState(draft?.content || '');
   const [blogId, setBlogId] = useState('');
-
+  const [titleLengthExceededErrorShown, setTitleLengthExceededErrorShown] = useState(false);
   const writingPadRef = useRef<ReactQuill>(null);
+
+  const MAX_TITLE_LENGTH = 100;
 
   async function publishArticle() {
     if (title.trim() && content.trim()) {
@@ -65,6 +67,20 @@ const Publish = () => {
     setContent(generation.article);
   }
 
+  const handleTitleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    let newTitle = e.target.value;
+    if (newTitle.length > MAX_TITLE_LENGTH) {
+      newTitle = newTitle.slice(0, MAX_TITLE_LENGTH);
+      if (!titleLengthExceededErrorShown) {
+        toast.error(`Title cannot exceed ${MAX_TITLE_LENGTH} characters`);
+        setTitleLengthExceededErrorShown(true);
+      }
+    } else {
+      setTitleLengthExceededErrorShown(false);
+    }
+    setTitle(newTitle);
+  };
+
   const handleTitleKeyUp = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter') writingPadRef.current?.focus();
   };
@@ -91,7 +107,7 @@ const Publish = () => {
             required
             autoFocus
             value={title}
-            onChange={(e) => setTitle((e.target as HTMLTextAreaElement).value)}
+            onChange={handleTitleChange}
             onKeyUp={handleTitleKeyUp}
           ></AutogrowTextarea>
         </div>
