@@ -19,7 +19,7 @@ tagRouter.get("/", async (c) => {
 		const prisma = new PrismaClient({
 			datasourceUrl: c.env.DATABASE_URL,
 		}).$extends(withAccelerate());
-
+		
 		let query: any = {
 			select: {
 				id: true,
@@ -35,6 +35,45 @@ tagRouter.get("/", async (c) => {
 		c.status(411);
 		return c.json({
 			message: "Something went wrong while fetching tags.",
+		});
+	}
+});
+
+tagRouter.get("/recommended", async (c) => {
+	try {
+		const prisma = new PrismaClient({
+			datasourceUrl: c.env.DATABASE_URL,
+		}).$extends(withAccelerate());
+
+		const topTags = await prisma.tagsOnPost.groupBy({
+			by: ["tagId"],
+			_count: {
+				postId: true
+			}, 
+			orderBy: {
+				_count: {
+					postId: 'desc',
+				}
+			},
+			take: 5
+		});
+
+		const topFiveTagsIds = topTags.map((t) => t.tagId)
+		const topfiveTags = await prisma.tag.findMany({
+			where: {
+				id: {
+					in: topFiveTagsIds
+				}
+			}
+		});
+		return c.json({
+			topfiveTags
+		});
+	} catch (error) {
+		console.log(error)
+		c.status(411);
+		return c.json({
+			message: "Something went wrong while fetching tags."
 		});
 	}
 });
@@ -91,3 +130,4 @@ tagRouter.post("/link", async (c) => {
 		});
 	}
 });
+
