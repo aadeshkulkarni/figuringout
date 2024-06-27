@@ -59,7 +59,7 @@ const UserAboutTab = () => {
                 <div className="flex justify-start items-start gap-4">
                   <Avatar size="large" name={editName} imageSrc={preview || currentUser.profilePic} />
                 </div>
-                <div className="mx-4">
+                <div className="mx-4 sm:w-fit w-[66%]">
                   <div>
                     <button
                       type="button"

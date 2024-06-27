@@ -122,11 +122,21 @@ bookmarkRouter.delete("/:id", async (c) => {
   }
 
   try {
-    const bookmark = await prisma.bookmark.delete({
+    const bookmark = await prisma.bookmark.findUnique({
       where: {
         id: bookmarkId,
       },
     });
+    if(!bookmark){
+      c.status(404);
+      return c.json({
+        error: "Bookmark not found",
+      });
+    }
+    await prisma.bookmark.delete({
+      where: { id: bookmarkId },
+    });
+    
     return c.json({
       id: bookmark.id,
     });
