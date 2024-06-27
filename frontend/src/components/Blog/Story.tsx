@@ -39,7 +39,7 @@ const Story = () => {
   return (
     <div className="flex flex-col justify-center items-center p-4 md:px-10">
       <div className="p-4 max-w-[680px]">
-        <div className="text-xl md:text-4xl font-extrabold py-4 line-clamp-4">{blog?.title}</div>
+        <div className="text-xl md:text-4xl font-extrabold py-4">{blog?.title}</div>
         <AuthorBox
           name={blog?.author?.name}
           details={blog?.author?.details}
