@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import { Hono } from "hono";
 import { sign, verify } from "hono/jwt";
+import { getDBInstance } from "../db/util";
 
 export const tagRouter = new Hono<{
 	Bindings: {
@@ -40,9 +41,7 @@ tagRouter.get("/", async (c) => {
 
 tagRouter.get("/recommended", async (c) => {
 	try {
-		const prisma = new PrismaClient({
-			datasourceUrl: c.env.DATABASE_URL,
-		}).$extends(withAccelerate());
+		const prisma = getDBInstance(c);
 
 		const topTags = await prisma.tagsOnPost.groupBy({
 			by: ["tagId"],
