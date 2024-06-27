@@ -19,7 +19,6 @@ tagRouter.get("/", async (c) => {
 		const prisma = new PrismaClient({
 			datasourceUrl: c.env.DATABASE_URL,
 		}).$extends(withAccelerate());
-		
 		let query: any = {
 			select: {
 				id: true,
