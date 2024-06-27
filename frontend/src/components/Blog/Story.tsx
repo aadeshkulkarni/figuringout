@@ -1,7 +1,6 @@
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import ReactQuill from 'react-quill';
 import { toast } from 'react-toastify';
-import Spinner from '../Spinner';
 import { useBlog } from './../../hooks';
 import { useNavigate, useParams } from 'react-router-dom';
 import BookmarkIcon from '../icons/Bookmark';
@@ -23,9 +22,7 @@ import ChatModule from '../ChatModule';
 const Story = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { blog, loading } = useBlog({
-    id: id || '',
-  });
+  const { blog, loading } = useBlog({ id: id || '' });
 
   function handleClickOnAvatar() {
     navigate(`/profile/${blog?.author?.id}`);
@@ -42,7 +39,7 @@ const Story = () => {
   return (
     <div className="flex flex-col justify-center items-center p-4 md:px-10">
       <div className="p-4 max-w-[680px]">
-        <div className="text-xl md:text-4xl font-extrabold py-4 line-clamp-4">{blog?.title}</div>
+        <div className="text-xl md:text-4xl font-extrabold py-4">{blog?.title}</div>
         <AuthorBox
           name={blog?.author?.name}
           details={blog?.author?.details}
@@ -63,25 +60,24 @@ const Story = () => {
     </div>
   );
 };
-
-const Loader = () => (
-  <div className="w-screen h-screen flex justify-center items-center">
-    <Spinner />
-  </div>
-);
-
 const ActionBox = () => {
   const navigate = useNavigate();
   const [openUnbookmarkModal, setOpenUnbookmarkModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
-
   const { id } = useParams();
-  const { blog, loading, deleteBlog, bookmarkBlog, unbookmarkBlog, submittingBookmark, likeBlog } = useBlog({
+  const { blog, deleteBlog, bookmarkBlog, unbookmarkBlog, likeBlog } = useBlog({
     id: id || '',
   });
-  if (loading) <Loader />;
+  
+  const [bookmarked, setBookmarked] = useState(false);
   const user = JSON.parse(localStorage.getItem('user') || '{}') || {};
   const isAuthor = user?.id && user?.id === blog?.author?.id;
+
+  useEffect(() => {
+    if (blog?.bookmarks?.some((bookmark: any) => bookmark.id)) {
+      setBookmarked(true);
+    }
+  }, [blog?.bookmarks, user.id]);
 
   const deleteStory = async () => {
     if (id) {
@@ -91,16 +87,25 @@ const ActionBox = () => {
     }
   };
 
-  const bookmarkPost = () => {
-    bookmarkBlog();
+  const handleBookmark = async () => {
+    if (bookmarked) {
+      setOpenUnbookmarkModal(true);
+    } else {
+      await bookmarkBlog();
+      setBookmarked(true);
+    }
   };
 
-  const unbookmarkPost = () => {
-    setOpenUnbookmarkModal(true);
-  };
-
-  const onConfirmUnbookmark = () => {
-    unbookmarkBlog(blog.bookmarkId!);
+  const onConfirmUnbookmark = async () => {
+    const userBookmarks = blog.bookmarks?.filter((bookmark) => bookmark.id ) || [];
+    if (userBookmarks.length === 0) {
+      console.error("No bookmarks found for the user");
+      return;
+    }
+    for (const bookmark of userBookmarks) {
+      await unbookmarkBlog(bookmark.id);
+    }
+    setBookmarked(false);
     setOpenUnbookmarkModal(false);
   };
 
@@ -112,31 +117,17 @@ const ActionBox = () => {
   const beginEditStory = () => {
     navigate(`/edit/${blog.id}`);
   };
-
-  const determineBookmarkView = () => {
-    if (submittingBookmark) {
-      return <Spinner />;
-    }
-    if (!blog.bookmarkId) {
-      return (
-        <Tooltip message="Save">
-          <BookmarkIcon onClickIcon={bookmarkPost} className="w-10 h-10 p-2 cursor-pointer" />
-        </Tooltip>
-      );
-    }
-    return (
-      <Tooltip message="Unsave">
-        <BookmarkSolid onClickIcon={unbookmarkPost} className="w-10 h-10 p-2 cursor-pointer" />
-      </Tooltip>
-    );
-  };
   return (
     <div className="text-slate-500 py-2 items-center justify-between flex border-y border-slate-200">
       <div className="text-sm">
         <ClapButton clapCount={blog?.claps?.length || 0} handleClap={likeBlog} />
       </div>
       <div className="flex justify-center items-center">
-        {determineBookmarkView()}
+        <Tooltip message={bookmarked ? "Unsave" : "Save"}>
+          <div onClick={handleBookmark} className="w-10 h-10 p-2 cursor-pointer">
+            {bookmarked ? <BookmarkSolid /> : <BookmarkIcon />}
+          </div>
+        </Tooltip>
         {isAuthor && (
           <>
             <Tooltip message="Edit">

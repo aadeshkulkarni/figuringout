@@ -77,7 +77,6 @@ export const useBlogs = () => {
 export const useBlog = ({ id }: { id: string }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-  const [submittingBookmark, setSubmittingBookmark] = useState(false);
   const [blog, setBlog] = useState<Post>({
     id: '',
     title: '',
@@ -92,6 +91,7 @@ export const useBlog = ({ id }: { id: string }) => {
     },
     claps: [],
     tagsOnPost: [],
+    bookmarks: [],
     published: true,
   });
 
@@ -148,7 +148,7 @@ export const useBlog = ({ id }: { id: string }) => {
       );
       return response.data;
     } catch (e) {
-      return { error: 'An error has occured trying to edit the blog' };
+      return { error: 'An error has occurred trying to edit the blog' };
     } finally {
       setLoading(false);
     }
@@ -159,7 +159,6 @@ export const useBlog = ({ id }: { id: string }) => {
     if (!token) {
       navigate('/signin');
     }
-    setSubmittingBookmark(true);
     try {
       const response = await axios.post(
         `${BACKEND_URL}/api/v1/bookmark`,
@@ -175,9 +174,7 @@ export const useBlog = ({ id }: { id: string }) => {
       fetchBlog();
       return response.data;
     } catch (e) {
-      return { error: 'An error has occured trying to edit the blog' };
-    } finally {
-      setSubmittingBookmark(false);
+      return { error: 'An error has occurred trying to bookmark the blog' };
     }
   }
 
@@ -186,7 +183,6 @@ export const useBlog = ({ id }: { id: string }) => {
     if (!token) {
       navigate('/signin');
     }
-    setSubmittingBookmark(true);
     try {
       const response = await axios.delete(`${BACKEND_URL}/api/v1/bookmark/${bookmarkId}`, {
         headers: {
@@ -196,9 +192,7 @@ export const useBlog = ({ id }: { id: string }) => {
       fetchBlog();
       return response.data;
     } catch (e) {
-      return { error: 'An error has occured trying to edit the blog' };
-    } finally {
-      setSubmittingBookmark(false);
+      return { error: 'An error has occurred trying to unbookmark the blog' };
     }
   }
 
@@ -222,14 +216,13 @@ export const useBlog = ({ id }: { id: string }) => {
       fetchBlog();
       return response.data;
     } catch (e) {
-      return { error: 'An error has occured trying to edit the blog' };
+      return { error: 'An error has occurred trying to like the blog' };
     }
   }
 
   return {
     loading,
     blog,
-    submittingBookmark,
     deleteBlog,
     editBlog,
     bookmarkBlog,
