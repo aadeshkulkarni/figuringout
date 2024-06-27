@@ -15,6 +15,7 @@ import { htmlTagRegex } from '../util/string';
 import useAutoSaveDraft from '../hooks/useAutoSaveDraft';
 import { videoHandler, modules } from '../util/videoHandler';
 import AutosaveIndicator from '../components/AutosaveIndicator';
+import { MAX_TITLE_LENGTH } from '../config';
 
 // Register the custom video handler with Quill toolbar
 Quill.register('modules/customToolbar', function (quill: any) {
@@ -33,8 +34,6 @@ const Publish = () => {
   const [blogId, setBlogId] = useState('');
   const [titleLengthExceededErrorShown, setTitleLengthExceededErrorShown] = useState(false);
   const writingPadRef = useRef<ReactQuill>(null);
-
-  const MAX_TITLE_LENGTH = 100;
 
   async function publishArticle() {
     if (title.trim() && content.trim()) {
