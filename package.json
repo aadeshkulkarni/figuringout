@@ -2,7 +2,8 @@
   "name": "figuringout",
   "version": "1.0.0",
   "scripts": {
-    "dev": "concurrently --prefix \"[{name}]\" --names \"backend,frontend\" -c \"blue,green\" \"cd backend && npm run dev \" \"cd frontend && npm run dev\" "
+    "dev": "concurrently --prefix \"[{name}]\" --names \"backend,frontend\" -c \"blue,green\" \"cd backend && npm run dev \" \"cd frontend && npm run dev\" ",
+    "install:all": "concurrently --prefix \"[{name}]\" --names \"backend-install,frontend-install\" -c \"blue,green\" \"cd backend && npm install \" \"cd frontend && npm install\" "
   },
   "license": "MIT",
   "devDependencies": {

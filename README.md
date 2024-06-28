@@ -125,6 +125,10 @@ To make the developer experience smoother, you can now run both the frontend and
    ```sh
    npm install
    ```
+- Insall both frontend and backend pakages with
+   ```sh
+   npm install:all
+   ```
 - Now you can simply run:
    ```sh
    npm run dev
