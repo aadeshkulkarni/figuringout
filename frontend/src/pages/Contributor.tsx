@@ -36,7 +36,7 @@ const Contributors: React.FC = () => {
       <>
         <Appbar skipAuthCheck={true} />
         <div className="container mx-auto p-4">
-          <h1 className="text-2xl font-bold mb-8">Contributors</h1>
+          <h1 className="text-2xl font-bold mb-8 text-center">Contributors</h1>
           <SkeletonContributorGrid />
         </div>
       </>
@@ -86,9 +86,11 @@ const ContributorCard = ({ contributor }: { contributor: ContributorProp }) => {
     >
       <img src={contributor?.avatar_url} alt={contributor?.login} className="w-full  object-cover" />
       <div className="text-left p-2">
-        <h2 className="text-lg font-medium">{contributor.login}</h2>
+        <h2 className="text-lg font-medium text-nowrap overflow-hidden text-ellipsis">{contributor.login}</h2>
         <h2>Developer</h2>
-        <p className="text-gray-600">{contributor?.contributions} contributions</p>
+        <p className="text-gray-600 text-nowrap overflow-hidden text-ellipsis">
+          {contributor?.contributions} contributions
+        </p>
       </div>
     </a>
   );
