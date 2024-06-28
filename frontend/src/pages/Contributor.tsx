@@ -31,25 +31,13 @@ const Contributors: React.FC = () => {
     fetchData();
   }, []);
 
-  if (loading) {
-    return (
-      <>
-        <Appbar skipAuthCheck={true} />
-        <div className="container mx-auto p-4">
-          <h1 className="text-2xl font-bold mb-8 text-center">Contributors</h1>
-          <SkeletonContributorGrid />
-        </div>
-      </>
-    );
-  }
-
   return (
     <>
       <Appbar skipAuthCheck={true} />
       <ContributionNotification />
       <div className="p-4 flex flex-col justify-center items-center w-screen">
         <h1 className="text-2xl mb-4">Contributors</h1>
-        <ContributorsList contributors={contributors} />
+        {loading ? <SkeletonContributorGrid /> : <ContributorsList contributors={contributors} />}
       </div>
     </>
   );
