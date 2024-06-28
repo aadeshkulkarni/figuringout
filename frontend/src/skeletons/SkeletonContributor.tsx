@@ -1,6 +1,6 @@
 const SkeletonContributorGrid: React.FC = () => {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <div className="md:w-3/5 mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       {[...Array(12)].map((_, index) => (
         <SkeletonContributor key={index} />
       ))}
