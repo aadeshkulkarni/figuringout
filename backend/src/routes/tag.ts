@@ -17,9 +17,8 @@ export const tagRouter = new Hono<{
 
 tagRouter.get("/", async (c) => {
 	try {
-		const prisma = new PrismaClient({
-			datasourceUrl: c.env.DATABASE_URL,
-		}).$extends(withAccelerate());
+		const prisma = getDBInstance(c);
+
 		let query: any = {
 			select: {
 				id: true,
@@ -98,9 +97,7 @@ tagRouter.use("/*", async (c, next) => {
 
 tagRouter.post("/link", async (c) => {
 	try {
-		const prisma = new PrismaClient({
-			datasourceUrl: c.env.DATABASE_URL,
-		}).$extends(withAccelerate());
+		const prisma = getDBInstance(c);
 		const body = await c.req.json();
 		const { postId, tags } = body;
 
