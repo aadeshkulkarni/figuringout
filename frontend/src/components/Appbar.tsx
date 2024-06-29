@@ -2,6 +2,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import WriteIcon from './icons/Write';
 import ProfileBox from './ProfileBox';
 import Search from './Search';
+import { ModeToggle } from './ui/mode-toggle';
 
 interface AppbarProps {
   skipAuthCheck?: boolean;
@@ -31,7 +32,7 @@ const Appbar = ({ skipAuthCheck = false, pageActions, hideWriteAction = false }:
         </Link>
         <Search />
       </div>
-
+      <ModeToggle />
       <div className="flex items-center gap-1">
         {pathname === '/' && (
           <Link

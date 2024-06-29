@@ -9,9 +9,11 @@ import Edit from './pages/Edit';
 import Bookmarks from './pages/Bookmarks';
 import User from './pages/User';
 import Contributor from './pages/Contributor';
+import { ThemeProvider } from "@/components/theme-provider"
 
 function App() {
   return (
+    <ThemeProvider>
     <BrowserRouter>
       <Routes>
         <Route path="/signup" element={<Signup />} />
@@ -26,6 +28,7 @@ function App() {
         <Route path="/" element={<Home />} />
       </Routes>
     </BrowserRouter>
+    </ThemeProvider>
   );
 }
 
