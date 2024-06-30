@@ -26,8 +26,8 @@ const Appbar = ({ skipAuthCheck = false, pageActions, hideWriteAction = false }:
     >
       <div className="flex justify-center items-center gap-4">
         <Link to="/" className="text-lg md:text-xl font-medium">
-          <span className="text-gray-700">Figuring</span>
-          <span className="text-black">out</span>
+          <span className="text-gray-500">Figuring</span>
+          <span className="text-slate-700">out</span>
           <span className="text-green-700">.Life</span>
         </Link>
         <Search />

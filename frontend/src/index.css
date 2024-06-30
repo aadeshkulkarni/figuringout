@@ -75,7 +75,8 @@
     }
   }
 
-  /* The base text and background. Use this instead of writing css properties in css*/
+  /* The base text and background with sub text and background
+    Use this instead of writing css properties*/
 
   @layer utilities { 
     .text-main {
@@ -93,5 +94,11 @@
     .bg-sub {
       @apply bg-gray-100 dark:bg-slate-900;
     }
+
+   /* Ensures the custom style is specific enough to override default Quill styles */
+    .custom-quill .ql-editor.ql-blank::before {
+  color: gray; /* Change this to your desired placeholder color */
+  opacity: 1;   /* Ensures the placeholder text is visible */
+}
  
   }
