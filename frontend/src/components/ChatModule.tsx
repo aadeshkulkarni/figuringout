@@ -51,9 +51,9 @@ const ChatModule = () => {
 
   if (!userId) {
     return (
-      <div className="mt-8 p-6 bg-white rounded-lg max-w-3xl mx-auto">
+      <div className="mt-8 p-6 bg-main rounded-lg max-w-3xl mx-auto border">
         <hr className="mb-4 border-gray-300" />
-        <div className="text-2xl font-semibold mb-4 text-gray-800">Please sign in to ask questions to AI✨</div>
+        <div className="text-2xl font-semibold mb-4 text-main">Please sign in to ask questions to AI✨</div>
         <button
           onClick={() => navigate('/signin')}
           className="ml-3 bg-[#0a8660] text-white p-2 rounded-lg hover:bg-[#374151] transition-colors"
