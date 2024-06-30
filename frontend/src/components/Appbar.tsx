@@ -10,9 +10,9 @@ interface AppbarProps {
   skipAuthCheck?: boolean;
   pageActions?: JSX.Element;
   hideWriteAction?: boolean;
-  shouldSnapCenter: string;
-  pathname: string;
-  isUserLoggedIn: boolean;
+  shouldSnapCenter?: string;
+  pathname?: string;
+  isUserLoggedIn?: boolean;
 }
 
 const Appbar = ({ skipAuthCheck = false, pageActions, hideWriteAction = false }: AppbarProps) => {
