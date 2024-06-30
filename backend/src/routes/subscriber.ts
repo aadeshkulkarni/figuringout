@@ -14,6 +14,50 @@ export const subscriberRouter = new Hono<{
   };
 }>();
 
+subscriberRouter.get("/recommended", async  (c) => {
+  try {
+    const prisma = getDBInstance(c);
+    const mostSubscribedId = await prisma.subscriber.groupBy({
+      by: ["userId"],
+      _count: {
+        subscriberId: true
+      },
+      orderBy: {
+        _count: {
+          subscriberId: "desc"
+        }
+      },
+      take: 5
+    })
+
+    const topFiveSubscribedId = mostSubscribedId.map((sub) => sub.userId)
+    const topFiveSubscribed = await prisma.user.findMany({
+      where: {
+        id: {
+          in: topFiveSubscribedId
+        }
+      },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        details: true,
+        profilePic: true,
+        creationDate: true
+      }
+    });
+    return c.json({
+      topFiveSubscribed
+    })
+
+  } catch(error) {
+    c.status(403)
+    return c.json({
+      error: "Failed to fetch subscribers",
+    });
+  }
+});
+
 subscriberRouter.use("/*", async (c, next) => {
   try {
     const header = c.req.header("authorization") || "";

@@ -114,6 +114,29 @@ npm run dev
 
 > Note: `frontend/src/config.ts` contains `BACKEND_URL`. If you need your frontend to point to local backend server, uncomment `export const BACKEND_URL = "http://localhost:8787"`. 
 
+
+#### Running Frontend and Backend Concurrently
+
+To make the developer experience smoother, you can now run both the frontend and backend simultaneously using a single command from the project root.
+
+##### Steps:
+
+- Ensure you have project root folder. install packages with
+   ```sh
+   npm install
+   ```
+- Insall both frontend and backend pakages with
+   ```sh
+   npm install:all
+   ```
+- Now you can simply run:
+   ```sh
+   npm run dev
+   ```
+   This command will start both the frontend and backend servers simultaneously.
+
+For additional customization options and detailed information, please refer to the [concurrently documentation](https://www.npmjs.com/package/concurrently).
+
 #### AI based Article content generation
 
 - set `FF_ENABLE_AI` = true in config.ts

@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import { Hono } from "hono";
 import { sign, verify } from "hono/jwt";
+import { getDBInstance } from "../db/util";
 
 export const tagRouter = new Hono<{
 	Bindings: {
@@ -16,9 +17,7 @@ export const tagRouter = new Hono<{
 
 tagRouter.get("/", async (c) => {
 	try {
-		const prisma = new PrismaClient({
-			datasourceUrl: c.env.DATABASE_URL,
-		}).$extends(withAccelerate());
+		const prisma = getDBInstance(c);
 
 		let query: any = {
 			select: {
@@ -35,6 +34,43 @@ tagRouter.get("/", async (c) => {
 		c.status(411);
 		return c.json({
 			message: "Something went wrong while fetching tags.",
+		});
+	}
+});
+
+tagRouter.get("/recommended", async (c) => {
+	try {
+		const prisma = getDBInstance(c);
+
+		const topTags = await prisma.tagsOnPost.groupBy({
+			by: ["tagId"],
+			_count: {
+				postId: true
+			}, 
+			orderBy: {
+				_count: {
+					postId: 'desc',
+				}
+			},
+			take: 5
+		});
+
+		const topFiveTagsIds = topTags.map((t) => t.tagId)
+		const topfiveTags = await prisma.tag.findMany({
+			where: {
+				id: {
+					in: topFiveTagsIds
+				}
+			}
+		});
+		return c.json({
+			topfiveTags
+		});
+	} catch (error) {
+		console.log(error)
+		c.status(411);
+		return c.json({
+			message: "Something went wrong while fetching tags."
 		});
 	}
 });
@@ -61,9 +97,7 @@ tagRouter.use("/*", async (c, next) => {
 
 tagRouter.post("/link", async (c) => {
 	try {
-		const prisma = new PrismaClient({
-			datasourceUrl: c.env.DATABASE_URL,
-		}).$extends(withAccelerate());
+		const prisma = getDBInstance(c);
 		const body = await c.req.json();
 		const { postId, tags } = body;
 

@@ -31,25 +31,13 @@ const Contributors: React.FC = () => {
     fetchData();
   }, []);
 
-  if (loading) {
-    return (
-      <>
-        <Appbar skipAuthCheck={true} />
-        <div className="container mx-auto p-4">
-          <h1 className="text-2xl font-bold mb-8">Contributors</h1>
-          <SkeletonContributorGrid />
-        </div>
-      </>
-    );
-  }
-
   return (
     <>
       <Appbar skipAuthCheck={true} />
       <ContributionNotification />
       <div className="p-4 flex flex-col justify-center items-center w-screen">
         <h1 className="text-2xl mb-4">Contributors</h1>
-        <ContributorsList contributors={contributors} />
+        {loading ? <SkeletonContributorGrid /> : <ContributorsList contributors={contributors} />}
       </div>
     </>
   );
@@ -86,9 +74,9 @@ const ContributorCard = ({ contributor }: { contributor: ContributorProp }) => {
     >
       <img src={contributor?.avatar_url} alt={contributor?.login} className="w-full  object-cover" />
       <div className="text-left p-2">
-        <h2 className="text-lg font-medium">{contributor.login}</h2>
+        <h2 className="text-lg font-medium text-nowrap overflow-hidden text-ellipsis">{contributor.login}</h2>
         <h2>Developer</h2>
-        <p className="text-sub">{contributor?.contributions} contributions</p>
+        <p className="text-sub text-nowrap overflow-hidden text-ellipsis">{contributor?.contributions} contributions</p>
       </div>
     </a>
   );

@@ -13,7 +13,7 @@ export interface Post {
   published: boolean;
   tagsOnPost: Array<{ tag: Tag }>;
   claps: [];
-  bookmarkId?: string;
+  bookmarks?: { id: string }[];
 }
 
 export interface Tag {
