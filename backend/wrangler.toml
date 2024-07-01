@@ -6,7 +6,7 @@ binding = 'R2_UPLOAD'
 bucket_name = 'blog-app-bucket'
 
 [vars]
-DATABASE_URL="prisma://accelerate.prisma-data.net/?api_key=[API_KEY_GOES_HERE]"
+DATABASE_URL="prisma://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5IjoiOGU1NWFiNTktYjk1Yy00NWQzLTg2NmEtM2UyYWQ4Y2ZkMDVmIiwidGVuYW50X2lkIjoiNTVlYWY5OTdjYTBmNTQ4NWE2MTE2Mzc4Y2JmNWM0MWFhNDY2MzhlZGI0ODU1NmVkY2FjNTA0OWMwNTk5MGU3YyIsImludGVybmFsX3NlY3JldCI6IjEzZDgxYmEyLTA2MjEtNDkxZi05NDAwLTdhZTFkMDEyYWE4MiJ9.6WeSgJeRd9L1u7lcWFJOvsuP4YFDVE49BPZa7hgMGVc"
 JWT_SECRET="secret"
 OPENAI_API_KEY=""
 R2_SUBDOMAIN_URL="https://pub-f4df79dafd534d86873fafaeb876140b.r2.dev"
