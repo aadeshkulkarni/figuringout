@@ -62,8 +62,8 @@ const Story = () => {
         <div className="py-4">
           <ReactQuill value={blog?.content} readOnly={true} theme={'bubble'} />
         </div>
-        <ChatModule key={chatKey} /> {/* Include key to force re-render */}
-        <RecommendedBlogs /> {/* Include the new component here */}
+        <ChatModule key={chatKey} /> 
+        <RecommendedBlogs authorName = { blog?.author?.name }/> 
       </div>
       <Tags />
     </div>

@@ -5,9 +5,13 @@ import ArticleImage from '../ArticleImage';
 import { formatDateString } from '../../util/string';
 import { Pill } from '../Pill';
 import Avatar from '../Avatar';
-import { Post } from '../../types/post'; // Adjust the import path as necessary
+import { Post } from '../../types/post'; 
 
-const RecommendedBlogs: React.FC = () => {
+interface RecommendedBlogsProps {
+  authorName: string;
+}
+
+const RecommendedBlogs: React.FC<RecommendedBlogsProps> = ({ authorName }) => {
   const { id } = useParams();
   const { loading, recommendedBlogs } = useRecommendedBlogs({ blogId: id || '' });
   const navigate = useNavigate();
@@ -42,11 +46,11 @@ const RecommendedBlogs: React.FC = () => {
             onClick={() => handleNavigation(blog.id)}
           >
             <ArticleImage uniqueId={blog.id} />
-            <h3 className="text-lg font-semibold mt-2">{blog.title}</h3>
+            <h3 className="text-lg font-semibold mt-2 overflow-hidden whitespace-nowrap text-overflow-ellipsis">{blog.title}</h3>
             <div className="flex items-center gap-4 mt-2">
-              <Avatar name={blog.author?.name || ''} imageSrc={blog.author?.profilePic} />
+              <Avatar name={blog.author?.name || authorName || ''} imageSrc={blog.author?.profilePic} />
               <div>
-                <span>{blog.author?.name || 'Unknown Author'}</span> ·{' '}
+                <span>{blog.author?.name || authorName || 'Unknown Author'}</span> ·{' '}
                 <span className="text-sm text-gray-500">{formatDateString(blog.publishedDate)}</span>
               </div>
             </div>
