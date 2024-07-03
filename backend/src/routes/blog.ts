@@ -379,3 +379,23 @@ blogRouter.post("/chat", async (c) => {
     return c.json({ error: "Something went wrong", stackTrace: ex instanceof Error ? ex.toString() : JSON.stringify(ex) });
   }
 });
+
+blogRouter.get("/blogcount/:id",async(c)=>{
+ try {
+  const id = await c.req.param("id");
+  const prisma = getDBInstance(c);
+  const blogCount = await prisma.post.count({
+    where:{
+      authorId:id
+    }
+  });
+  return c.json({
+    count:blogCount
+  })
+ } catch (error:any) {
+    c.status(400)
+    return c.json({
+      error:error.message
+    })
+ }
+});

@@ -146,3 +146,25 @@ bookmarkRouter.delete("/:id", async (c) => {
     return c.json({ error: "Something went wrong " });
   }
 });
+
+bookmarkRouter.get('/bookmarkCount/:id',async(c)=>{
+  try {
+    const prisma = new PrismaClient({
+      datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate());
+    const userId = await c.req.param("id");
+    const count = await prisma.bookmark.count({
+      where:{
+        userId:userId
+      }
+    });
+    return c.json({
+      count:count
+    })
+  } catch (error:any) {
+      c.status(400);
+      return c.json({
+        error:error.message
+      })
+  }
+})
