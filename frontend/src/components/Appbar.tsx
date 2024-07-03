@@ -28,7 +28,7 @@ const Appbar = ({ skipAuthCheck = false, pageActions, hideWriteAction = false }:
     navigate('/signin');
   }
   return (
-    <div className={`${shouldSnapCenter} border-b border-slate-100 flex justify-between items-center p-4 md:px-16`}>
+    <div className={`${shouldSnapCenter} border-b border-main flex justify-between items-center p-4 md:px-16`}>
     <div className="flex items-center gap-4">
       <Link to="/" className="text-lg md:text-xl font-medium">
         <span className="text-gray-500">Figuring</span>
@@ -96,7 +96,7 @@ const Appbar = ({ skipAuthCheck = false, pageActions, hideWriteAction = false }:
     </div>
 
     {menuOpen && (
-      <div className="absolute top-16 right-4 bg-main border shadow-md p-4 rounded-lg md:hidden z-50">
+      <div className="absolute top-16 right-4 bg-main border-main shadow-md p-4 rounded-lg md:hidden z-50">
         <div className="flex flex-col space-y-4">
           {pathname === '/' && (
             <Link

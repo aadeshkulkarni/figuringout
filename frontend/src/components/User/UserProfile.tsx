@@ -24,7 +24,7 @@ type UserProfileContextType = {
 export const UserProfileContext = createContext<UserProfileContextType>({});
 
 const NoBlogsMessage = () => (
-  <div className="flex flex-col items-center justify-center p-5 border border-gray-200 rounded-lg mt-5">
+  <div className="flex flex-col items-center justify-center p-5 border border-main rounded-lg mt-5">
     <p className="text-lg text-gray-600 mb-3">You haven't written any blogs yet.</p>
     <Link to="/publish">
       <button
@@ -130,7 +130,7 @@ const UserProfile = ({ id }: UserProfileProps) => {
                 </nav>
                 <div className="mt-3">{determineTabContent()}</div>
               </div>
-              <div className="border-l border-slate-100 hidden md:block w-2/6 p-8 pr-36">
+              <div className="border-l border-main hidden md:block w-2/6 p-8 pr-36">
                 <Avatar name={currentUser?.name || ''} size="large" imageSrc={currentUser?.profilePic} />
 
                 <div>

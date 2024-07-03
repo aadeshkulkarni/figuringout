@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wdth,wght@0,62.5..100,100..900;1,62.5..100,100..900&display=swap');
   @tailwind base;
   @tailwind components;
   @tailwind utilities;
@@ -73,6 +74,16 @@
     body {
       @apply bg-background text-foreground;
     }
+    html {
+      scroll-snap-type: y mandatory;
+    }
+    body {
+      overflow-y: scroll; 
+      scroll-snap-type: y mandatory;
+    }
+    .snap-center {
+      scroll-snap-align: center;
+    }
   }
 
   /* The base text and background with sub text and background
@@ -80,7 +91,7 @@
 
   @layer utilities { 
     .text-main {
-      @apply text-black dark:text-white; 
+      @apply text-black dark:text-gray-200; 
     }
 
     .text-sub {
@@ -93,6 +104,10 @@
 
     .bg-sub {
       @apply bg-gray-100 dark:bg-slate-900;
+    }
+
+    .border-main {
+      @apply border-gray-200 dark:border-slate-800;
     }
 
    /* Ensures the custom style is specific enough to override default Quill styles */

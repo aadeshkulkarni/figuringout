@@ -118,7 +118,7 @@ const ActionBox = () => {
     navigate(`/edit/${blog.id}`);
   };
   return (
-    <div className="text-slate-500 py-2 items-center justify-between flex border-y border-slate-200">
+    <div className="text-slate-500 py-2 items-center justify-between flex border-y border-main">
       <div className="text-sm">
         <ClapButton clapCount={blog?.claps?.length || 0} handleClap={likeBlog} />
       </div>
