@@ -22,7 +22,7 @@ import ChatModule from '../ChatModule';
 const Story = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const {blog,loading} = useSingleBlog(id);
+  const {blog,loading} = useSingleBlog(id || '');
 
   function handleClickOnAvatar() {
     navigate(`/profile/${blog?.author?.id}`);

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { BlogResponse } from '../types/blog';
 import { Post } from '../types/post';
 import { useSearchParams } from 'react-router-dom';
-import { Loadable, useRecoilValueLoadable } from 'recoil';
+import { useRecoilValueLoadable } from 'recoil';
 import { singlePost } from '../store/atoms/singlePost';
 
 const PAGE_SIZE = 10;
@@ -262,7 +262,22 @@ export const useBookmarks = () => {
 };
 
 export const useSingleBlog = (id:string)=>{
-  const [blog,setblog] = useState<Post>(null);
+  const [blog,setblog] = useState<Post>({ id: '',
+    title: '',
+    content: '',
+    publishedDate: '',
+    author: {
+      id: '',
+      name: '',
+      email: '',
+      details: '',
+      profilePic: '',
+    },
+    claps: [],
+    tagsOnPost: [],
+    bookmarks: [],
+    published: true,
+  });
   const [loading, setloading] = useState(true);
   const singlePostLoadable = useRecoilValueLoadable(singlePost(id));
 
@@ -273,7 +288,6 @@ export const useSingleBlog = (id:string)=>{
     } else if (singlePostLoadable.state === "loading") {
       setloading(true);
     } else if (singlePostLoadable.state === "hasError") {
-      setblog(null);
       setloading(false);
     }
   }, [singlePostLoadable.state, singlePostLoadable.contents]);
