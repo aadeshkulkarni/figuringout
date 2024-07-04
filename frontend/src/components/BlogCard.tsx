@@ -35,7 +35,7 @@ const BlogCard = ({ author, title, content, publishedDate, id, fullWidth, tagsOn
             <span className="text-sm text-slate-500">{formatDateString(publishedDate)}</span>
           </div>
         </div>
-        <div className="order-1 md:order-none text-xl font-bold pt-4">{title}</div>
+        <div className="order-1 md:order-none text-xl font-bold pt-4 break-words">{title}</div>
         <div className="order-2 md:order-none tracking-wide py-4 text-slate-600">
           <ReactQuill value={quillContent} readOnly={true} theme={'bubble'} />
         </div>
