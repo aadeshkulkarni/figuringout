@@ -1,7 +1,7 @@
 import { useState,useEffect } from 'react';
 import ReactQuill from 'react-quill';
 import { toast } from 'react-toastify';
-import { useBlog } from './../../hooks';
+import { useBlog, useSingleBlog } from './../../hooks';
 import { useNavigate, useParams } from 'react-router-dom';
 import BookmarkIcon from '../icons/Bookmark';
 import BookmarkSolid from '../icons/BookmarkSolid';
@@ -18,16 +18,11 @@ import { formatDateString } from '../../util/string';
 import VoiceOver from '../VoiceOver';
 import { getPlainTextFromHTML } from '../../util/string';
 import ChatModule from '../ChatModule';
-import { useRecoilValueLoadable } from 'recoil';
-import { singlePost } from '../../store/atoms/singlePost';
-import { Post } from '../../types/post';
 
 const Story = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const singlePosttt = useRecoilValueLoadable(singlePost(id));
-  const loading = singlePosttt.state==="loading";
-  const blog:Post = singlePosttt.contents;
+  const {blog,loading} = useSingleBlog(id);
 
   function handleClickOnAvatar() {
     navigate(`/profile/${blog?.author?.id}`);
