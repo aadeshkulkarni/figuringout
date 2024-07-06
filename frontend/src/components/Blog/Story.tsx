@@ -1,7 +1,7 @@
 import { useState,useEffect } from 'react';
 import ReactQuill from 'react-quill';
 import { toast } from 'react-toastify';
-import { useBlog } from './../../hooks';
+import { useBlog, useSingleBlog } from './../../hooks';
 import { useNavigate, useParams } from 'react-router-dom';
 import BookmarkIcon from '../icons/Bookmark';
 import BookmarkSolid from '../icons/BookmarkSolid';
@@ -22,7 +22,8 @@ import ChatModule from '../ChatModule';
 const Story = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { blog, loading } = useBlog({ id: id || '' });
+  const {blog,loading} = useSingleBlog(id || "");
+
 
   function handleClickOnAvatar() {
     navigate(`/profile/${blog?.author?.id}`);
