@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import Spinner from './components/Spinner';
 import { ThemeProvider } from "@/components/theme-provider"
+import { RecoilRoot } from 'recoil';
 const Home = lazy(() => import('./pages/Home'));
 const Signup = lazy(() => import('./pages/Signup'));
 const Signin = lazy(() => import('./pages/Signin'));
@@ -16,6 +17,7 @@ const Contributor = lazy(() => import('./pages/Contributor'));
 function App() {
   return (
     <ThemeProvider>
+      <RecoilRoot>
     <BrowserRouter>
       <Suspense
         fallback={
@@ -38,6 +40,7 @@ function App() {
         </Routes>
       </Suspense>
     </BrowserRouter>
+    </RecoilRoot>
     </ThemeProvider>
   );
 }
