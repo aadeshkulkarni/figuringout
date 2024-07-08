@@ -8,6 +8,7 @@ import { Post } from '../../types/post';
 import { useSubscribe } from '../../hooks/subscribe';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
+import { useBlogCount, useBookmarkCount, useGetMemberSince } from '@/hooks';
 
 type UserProfileProps = {
   id: string;
@@ -40,6 +41,9 @@ const NoBlogsMessage = () => (
 const UserProfile = ({ id }: UserProfileProps) => {
   const { currentUser, loading: loadingUser, isAuthorizedUser, editingDetails, editUserDetails, error } = useUser(id);
   const { blogs, loading: loadingUserBlogs } = useUserBlogs(id);
+  const {blogCount,loadingBlogCount} = useBlogCount(id);
+  const { loadingBookmarkCount,bookMarkCount} = useBookmarkCount(); 
+  const {member,loadingMemberSince} = useGetMemberSince(id);
   const {
     subscribe,
     subscribed,
@@ -136,6 +140,15 @@ const UserProfile = ({ id }: UserProfileProps) => {
                 <div>
                   <div className="text-lg mt-3 font-bold">{currentUser?.name}</div>
                   <p className="text-gray-400">{subscribers.length} Followers</p>
+                  {loadingBlogCount?"loading":(
+                    <p className="text-gray-400">{blogCount} Blogs</p>
+                  )}
+                  {loadingBookmarkCount?"loading":(
+                    <p className="text-gray-400">{bookMarkCount} BookMarks</p>
+                  )}
+                  {loadingMemberSince?"loading":(
+                    <p className="text-gray-400">Member : {member}</p>
+                  )}
                   <div className="text-sm mt-3">{currentUser?.details}</div>
                   {!isSameUser && (
                     <button

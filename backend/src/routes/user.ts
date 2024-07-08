@@ -4,6 +4,8 @@ import { Hono } from "hono";
 import { sign, verify } from "hono/jwt";
 import { signinInput, signupInput } from "@aadeshk/medium-common";
 import { getDBInstance } from "../db/util";
+import moment from "moment";
+import { CalculateMemberSince } from "../utils";
 
 export const userRouter = new Hono<{
   Bindings: {
@@ -208,3 +210,26 @@ userRouter.post("/updateDetail", async (c) => {
     return c.json({ error: "Something went wrong" });
   }
 });
+
+userRouter.get("/memberSince/:id",async(c)=>{
+  const userId = await c.req.param("id");
+  const prisma = getDBInstance(c);
+  const joiningDate = await prisma.user.findFirst({
+    where:{
+      id:userId
+    },
+    select:{
+      creationDate:true
+    }
+  });
+  if (joiningDate?.creationDate) {
+    const formattedDuration = CalculateMemberSince(joiningDate.creationDate)
+    return c.json({
+      since:formattedDuration
+    })
+  }else{
+    return c.json({
+      error:"Cannot find Date"
+    })
+  }
+})
