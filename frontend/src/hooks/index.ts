@@ -282,3 +282,71 @@ export const useSingleBlog = (id:string)=>{
     blog
   }
 }
+
+export const useBlogCount = (id:string)=>{
+  const [blogCount, setblogCount] = useState(0);
+  const [loadingBlogCount, setloadingBlogCount] = useState(true);
+  const token = localStorage.getItem("token")
+  useEffect(()=>{
+    const getCount = async()=>{
+      const res = await axios.get(`${BACKEND_URL}/api/v1/blog/blogCount/${id}`,{
+            headers:{
+              "Authorization":`Bearer ${token}`
+            }
+      });
+      setblogCount(res.data.count);
+      setloadingBlogCount(false);
+    }
+    getCount();
+  },[])
+
+  return {
+    blogCount,
+    loadingBlogCount
+  }
+}
+
+export const useBookmarkCount = ()=>{
+  const [bookMarkCount, setbookMarkCount] = useState(0);
+  const [loadingBookmarkCount, setloadingBookmarkCount] = useState(true);
+  const token = localStorage.getItem("token");
+
+  useEffect(()=>{
+    const getCount = async()=>{
+      const res = await axios.get(`${BACKEND_URL}/api/v1/bookmark/bookmarkCount`,{
+        headers:{
+          "Authorization":`Bearer ${token}`
+        }
+      });
+      setbookMarkCount(res.data.count);
+      setloadingBookmarkCount(false);
+    }
+    getCount();
+  },[])
+  return {
+    loadingBookmarkCount,
+    bookMarkCount,
+  }
+}
+
+export const useGetMemberSince = (id:string)=>{
+  const [member, setmember] = useState<null|string>(null);
+  const [loadingMemberSince, setloadingMemberSince] = useState(true);
+  const token = localStorage.getItem("token")
+  useEffect(()=>{
+    const getMember = async()=>{
+      const res = await axios.get(`${BACKEND_URL}/api/v1/user/memberSince/${id}`,{
+        headers:{
+          "Authorization":`Bearer ${token}`
+        }
+      });
+      setmember(res.data.since);
+      setloadingMemberSince(false);
+    }
+    getMember();
+  },[])
+  return {
+    member,
+    loadingMemberSince
+  }
+}
