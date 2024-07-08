@@ -47,7 +47,7 @@ const Story = () => {
   return (
     <div className="flex flex-col justify-center items-center p-4 md:px-10">
       <div className="p-4 max-w-[680px]">
-        <div className="text-xl md:text-4xl font-extrabold py-4">{blog?.title}</div>
+        <div className="text-xl md:text-4xl font-extrabold py-4 break-words">{blog?.title}</div>
         <AuthorBox
           name={blog?.author?.name}
           details={blog?.author?.details}
@@ -128,7 +128,7 @@ const ActionBox = () => {
     navigate(`/edit/${blog.id}`);
   };
   return (
-    <div className="text-slate-500 py-2 items-center justify-between flex border-y border-slate-200">
+    <div className="text-slate-500 py-2 items-center justify-between flex border-y border-main">
       <div className="text-sm">
         <ClapButton clapCount={blog?.claps?.length || 0} handleClap={likeBlog} />
       </div>
