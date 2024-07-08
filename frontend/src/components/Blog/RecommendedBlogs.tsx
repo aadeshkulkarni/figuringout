@@ -5,7 +5,7 @@ import ArticleImage from '../ArticleImage';
 import { formatDateString } from '../../util/string';
 import { Pill } from '../Pill';
 import Avatar from '../Avatar';
-import { Post } from '../../types/post'; 
+import { Post } from '../../types/post';
 
 interface RecommendedBlogsProps {
   authorName: string;
@@ -20,8 +20,8 @@ const RecommendedBlogs: React.FC<RecommendedBlogsProps> = ({ authorName }) => {
     return <div>Loading...</div>;
   }
 
-  const uniqueBlogs = Array.from(new Set(recommendedBlogs.map(blog => blog.id)))
-    .map(id => recommendedBlogs.find(blog => blog?.id === id))
+  const uniqueBlogs = Array.from(new Set(recommendedBlogs.map((blog) => blog.id)))
+    .map((id) => recommendedBlogs.find((blog) => blog?.id === id))
     .filter((blog): blog is Post => blog !== undefined);
 
   const handleNavigation = (blogId: string) => {
@@ -46,7 +46,9 @@ const RecommendedBlogs: React.FC<RecommendedBlogsProps> = ({ authorName }) => {
             onClick={() => handleNavigation(blog.id)}
           >
             <ArticleImage uniqueId={blog.id} />
-            <h3 className="text-lg font-semibold mt-2 overflow-hidden whitespace-nowrap text-overflow-ellipsis">{blog.title}</h3>
+            <h3 className="text-lg font-semibold mt-2 overflow-hidden whitespace-nowrap text-overflow-ellipsis">
+              {blog.title}
+            </h3>
             <div className="flex items-center gap-4 mt-2">
               <Avatar name={blog.author?.name || authorName || ''} imageSrc={blog.author?.profilePic} />
               <div>

@@ -265,12 +265,12 @@ export const useRecommendedBlogs = ({ blogId }: { blogId: string }) => {
   useEffect(() => {
     const fetchRecommendedBlogs = async () => {
       try {
-        if(blogId){
-        const response = await axios.get(`${BACKEND_URL}/api/v1/blog/recommendation/${blogId}`);
-        setRecommendedBlogs(response.data.recommendedBlogs);
-        }else{
+        if (blogId) {
+          const response = await axios.get(`${BACKEND_URL}/api/v1/blog/recommendation/${blogId}`);
+          setRecommendedBlogs(response.data.recommendedBlogs);
+        } else {
           const response = await axios.get(`${BACKEND_URL}/api/v1/blog/recommended`);
-        setRecommendedBlogs(response.data.recommendedPosts);
+          setRecommendedBlogs(response.data.recommendedPosts);
         }
       } catch (error) {
         console.error('Error fetching recommended blogs:', error);

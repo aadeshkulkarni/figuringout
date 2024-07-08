@@ -28,8 +28,8 @@ const Story = () => {
 
   useEffect(() => {
     setTimeout(() => {
-    setChatKey((prevKey) => prevKey + 1);
-    },1000);
+      setChatKey((prevKey) => prevKey + 1);
+    }, 1000);
   }, [id]);
 
   function handleClickOnAvatar() {
@@ -62,8 +62,8 @@ const Story = () => {
         <div className="py-4">
           <ReactQuill value={blog?.content} readOnly={true} theme={'bubble'} />
         </div>
-        <ChatModule key={chatKey} /> 
-        <RecommendedBlogs authorName = { blog?.author?.name }/> 
+        <ChatModule key={chatKey} />
+        <RecommendedBlogs authorName={blog?.author?.name} />
       </div>
       <Tags />
     </div>
@@ -109,7 +109,7 @@ const ActionBox = () => {
   const onConfirmUnbookmark = async () => {
     const userBookmarks = blog.bookmarks?.filter((bookmark) => bookmark.id) || [];
     if (userBookmarks.length === 0) {
-      console.error("No bookmarks found for the user");
+      console.error('No bookmarks found for the user');
       return;
     }
     for (const bookmark of userBookmarks) {
@@ -133,7 +133,7 @@ const ActionBox = () => {
         <ClapButton clapCount={blog?.claps?.length || 0} handleClap={likeBlog} />
       </div>
       <div className="flex justify-center items-center">
-        <Tooltip message={bookmarked ? "Unsave" : "Save"}>
+        <Tooltip message={bookmarked ? 'Unsave' : 'Save'}>
           <div onClick={handleBookmark} className="w-10 h-10 p-2 cursor-pointer">
             {bookmarked ? <BookmarkSolid /> : <BookmarkIcon />}
           </div>
