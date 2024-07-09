@@ -258,30 +258,6 @@ export const useBookmarks = () => {
     bookmarks,
   };
 };
-<<<<<<< HEAD
-=======
-
-export const useSingleBlog = (id:string)=>{
-  const singleBlog = useRecoilValueLoadable(SinglePost(id));
-  const [loading, setloading] = useState(true);
-  const blog:Post = singleBlog.contents;
-
-  useEffect(()=>{
-    if(singleBlog.state==="hasValue"){
-      setloading(false)
-    }else if(singleBlog.state==="loading"){
-      setloading(true);
-    }else if(singleBlog.state==="hasError"){
-      setloading(false)
-    }
-
-  },[singleBlog.state]);
-
-  return {
-    loading,
-    blog
-  }
-}
 
 export const useBlogCount = (id:string)=>{
   const [blogCount, setblogCount] = useState(0);
@@ -350,4 +326,3 @@ export const useGetMemberSince = (id:string)=>{
     loadingMemberSince
   }
 }
->>>>>>> 1f33c3a (enhancement/Added Counts)
