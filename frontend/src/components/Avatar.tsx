@@ -28,7 +28,7 @@ const Avatar = ({ name, onClick, size = 'medium', imageSrc }: AvatarProps) => {
   return (
     <div
       onClick={onClick}
-      className={`cursor-pointer border-2 border-green-700 relative inline-flex items-center justify-center overflow-hidden bg-gray-800 hover:bg-gray-300 rounded-full ${containerSize} group`}
+      className={`cursor-pointer border-2 border-green-700 dark:border-gray-600 relative inline-flex items-center justify-center overflow-hidden bg-gray-800 hover:bg-gray-300 rounded-full ${containerSize} group`}
     >
       {imageSrc ? (
         <img src={imageSrc} />

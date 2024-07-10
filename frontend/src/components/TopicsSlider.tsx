@@ -59,7 +59,7 @@ const TopicsSlider: React.FC<topicProps> = ({ selectedTopic, setSelectedTopic }:
   }, []);
 
   return (
-    <div className="relative flex justify-center items-center w-4/5 mx-auto pt-5 pb-5">
+    <div className="relative flex justify-center items-center w-4/5 mx-auto pt-5 pb-5 no-scrollbar">
       {atStart ? (
         <div className="demo absolute -left-5 z-10 p-1 cursor-pointer">
           <AddTopicIcon />
@@ -69,7 +69,7 @@ const TopicsSlider: React.FC<topicProps> = ({ selectedTopic, setSelectedTopic }:
           <LeftArrowIcon />
         </button>
       )}
-      <div className="flex overflow-x-auto scrollbar-hide space-x-4 p-2" ref={scrollContainerRef}>
+      <div className="flex overflow-x-auto scrollbar-hide no-scrollbar space-x-4 p-2" ref={scrollContainerRef}>
         {loading ? (
           <SkeletonLoader />
         ) : (

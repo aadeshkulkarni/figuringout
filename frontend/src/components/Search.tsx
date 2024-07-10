@@ -57,7 +57,7 @@ const Search: React.FC = () => {
       />
       {query && (
         <>
-          <div className="absolute top-9 left-0 right-0 bg-main border border-gray-100 shadow-lg rounded mt-1 z-10 md:w-[450px] lg:w-[600px]">
+          <div className="absolute top-9 left-0 right-0 bg-main border border-gray-100 dark:border-gray-700 shadow-lg rounded mt-1 z-10 md:w-[450px] lg:w-[600px]">
             <div className="p-2">
               <h3 className="text-lg font-semibold py-2 pb-1">Posts</h3>
               {results.posts.length > 0 ? (
