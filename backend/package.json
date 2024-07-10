@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "postinstall": "prisma generate",
-    "dev": "wrangler dev src/index.ts",
+    "dev": "wrangler dev src/index.ts --remote",
     "prisma:migrate": "prisma migrate deploy",
     "db:seed": "npx prisma db seed",
     "deploy": "wrangler deploy --minify src/index.ts"
