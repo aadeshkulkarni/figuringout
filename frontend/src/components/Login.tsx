@@ -29,7 +29,7 @@ const Login = () => {
       if (authInputs.email && authInputs.password) {
         const response = await axios.post(`${BACKEND_URL}/api/v1/user/signin`, authInputs);
         const token = response.data.jwt;
-        localStorage.setItem('token', token); 
+        localStorage.setItem('token', token);
         localStorage.setItem('user', JSON.stringify(response?.data?.user || {}));
         navigate('/blogs');
       } else {
