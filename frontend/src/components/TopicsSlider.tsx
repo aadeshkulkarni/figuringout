@@ -3,7 +3,6 @@ import LeftArrowIcon from './icons/LeftArrowIcon';
 import RightArrowIcon from './icons/RightArrowIcon';
 import useFetchTopicTags from '../hooks/useFetchTopicTags';
 import SkeletonLoader from '../skeletons/TopicsSkeleton';
-import AddTopicIcon from './icons/AddTopicIcon';
 import { useNavigate } from 'react-router-dom';
 
 interface topicProps {
@@ -59,17 +58,15 @@ const TopicsSlider: React.FC<topicProps> = ({ selectedTopic, setSelectedTopic }:
   }, []);
 
   return (
-    <div className="relative flex justify-center items-center w-4/5 mx-auto pt-5 pb-5">
+    <div className="relative flex justify-center items-center w-4/5 mx-auto pt-5 pb-5 no-scrollbar">
       {atStart ? (
-        <div className="demo absolute -left-5 z-10 p-1 cursor-pointer">
-          <AddTopicIcon />
-        </div>
+        <div className="demo absolute -left-5 z-10 p-1 cursor-pointer">{/* <AddTopicIcon /> */}</div>
       ) : (
-        <button onClick={scrollLeft} className="demo absolute -left-5 z-10 bg-sub p-1">
+        <button onClick={scrollLeft} className="demo absolute -left-5 z-10 bg-sub border-main p-1">
           <LeftArrowIcon />
         </button>
       )}
-      <div className="flex overflow-x-auto scrollbar-hide space-x-4 p-2" ref={scrollContainerRef}>
+      <div className="flex overflow-x-auto scrollbar-hide no-scrollbar space-x-4 p-2" ref={scrollContainerRef}>
         {loading ? (
           <SkeletonLoader />
         ) : (
@@ -77,10 +74,10 @@ const TopicsSlider: React.FC<topicProps> = ({ selectedTopic, setSelectedTopic }:
             <div
               key={topic.value}
               onClick={() => handleTopicClick(topic.value)}
-              className={`flex-shrink-0 cursor-pointer px-3 py-2 text-sm font-semibold transition-colors duration-200 ${
+              className={`flex-shrink-0 cursor-pointer px-3 py-2 text-sm transition-colors duration-200 ${
                 selectedTopic === topic.value
-                  ? 'text-black font-bold underline underline-offset-8 decoration-black'
-                  : 'text-gray-400 hover:text-main hover:bg-main'
+                  ? 'text-black dark:text-gray-300 font-bold underline underline-offset-8 decoration-black dark:decoration-gray-300'
+                  : 'text-sub hover:text-main'
               }`}
             >
               {topic.text}
@@ -88,7 +85,7 @@ const TopicsSlider: React.FC<topicProps> = ({ selectedTopic, setSelectedTopic }:
           ))
         )}
       </div>
-      <button onClick={scrollRight} className="absolute -right-5 z-10 bg-sub p-1">
+      <button onClick={scrollRight} className="absolute -right-5 z-10 bg-sub border-main p-1">
         <RightArrowIcon />
       </button>
     </div>

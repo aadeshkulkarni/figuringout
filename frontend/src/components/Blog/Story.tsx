@@ -1,4 +1,4 @@
-import { useState,useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactQuill from 'react-quill';
 import { toast } from 'react-toastify';
 import { useBlog } from './../../hooks';
@@ -18,11 +18,19 @@ import { formatDateString } from '../../util/string';
 import VoiceOver from '../VoiceOver';
 import { getPlainTextFromHTML } from '../../util/string';
 import ChatModule from '../ChatModule';
+import RecommendedBlogs from './RecommendedBlogs'; // Import the new component
 
 const Story = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { blog, loading } = useBlog({ id: id || '' });
+  const [chatKey, setChatKey] = useState(0);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setChatKey((prevKey) => prevKey + 1);
+    }, 1000);
+  }, [id]);
 
   function handleClickOnAvatar() {
     navigate(`/profile/${blog?.author?.id}`);
@@ -51,15 +59,17 @@ const Story = () => {
         <div className="pt-4">
           <VoiceOver content={getPlainTextFromHTML(blog?.content)} />
         </div>
-        <div className="py-4">
+        <div className="py-4 text-sub">
           <ReactQuill value={blog?.content} readOnly={true} theme={'bubble'} />
         </div>
-        <ChatModule />
+        <ChatModule key={chatKey} />
+        <RecommendedBlogs authorName={blog?.author?.name} />
       </div>
       <Tags />
     </div>
   );
 };
+
 const ActionBox = () => {
   const navigate = useNavigate();
   const [openUnbookmarkModal, setOpenUnbookmarkModal] = useState(false);
@@ -97,9 +107,9 @@ const ActionBox = () => {
   };
 
   const onConfirmUnbookmark = async () => {
-    const userBookmarks = blog.bookmarks?.filter((bookmark) => bookmark.id ) || [];
+    const userBookmarks = blog.bookmarks?.filter((bookmark) => bookmark.id) || [];
     if (userBookmarks.length === 0) {
-      console.error("No bookmarks found for the user");
+      console.error('No bookmarks found for the user');
       return;
     }
     for (const bookmark of userBookmarks) {
@@ -123,7 +133,7 @@ const ActionBox = () => {
         <ClapButton clapCount={blog?.claps?.length || 0} handleClap={likeBlog} />
       </div>
       <div className="flex justify-center items-center">
-        <Tooltip message={bookmarked ? "Unsave" : "Save"}>
+        <Tooltip message={bookmarked ? 'Unsave' : 'Save'}>
           <div onClick={handleBookmark} className="w-10 h-10 p-2 cursor-pointer">
             {bookmarked ? <BookmarkSolid /> : <BookmarkIcon />}
           </div>

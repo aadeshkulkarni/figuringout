@@ -3,7 +3,7 @@ import MultiSelectDropdown, { Option } from './MultiSelect';
 import axios from 'axios';
 import { BACKEND_URL } from '../config';
 import { useNavigate } from 'react-router-dom';
-import Spinner from './Spinner';
+import { Button } from './ui/button';
 
 const PublishTags = ({
   blogId,
@@ -65,10 +65,11 @@ const PublishTags = ({
 
   return (
     <>
-      <button
-        className="primary"
+      <Button
         type="button"
         disabled={loading || title.trim().length === 0 || content.trim().length === 0}
+        rounded="full"
+        variant="premium"
         onClick={async () => {
           setLoading(true);
           await onClick();
@@ -76,11 +77,9 @@ const PublishTags = ({
           setLoading(false);
         }}
       >
-        <div className="flex items-center gap-2">
-          {loading && <Spinner className="h-4 w-4 !border-2" />}
-          Publish
-        </div>
-      </button>
+        Publish
+      </Button>
+
       {visible && (
         <div
           aria-hidden="true"
