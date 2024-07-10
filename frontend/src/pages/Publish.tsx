@@ -9,13 +9,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import ToastWrapper from '../components/ToastWrapper';
 import AutogrowTextarea from '../components/AutogrowTextarea';
 import { useAI } from '../hooks/blog';
-import GenerateAIBtn from '../components/GenerateAIBtn';
 import PublishTags from '../components/PublishTags';
 import { htmlTagRegex } from '../util/string';
 import useAutoSaveDraft from '../hooks/useAutoSaveDraft';
 import { videoHandler, modules } from '../util/videoHandler';
 import AutosaveIndicator from '../components/AutosaveIndicator';
 import { MAX_TITLE_LENGTH } from '../config';
+import { Button } from '@/components/ui/button';
 
 // Register the custom video handler with Quill toolbar
 Quill.register('modules/customToolbar', function (quill: any) {
@@ -36,7 +36,7 @@ const Publish = () => {
   const writingPadRef = useRef<ReactQuill>(null);
 
   async function publishArticle() {
-    if (title.trim() && content.trim()) {
+    if (title.trim().length <= MAX_TITLE_LENGTH && content.trim()) {
       try {
         const response = await axios.post(
           `${BACKEND_URL}/api/v1/blog`,
@@ -90,18 +90,22 @@ const Publish = () => {
         hideWriteAction
         pageActions={
           <div className="ml-2 flex gap-4">
-            {FF_ENABLE_AI && title.trim().length > 10 && <GenerateAIBtn onClickHandler={generateArticle} />}
+            {FF_ENABLE_AI && title.trim().length > 10 && title.trim().length <= MAX_TITLE_LENGTH && (
+              <Button type="button" rounded="full" variant="premium" onClick={generateArticle}>
+                Generate using AI
+              </Button>
+            )}
             <PublishTags onClick={publishArticle} blogId={blogId} title={title} content={content} />
           </div>
         }
       />
       <div className="flex flex-col gap-4 justify-center p-4 md:p-10 max-w-3xl m-auto">
-        <div className="w-full">
+        <div className="w-full relative border-main px-4">
           <AutosaveIndicator lastSaved={lastSaved} isSaving={isSaving} userName={userName} />
           <AutogrowTextarea
             id="title"
             rows={1}
-            className="resize-none font-noto-serif placeholder:text-sub text-3xl tracking-wide placeholder:font-light text-main outline-none block w-full py-4 bg-main"
+            className="relative resize-none pr-8 font-noto-serif placeholder:text-sub text-3xl tracking-wide placeholder:font-light text-main outline-none block w-full py-4 bg-transparent"
             placeholder="Title"
             required
             autoFocus
@@ -109,12 +113,15 @@ const Publish = () => {
             onChange={handleTitleChange}
             onKeyUp={handleTitleKeyUp}
           ></AutogrowTextarea>
+          <div className="absolute top-2 md:top-4 text-xs right-4 text-sub">
+            {title.length} / {MAX_TITLE_LENGTH}
+          </div>
         </div>
         <ReactQuill
           ref={writingPadRef}
           theme="bubble"
           placeholder="Tell your story..."
-          className="tracking-wide text-main bg-main font-light custom-quill"
+          className="tracking-wide text-main bg-transparent font-light custom-quill"
           value={content}
           onChange={(value) => setContent(htmlTagRegex.test(value) ? '' : value)}
           modules={modules}

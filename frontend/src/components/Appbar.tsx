@@ -18,7 +18,7 @@ interface AppbarProps {
 const Appbar = ({ skipAuthCheck = false, pageActions, hideWriteAction = false }: AppbarProps) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const shouldSnapCenter = location.pathname === '/' || location.pathname === '/blogs' ? 'snap-center' : '';
+  const shouldSnapCenter = location.pathname === '/' || location.pathname === '/blogs' ? 'max-sm:snap-center' : '';
   const { pathname } = useLocation();
   const isUserLoggedIn = localStorage.getItem('token');
   const [menuOpen, setMenuOpen] = useState(false);
@@ -39,6 +39,9 @@ const Appbar = ({ skipAuthCheck = false, pageActions, hideWriteAction = false }:
 
       <div className="flex items-center gap-4">
         <div className="md:hidden flex items-center">
+          <div className="flex items-center px-2">
+            <ModeToggle />
+          </div>
           <button onClick={() => setMenuOpen(!menuOpen)} className="focus:outline-none">
             <HamburgerMenu />
           </button>
@@ -53,7 +56,8 @@ const Appbar = ({ skipAuthCheck = false, pageActions, hideWriteAction = false }:
               Contributors
             </Link>
           )}
-          <div className="flex items-center">
+          {isUserLoggedIn && pageActions}
+          <div className="flex items-center px-2">
             <ModeToggle />
           </div>
           {isUserLoggedIn ? (
@@ -68,7 +72,6 @@ const Appbar = ({ skipAuthCheck = false, pageActions, hideWriteAction = false }:
                   </button>
                 </Link>
               )}
-              {pageActions}
               <div className="ml-4">
                 <ProfileBox />
               </div>

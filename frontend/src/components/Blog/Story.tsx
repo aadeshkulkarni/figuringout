@@ -59,7 +59,7 @@ const Story = () => {
         <div className="pt-4">
           <VoiceOver content={getPlainTextFromHTML(blog?.content)} />
         </div>
-        <div className="py-4">
+        <div className="py-4 text-sub">
           <ReactQuill value={blog?.content} readOnly={true} theme={'bubble'} />
         </div>
         <ChatModule key={chatKey} />

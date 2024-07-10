@@ -35,9 +35,9 @@ const RecommendedBlogs: React.FC<RecommendedBlogsProps> = ({ authorName }) => {
   };
 
   return (
-    <div className="mt-6 p-6 bg-white rounded-lg max-w-3xl mx-auto">
-      <div className="text-2xl font-semibold mb-6 text-gray-800">Read more blogs.</div>
-      <hr className="mb-6 border-gray-300" />
+    <div className="mt-6 p-6 bg-main text-main rounded-lg max-w-3xl mx-auto">
+      <div className="text-2xl font-semibold mb-2 ">Read more blogs.</div>
+      <hr className="mb-6 border-gray-300 dark:border-gray-700" />
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {uniqueBlogs.map((blog) => (
           <div
@@ -46,7 +46,7 @@ const RecommendedBlogs: React.FC<RecommendedBlogsProps> = ({ authorName }) => {
             onClick={() => handleNavigation(blog.id)}
           >
             <ArticleImage uniqueId={blog.id} />
-            <h3 className="text-lg font-semibold mt-2 overflow-hidden whitespace-nowrap text-overflow-ellipsis">
+            <h3 className="font-semibold mt-2 overflow-hidden whitespace-wrap line-clamp-2 text-overflow-ellipsis">
               {blog.title}
             </h3>
             <div className="flex items-center gap-4 mt-2">
