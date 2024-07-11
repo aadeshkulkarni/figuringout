@@ -33,7 +33,7 @@ const Contributors: React.FC = () => {
 
   return (
     <>
-      <Appbar skipAuthCheck={true}/>
+      <Appbar skipAuthCheck={true} />
       <ContributionNotification />
       <div className="p-4 flex flex-col justify-center items-center w-screen">
         <h1 className="text-2xl mb-4">Contributors</h1>

@@ -66,11 +66,11 @@ const ChatModule = () => {
 
   return (
     <div className="mt-6 p-6 bg-main rounded-lg max-w-3xl mx-auto border">
-      <div className="text-2xl font-semibold mb-6 text-main">Have any doubts? Ask AI.</div>
-      <hr className="mb-6 border-gray-300" />
+      <div className="text-2xl font-semibold mb-2 text-main text-main">Have any doubts? Ask AI.</div>
+      <hr className="mb-6 border-gray-300 dark:border-gray-700" />
       <div
         ref={chatContainerRef}
-        className="h-96 overflow-y-auto mb-4 p-4  rounded-lg flex flex-col space-y-4 transition-all duration-300"
+        className="max-h-96 overflow-y-auto mb-4 p-4  rounded-lg flex flex-col space-y-4 transition-all duration-300"
       >
         {messages.map((msg, index) => (
           <div
@@ -88,7 +88,7 @@ const ChatModule = () => {
       <div className="flex items-center">
         <form
           onSubmit={handleSubmit}
-          className="flex-grow flex items-center bg-white rounded-full border border-gray-300 p-2 shadow-inner"
+          className="flex-grow flex items-center bg-white rounded-full border border-gray-300 px-1 shadow-inner"
         >
           <input
             type="text"

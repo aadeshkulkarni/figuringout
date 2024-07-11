@@ -1,6 +1,6 @@
 const BlogSkeleton = () => {
   return (
-    <div role="status" className="animate-pulse w-full md:w-3/6 border border-main shadow-sm px-4 py-8 bg-main">
+    <div role="status" className="animate-pulse w-full md:w-3/6 border border-main shadow-sm px-4 py-8 bg-transparent">
       <div className="flex items-center gap-4">
         <div className="w-10 h-10 rounded-full bg-sub"></div>
         <div>
