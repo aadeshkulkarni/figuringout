@@ -86,8 +86,13 @@ Unique Features:
 
 - Create a copy of .env.example and name the file `.env`
 - Set up Postgres DATABASE_URL in .env file. You can get a free PostgreSQL connection string from [Aiven.io](https://aiven.io/).
+- Create a copy of wrangler.sample.toml and name the file `warngler.toml`
 - Set up Prisma connection pool DATABASE_URL in wrangler.toml file. You can get this for free from [Prisma](https://www.prisma.io/data-platform/accelerate).
 - Set up JWT Secret JWT_SECRET in wrangler.toml file. This can be any value.
+- Login to ([cloudflare](https://www.cloudflare.com/)) and create a new R2 bucket. You probably need a Credit card for verfication.
+- Allow Access for R2.dev subdomain for your R2 bucket from R2>settings.
+- Replace Bucket-name and preview-your-bucket-name with your R2-bucket-name in wrangler.toml file.
+- Replace R2_SUBDOMAIN_URL with your R2 subdomain URL in wrangler.toml file.
 
 ```bash 
 
