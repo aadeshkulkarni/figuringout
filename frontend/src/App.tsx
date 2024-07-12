@@ -12,7 +12,7 @@ const Edit = lazy(() => import('./pages/Edit'));
 const Bookmarks = lazy(() => import('./pages/Bookmarks'));
 const User = lazy(() => import('./pages/User'));
 const Contributor = lazy(() => import('./pages/Contributor'));
-
+const Error = lazy(() => import('./pages/404'));
 function App() {
   return (
     <ThemeProvider>
@@ -35,6 +35,7 @@ function App() {
               <Route path="/bookmarks" element={<Bookmarks />} />
               <Route path="/profile/:id" element={<User />} />
               <Route path="/contributors" element={<Contributor />} />
+              <Route path='*' element={<Error />} />
               {/* <Route path="/" element={<Home />} /> */}
               <Route path="/" element={<Blogs />} />
             </Routes>
