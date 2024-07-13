@@ -36,14 +36,14 @@ export const useUser = (userId: string) => {
   const [loading, setLoading] = useState(false);
   const [editingDetails, setEditingDetails] = useState(false);
   const [currentUser, setCurrentUser] = useState<User>({
-    id:"",
-    email:"",
-    name:"",
-    details:"",
-    profilePic:"",
-    password:"",
-    creationDate:"",
-    bookmarks:[],
+    id: '',
+    email: '',
+    name: '',
+    details: '',
+    profilePic: '',
+    password: '',
+    creationDate: '',
+    bookmarks: [],
   });
   const [isAuthorizedUser, setIsAuthorizedUser] = useState<boolean>(false);
 

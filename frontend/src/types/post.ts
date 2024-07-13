@@ -22,19 +22,18 @@ export interface Tag {
 }
 
 export interface User {
-  id:string,
-  email:string,
-  name:string,
-  details?:string | null,
-  profilePic?:string | null
-  password:string,
-  creationDate:Date | string,
-  bookmarks:Bookmark[],
+  id: string;
+  email: string;
+  name: string;
+  details?: string | null;
+  profilePic?: string | null;
+  password: string;
+  creationDate: Date | string;
+  bookmarks: Bookmark[];
 }
 
-
 export interface Bookmark {
-  id: string,
-  userId:string,
-  postId:string
+  id: string;
+  userId: string;
+  postId: string;
 }

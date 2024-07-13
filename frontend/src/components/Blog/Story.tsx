@@ -1,4 +1,4 @@
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import ReactQuill from 'react-quill';
 import { toast } from 'react-toastify';
 import { useBlog } from './../../hooks';
@@ -97,9 +97,9 @@ const ActionBox = () => {
   };
 
   const onConfirmUnbookmark = async () => {
-    const userBookmarks = blog.bookmarks?.filter((bookmark) => bookmark.id ) || [];
+    const userBookmarks = blog.bookmarks?.filter((bookmark) => bookmark.id) || [];
     if (userBookmarks.length === 0) {
-      console.error("No bookmarks found for the user");
+      console.error('No bookmarks found for the user');
       return;
     }
     for (const bookmark of userBookmarks) {
@@ -123,7 +123,7 @@ const ActionBox = () => {
         <ClapButton clapCount={blog?.claps?.length || 0} handleClap={likeBlog} />
       </div>
       <div className="flex justify-center items-center">
-        <Tooltip message={bookmarked ? "Unsave" : "Save"}>
+        <Tooltip message={bookmarked ? 'Unsave' : 'Save'}>
           <div onClick={handleBookmark} className="w-10 h-10 p-2 cursor-pointer">
             {bookmarked ? <BookmarkSolid /> : <BookmarkIcon />}
           </div>

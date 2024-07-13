@@ -141,15 +141,9 @@ const UserProfile = ({ id }: UserProfileProps) => {
                 <div>
                   <div className="text-lg mt-3 font-bold">{currentUser?.name}</div>
                   <p className="text-gray-400">{subscribers.length} Followers</p>
-                  {loadingUserBlogs?"loading":(
-                    <p className="text-gray-400">{blogCount} Blogs</p>
-                  )}
-                  {loadingUser?"loading":(
-                    <p className="text-gray-400">{bookmarkCount} bookmarks</p>
-                  )}
-                  {loadingUser?"loading":(
-                    <p className="text-gray-400">Member : {memberSince}</p>
-                  )}
+                  {loadingUserBlogs ? 'loading' : <p className="text-gray-400">{blogCount} Blogs</p>}
+                  {loadingUser ? 'loading' : <p className="text-gray-400">{bookmarkCount} bookmarks</p>}
+                  {loadingUser ? 'loading' : <p className="text-gray-400">Member: {memberSince}</p>}
                   <div className="text-sm mt-3">{currentUser?.details}</div>
                   {!isSameUser && (
                     <button

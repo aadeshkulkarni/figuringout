@@ -31,7 +31,7 @@ const BlogCard = ({ author, title, content, publishedDate, id, fullWidth, tagsOn
         <div className="order-3 md:order-none flex items-center gap-4">
           <Avatar name={author?.name || ''} imageSrc={author?.profilePic} />
           <div>
-            <span className='text-main'>{author?.name}</span> ·{' '}
+            <span className="text-main">{author?.name}</span> ·{' '}
             <span className="text-sm text-slate-500">{formatDateString(publishedDate)}</span>
           </div>
         </div>
