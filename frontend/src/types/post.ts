@@ -20,3 +20,21 @@ export interface Tag {
   id: string;
   tagName: string;
 }
+
+export interface User {
+  id:string,
+  email:string,
+  name:string,
+  details?:string | null,
+  profilePic?:string | null
+  password:string,
+  creationDate:Date,
+  bookmarks:Bookmark[],
+}
+
+
+export interface Bookmark {
+  id: string,
+  userId:string,
+  postId:string
+}

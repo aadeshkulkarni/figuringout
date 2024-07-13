@@ -4,11 +4,11 @@ import UserAboutTab from './UserAboutTab';
 import UserHomeTab from './UserHomeTab';
 import { useUser, useUserBlogs } from '../../hooks/user';
 import Avatar from '../Avatar';
-import { Post } from '../../types/post';
+import { Post, User } from '../../types/post';
 import { useSubscribe } from '../../hooks/subscribe';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
-import { useBlogCount, useBookmarkCount, useGetMemberSince } from '@/hooks';
+import { CalculateMemberSince } from '@/util/memberSince';
 
 type UserProfileProps = {
   id: string;
@@ -41,9 +41,10 @@ const NoBlogsMessage = () => (
 const UserProfile = ({ id }: UserProfileProps) => {
   const { currentUser, loading: loadingUser, isAuthorizedUser, editingDetails, editUserDetails, error } = useUser(id);
   const { blogs, loading: loadingUserBlogs } = useUserBlogs(id);
-  const {blogCount,loadingBlogCount} = useBlogCount(id);
-  const { loadingBookmarkCount,bookMarkCount} = useBookmarkCount(); 
-  const {member,loadingMemberSince} = useGetMemberSince(id);
+  const memberSince = CalculateMemberSince(currentUser.creationDate);
+  const blogCount = blogs.length;
+  const bookmarkCount = currentUser?.bookmarks?.length;
+
   const {
     subscribe,
     subscribed,
@@ -140,14 +141,14 @@ const UserProfile = ({ id }: UserProfileProps) => {
                 <div>
                   <div className="text-lg mt-3 font-bold">{currentUser?.name}</div>
                   <p className="text-gray-400">{subscribers.length} Followers</p>
-                  {loadingBlogCount?"loading":(
+                  {loadingUserBlogs?"loading":(
                     <p className="text-gray-400">{blogCount} Blogs</p>
                   )}
-                  {loadingBookmarkCount?"loading":(
-                    <p className="text-gray-400">{bookMarkCount} BookMarks</p>
+                  {loadingUser?"loading":(
+                    <p className="text-gray-400">{bookmarkCount} bookmarks</p>
                   )}
-                  {loadingMemberSince?"loading":(
-                    <p className="text-gray-400">Member : {member}</p>
+                  {loadingUser?"loading":(
+                    <p className="text-gray-400">Member : {memberSince}</p>
                   )}
                   <div className="text-sm mt-3">{currentUser?.details}</div>
                   {!isSameUser && (

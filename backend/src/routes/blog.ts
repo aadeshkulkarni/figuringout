@@ -1,7 +1,7 @@
 import { createBlogInput, updateBlogInput } from "@aadeshk/medium-common";
 import { Hono } from "hono";
 import { verify } from "hono/jwt";
-import { getFormattedDate, shuffleArray } from "../utils";
+import { shuffleArray } from "../utils";
 import { generateArticle,generateChatResponse } from "../genAI";
 import OpenAI from "openai";
 import {
@@ -379,22 +379,3 @@ blogRouter.post("/chat", async (c) => {
     return c.json({ error: "Something went wrong", stackTrace: ex instanceof Error ? ex.toString() : JSON.stringify(ex) });
   }
 });
-blogRouter.get("/blogCount/:id",async(c)=>{
-  try {
-    const id = c.req.param("id");
-    const prisma = getDBInstance(c);
-    const count = await prisma.post.count({
-      where:{
-        authorId:id
-      }
-    });
-    return c.json({
-      count:count
-    });
-  } catch (error) {
-      c.status(400);
-      return c.json({
-        error:"Something Went Wrong"
-      })
-  }
-})

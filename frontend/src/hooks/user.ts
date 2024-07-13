@@ -2,6 +2,7 @@ import { FormEvent, useEffect, useState } from 'react';
 import { BACKEND_URL } from '../config';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { User } from '@/types/post';
 
 export const useUserBlogs = (userId: string) => {
   const navigate = useNavigate();
@@ -34,7 +35,16 @@ export const useUser = (userId: string) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [editingDetails, setEditingDetails] = useState(false);
-  const [currentUser, setCurrentUser] = useState<any>({});
+  const [currentUser, setCurrentUser] = useState<User>({
+    id:"",
+    email:"",
+    name:"",
+    details:"",
+    profilePic:"",
+    password:"",
+    creationDate:"",
+    bookmarks:[],
+  });
   const [isAuthorizedUser, setIsAuthorizedUser] = useState<boolean>(false);
 
   const [error, setError] = useState<string>('');

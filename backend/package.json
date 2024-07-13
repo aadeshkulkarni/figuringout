@@ -17,7 +17,6 @@
     "@prisma/extension-accelerate": "^1.0.0",
     "dotenv": "^16.4.5",
     "hono": "^4.2.7",
-    "moment": "^2.30.1",
     "openai": "^4.47.1",
     "prisma": "^5.13.0"
   },
