@@ -19,12 +19,14 @@ import VoiceOver from '../VoiceOver';
 import { getPlainTextFromHTML } from '../../util/string';
 import ChatModule from '../ChatModule';
 import RecommendedBlogs from './RecommendedBlogs'; // Import the new component
+import { useTheme } from '../theme-provider';
 
 const Story = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { blog, loading } = useBlog({ id: id || '' });
   const [chatKey, setChatKey] = useState(0);
+  const { theme } = useTheme(); // Access theme from ThemeProvider
 
   useEffect(() => {
     setTimeout(() => {
@@ -45,7 +47,7 @@ const Story = () => {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center p-4 md:px-10">
+    <div className={`flex flex-col justify-center items-center p-4 md:px-10 ${theme === 'dark' ? 'dark' : ''}`}>
       <div className="p-4 max-w-[680px]">
         <div className="text-xl md:text-4xl font-extrabold py-4 break-words">{blog?.title}</div>
         <AuthorBox
@@ -82,6 +84,7 @@ const ActionBox = () => {
   const [bookmarked, setBookmarked] = useState(false);
   const user = JSON.parse(localStorage.getItem('user') || '{}') || {};
   const isAuthor = user?.id && user?.id === blog?.author?.id;
+  const { theme } = useTheme(); // Access theme from ThemeProvider
 
   useEffect(() => {
     if (blog?.bookmarks?.some((bookmark: any) => bookmark.id)) {
@@ -127,10 +130,11 @@ const ActionBox = () => {
   const beginEditStory = () => {
     navigate(`/edit/${blog.id}`);
   };
+
   return (
     <div className="text-slate-500 py-2 items-center justify-between flex border-y border-main">
       <div className="text-sm">
-        <ClapButton clapCount={blog?.claps?.length || 0} handleClap={likeBlog} />
+        <ClapButton clapCount={blog?.claps?.length || 0} handleClap={likeBlog} darkMode={theme === 'dark'} />
       </div>
       <div className="flex justify-center items-center">
         <Tooltip message={bookmarked ? 'Unsave' : 'Save'}>
