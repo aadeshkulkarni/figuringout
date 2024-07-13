@@ -28,7 +28,7 @@ export interface User {
   details?:string | null,
   profilePic?:string | null
   password:string,
-  creationDate:Date,
+  creationDate:Date | string,
   bookmarks:Bookmark[],
 }
 

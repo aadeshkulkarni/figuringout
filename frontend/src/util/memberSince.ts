@@ -1,6 +1,6 @@
 import moment from "moment";
 
-export const CalculateMemberSince = (joiningDate:Date)=>{
+export const CalculateMemberSince = (joiningDate:Date|string)=>{
     const DateOfJoin = moment(joiningDate);
       const currentDate = moment(); //Today's Date 
       const duration = moment.duration(currentDate.diff(DateOfJoin)); 

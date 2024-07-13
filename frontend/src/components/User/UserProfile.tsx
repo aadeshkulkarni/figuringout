@@ -4,7 +4,7 @@ import UserAboutTab from './UserAboutTab';
 import UserHomeTab from './UserHomeTab';
 import { useUser, useUserBlogs } from '../../hooks/user';
 import Avatar from '../Avatar';
-import { Post, User } from '../../types/post';
+import { Post } from '../../types/post';
 import { useSubscribe } from '../../hooks/subscribe';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
