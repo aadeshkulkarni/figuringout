@@ -129,7 +129,6 @@ thoughtRouter.post('/', async (c) => {
   try {
     const thought = await prisma.thought.create({
       data: {
-        title: body.title,
         content: body.content,
         authorId: authorId,
       },
@@ -159,7 +158,6 @@ thoughtRouter.put('/', async (c) => {
         id: body.id,
       },
       data: {
-        title: body.title,
         content: body.content,
       },
     });
