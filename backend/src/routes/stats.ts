@@ -19,6 +19,7 @@ statsRouter.get("/", async (c) => {
 
     const blogCount = await prisma.post.count();
 
+    // Get Contributors Count 
     const contributorsCount = await prisma.user.count({
       where: {
         posts: {
@@ -27,6 +28,7 @@ statsRouter.get("/", async (c) => {
       },
     });
 
+    // Get Top Users 
     const topUsers = await prisma.user.findMany({
       orderBy: {
         subscribers: {
@@ -41,6 +43,7 @@ statsRouter.get("/", async (c) => {
       },
     });
 
+    // Get Top Posts 
     const topPosts = await prisma.post.findMany({
       orderBy: {
         claps: {
@@ -55,6 +58,7 @@ statsRouter.get("/", async (c) => {
       },
     });
 
+    // Get Top Tags 
     const topTags = await prisma.tag.findMany({
       orderBy: {
         tagsOnPost: {
@@ -69,6 +73,7 @@ statsRouter.get("/", async (c) => {
       },
     });
 
+    // Creates array with month and number of blogs
     const postByMonth: any[] = await prisma.$queryRaw`
       SELECT 
         TO_CHAR("publishedDate", 'YYYY-MM') AS month,
@@ -82,6 +87,7 @@ statsRouter.get("/", async (c) => {
     `;
     
 
+    // For parsing BigInts
     const safeData = {
       userCount: userCount.toString(),
       blogCount: blogCount.toString(),
