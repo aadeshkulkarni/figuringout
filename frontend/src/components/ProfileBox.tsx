@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useClickAway from '../hooks/useClickAway';
 import Avatar from './Avatar';
+import { useUser } from '../hooks/user.ts';
 
 const ProfileBox = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -11,6 +12,7 @@ const ProfileBox = () => {
 
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
+  const { currentUser } = useUser(user.id);
 
   const logout = () => {
     localStorage.clear();
@@ -35,7 +37,7 @@ const ProfileBox = () => {
 
   return (
     <div className="relative cursor-pointer">
-      <Avatar name={user.name} onClick={() => setShow(!show)} imageSrc={user?.profilePic} />
+      <Avatar name={user.name} onClick={() => setShow(!show)} imageSrc={currentUser?.profilePic} />
       {show && (
         <div
           ref={ref}

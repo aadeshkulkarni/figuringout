@@ -8,5 +8,8 @@
   "license": "MIT",
   "devDependencies": {
     "concurrently": "^8.2.2"
+  },
+  "dependencies": {
+    "react-chartjs-2": "^5.2.0"
   }
 }
