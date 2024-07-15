@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { SigninInput } from '@aadeshk/medium-common';
+import type { SigninInput } from '@aadeshk/medium-common';
 import InputField from './InputField';
 import { BACKEND_URL } from '../config';
 import { toast } from 'react-toastify';
 import ToastWrapper from './ToastWrapper';
 import Spinner from './Spinner';
 import PasswordField from './PasswordField';
+import { GoogleLoginButton } from './GoogleLoginButton';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -78,12 +79,16 @@ const Login = () => {
         />
         <button
           onClick={sendRequest}
+          type="button"
           className="w-full bg-black text-white p-4 rounded-md flex justify-center items-center gap-4"
           disabled={loading}
         >
           Sign In
           {loading && <Spinner className="w-4 h-4" />}
         </button>
+        <div className="flex mt-6 justify-center items-center ">
+          <GoogleLoginButton />
+        </div>
       </div>
       <ToastWrapper />
     </div>
