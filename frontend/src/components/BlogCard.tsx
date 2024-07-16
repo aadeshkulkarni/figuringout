@@ -27,7 +27,7 @@ const BlogCard: React.FC<BlogCardProps> = ({ author, title, content, publishedDa
   return (
     <Link
       to={`/blog/${id}`}
-      className={`max-sm:snap-center min-h-screen md:min-h-min md:h-min blog-card md:px-4 md:py-8 ${fullWidth ? 'w-full' : 'w-full md:w-3/6'} md:border-b  my-1 bg-opacity-10 shadow-b-sm flex flex-col justify-between md:grid md:grid-cols-12 md:gap-6 lg:gap-0`}
+      className={`max-sm:snap-center min-h-screen md:min-h-min md:h-min blog-card md:px-4 md:py-8 w-full md:border-b  my-1 bg-opacity-10 shadow-b-sm flex flex-col justify-between md:grid md:grid-cols-12 md:gap-6 lg:gap-0`}
     >
       <div className="order-2 flex flex-col md:order-none md:col-span-9 p-4 md:px-4">
         <div className="order-3 md:order-none flex itemxs-center gap-4">
