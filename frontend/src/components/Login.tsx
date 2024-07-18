@@ -86,7 +86,7 @@ const Login = () => {
           Sign In
           {loading && <Spinner className="w-4 h-4" />}
         </button>
-        <div className="flex mt-6 justify-center items-center ">
+        <div className="mt-8">
           <GoogleLoginButton />
         </div>
       </div>
