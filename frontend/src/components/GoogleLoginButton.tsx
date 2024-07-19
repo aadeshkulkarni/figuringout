@@ -1,37 +1,19 @@
 import { useGoogleLogin } from '@react-oauth/google';
-import type { TokenResponse } from '@react-oauth/google';
-import axios from 'axios';
-import { useEffect, useState } from 'react';
 
-export const GoogleLoginButton = () => {
-  const [user, setUser] = useState<TokenResponse | null>();
-  const [profile, setProfile] = useState([]);
-  const login = useGoogleLogin({
-    onSuccess: (response) => setUser(response),
+interface Props {
+  GoogleReqHander: (access_token: string) => void;
+}
+export const GoogleLoginButton = ({ GoogleReqHander }: Props) => {
+  const clickHandler = useGoogleLogin({
+    onSuccess: (response) => GoogleReqHander(response.access_token),
     onError: (error) => console.log(error),
   });
-  useEffect(() => {
-    if (user) {
-      axios
-        .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
-          headers: {
-            Authorization: `Bearer ${user.access_token}`,
-            Accept: 'application/json',
-          },
-        })
-        .then((res) => {
-          console.log(res.data);
-          setProfile(res.data);
-        })
-        .catch((err) => console.log(err));
-    }
-  }, [user]);
   return (
     <div>
       <button
-        className="btn btn-primary flex bg-white text-black  rounded-sm w-full p-4 justify-center"
+        className="btn btn-primary flex bg-white text-black  rounded-sm w-full p-3 justify-center"
         type="button"
-        onClick={() => login()}
+        onClick={() => clickHandler()}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

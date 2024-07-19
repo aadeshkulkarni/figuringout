@@ -17,7 +17,6 @@ const Login = () => {
     email: '',
     password: '',
   });
-
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
       sendRequest();
@@ -50,6 +49,30 @@ const Login = () => {
       setLoading(false);
     }
   }
+  const GoogleSignInRequest = async (accessToken: string) => {
+    try {
+      setLoading(true);
+      const response = await axios.post(`${BACKEND_URL}/api/v1/user/google/signin`, {
+        access_token: accessToken,
+      });
+      //console.log(response.data);
+      localStorage.setItem('token', response?.data?.jwt);
+      localStorage.setItem('user', JSON.stringify(response?.data?.user || {}));
+      navigate('/blogs');
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status && error.response.status > 300) {
+          toast.error(error.response.data.message || 'Please Try Again');
+        } else {
+          toast.error('Something went wrong');
+        }
+      } else {
+        toast.error('Something went wrong');
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="text-center flex flex-col justify-center items-center h-screen md:h-auto">
@@ -87,7 +110,7 @@ const Login = () => {
           {loading && <Spinner className="w-4 h-4" />}
         </button>
         <div className="mt-8">
-          <GoogleLoginButton />
+          <GoogleLoginButton GoogleReqHander={GoogleSignInRequest} />
         </div>
       </div>
       <ToastWrapper />

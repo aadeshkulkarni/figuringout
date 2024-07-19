@@ -1,4 +1,4 @@
-import { SignupInput } from '@aadeshk/medium-common';
+import type { SignupInput } from '@aadeshk/medium-common';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -11,6 +11,7 @@ import Spinner from './Spinner';
 import PasswordField from './PasswordField';
 import validatePassword from '../util/passwordStrength';
 import validateEmail from '../util/emailValidation';
+import { GoogleLoginButton } from './GoogleLoginButton';
 const Register = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState<boolean>(false);
@@ -68,6 +69,30 @@ const Register = () => {
       setLoading(false);
     }
   }
+  const GoogleSignupRequest = async (accessToken: string) => {
+    try {
+      setLoading(true);
+      const response = await axios.post(`${BACKEND_URL}/api/v1/user/google/signup`, {
+        access_token: accessToken,
+      });
+      //console.log(response.data.user);
+      localStorage.setItem('token', response?.data?.jwt);
+      localStorage.setItem('user', JSON.stringify(response?.data?.user || {}));
+      navigate('/blogs');
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status && error.response.status > 300) {
+          toast.error(error.response.data.message || 'Please Try Again');
+        } else {
+          toast.error('Something went wrong');
+        }
+      } else {
+        toast.error('Something went wrong');
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className="text-center flex flex-col justify-center items-center h-screen md:h-auto">
       <h1 className="text-4xl font-bold ">Create an account</h1>
@@ -105,6 +130,7 @@ const Register = () => {
           </div>
         </div>
         <button
+          type="button"
           onClick={sendRequest}
           className="w-full bg-black text-white p-4 rounded-md flex justify-center items-center gap-4"
           disabled={loading}
@@ -112,6 +138,9 @@ const Register = () => {
           Sign Up
           {loading && <Spinner className="w-4 h-4" />}
         </button>
+        <div className="mt-8">
+          <GoogleLoginButton GoogleReqHander={GoogleSignupRequest} />
+        </div>
       </div>
       <ToastWrapper />
     </div>
