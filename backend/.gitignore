@@ -10,4 +10,3 @@ pnpm-lock.yaml
 bun.lockb
 .env
 wrangler.toml
-wrangler.sample.toml
