@@ -1,7 +1,6 @@
 import Appbar from '../components/Appbar';
 import { BACKEND_URL } from '../config';
-// import { createThoughtInput, updateThoughtInput } from '@aadeshk/medium-common';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 
 export const Thought = ()=>{
@@ -23,6 +22,7 @@ export const Thought = ()=>{
                                 content,
                                 title
                             })
+                            console.log(res)
                         }}>Create thought</button>
                     </div>
                     <div>
@@ -34,7 +34,7 @@ export const Thought = ()=>{
                     <div>
                         <button onClick = {async ()=>{
                             const res = await axios.delete(`${BACKEND_URL}/api/v1/thought/paste_id_here`)
-                            
+                            console.log(res);
                         }}>Delete Thought(Paste id in axios url to delete particular)</button>
                     </div>
                     <div>
@@ -43,7 +43,7 @@ export const Thought = ()=>{
                                 content,
                                 title
                             })
-                            
+                            console.log(res);
                         }}>Update</button>
                     </div>
                     <div>
