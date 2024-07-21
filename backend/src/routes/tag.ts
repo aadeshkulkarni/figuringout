@@ -24,6 +24,11 @@ tagRouter.get("/", async (c) => {
 				id: true,
 				tagName: true,
 			},
+			where: {
+				tagsOnPost: {
+					some: {},
+				}
+			}
 		};
 		const tags = await prisma.tag.findMany(query);
 		return c.json({
