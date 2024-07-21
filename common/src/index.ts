@@ -15,6 +15,22 @@ export const signinInput = z.object({
 
 export type SigninInput = z.infer<typeof signinInput>;
 
+//Thought
+export const createThoughtInput = z.object({
+  title: z.string(),
+  content: z.string(),
+  publishedDate: z.string().optional(),
+});
+export type CreateThoughtInput = z.infer<typeof createThoughtInput>;
+
+//
+export const updateThoughtInput = z.object({
+  title: z.string(),
+  content: z.string(),
+  id: z.string(),
+});
+
+export type UpdateThoughtInput = z.infer<typeof updateThoughtInput>;
 
 export const createBlogInput = z.object({
     title: z.string(),

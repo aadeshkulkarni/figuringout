@@ -28,6 +28,7 @@ model User {
   comments     Comment[]
   subscribers  Subscriber[] @relation("UserSubscribers")
   subscribedTo Subscriber[] @relation("UserSubscribedTo")
+  thoughts     Thought[]
 }
 
 model Post {
@@ -99,4 +100,14 @@ model Subscriber {
   
   user          User     @relation("UserSubscribers", fields: [userId], references: [id])
   subscriber    User     @relation("UserSubscribedTo", fields: [subscriberId], references: [id])
+}
+
+
+model Thought {
+  id            String     @id @default(uuid())
+  content       String
+  publishedDate DateTime   @default(now())
+  published     Boolean    @default(false)
+  author        User       @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId      String
 }
