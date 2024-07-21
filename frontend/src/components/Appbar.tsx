@@ -73,12 +73,12 @@ const Appbar = ({ skipAuthCheck = false, pageActions, hideWriteAction = false }:
                 </Link>
               )}
               <Link to="/thoughts">
-              <button
-                    type="button"
-                    className="focus:outline-none hover:bg-sub rounded-3xl focus:ring-4 focus:ring-gray-100 font-medium flex items-center gap-2 text-sm px-3 md:px-5 py-2.5"
-                  >
-                    <WriteIcon /> thought
-                  </button>
+                <button
+                  type="button"
+                  className="focus:outline-none hover:bg-sub rounded-3xl focus:ring-4 focus:ring-gray-100 font-medium flex items-center gap-2 text-sm px-3 md:px-5 py-2.5"
+                >
+                  <WriteIcon /> thought
+                </button>
               </Link>
               <div className="ml-4">
                 <ProfileBox />

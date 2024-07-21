@@ -32,13 +32,12 @@ function App() {
               <Route path="/blogs" element={<Blogs />} />
               <Route path="/blog/:id" element={<Blog />} />
               <Route path="/thoughts" element={<Thought />} />
-
               <Route path="/publish" element={<Publish />} />
               <Route path="/edit/:id" element={<Edit />} />
               <Route path="/bookmarks" element={<Bookmarks />} />
               <Route path="/profile/:id" element={<User />} />
               <Route path="/contributors" element={<Contributor />} />
-              <Route path='*' element={<Error />} />
+              <Route path="*" element={<Error />} />
               {/* <Route path="/" element={<Home />} /> */}
               <Route path="/" element={<Blogs />} />
             </Routes>

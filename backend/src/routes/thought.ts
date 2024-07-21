@@ -31,18 +31,18 @@ thoughtRouter.get("/all/:userId", async (c) => {
             where: {
                 authorId: userId,
             },
-            select:{
-                authorId:true,
-                content:true,
-                id:true,
-                published:true,
-                publishedDate:true,
-                author:{
-                    select:{
-                        name:true
+            select: {
+                authorId: true,
+                content: true,
+                id: true,
+                published: true,
+                publishedDate: true,
+                author: {
+                    select: {
+                        name: true
                     }
                 }
-            
+
             }
         });
 
@@ -68,18 +68,18 @@ thoughtRouter.get("/:thoughtId", async (c) => {
             where: {
                 id: thoughtId,
             },
-            select:{
-                authorId:true,
-                content:true,
-                id:true,
-                published:true,
-                publishedDate:true,
-                author:{
-                    select:{
-                        name:true
+            select: {
+                authorId: true,
+                content: true,
+                id: true,
+                published: true,
+                publishedDate: true,
+                author: {
+                    select: {
+                        name: true
                     }
                 }
-                
+
 
             }
         });
@@ -153,7 +153,7 @@ thoughtRouter.put("/update", async (c) => {
         const prisma = getDBInstance(c)
         const body = await c.req.json();
         const { id, content } = body;
-        if (!content || !id ) {
+        if (!content || !id) {
             c.status(400);
             return c.json({
                 message: "Please provide all required values",
