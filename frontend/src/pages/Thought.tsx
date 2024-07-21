@@ -1,6 +1,6 @@
 import Appbar from '../components/Appbar';
 import { BACKEND_URL } from '../config';
-import { createThoughtInput, updateThoughtInput } from '@aadeshk/medium-common';
+// import { createThoughtInput, updateThoughtInput } from '@aadeshk/medium-common';
 import React, { useState } from 'react';
 import axios from 'axios';
 
