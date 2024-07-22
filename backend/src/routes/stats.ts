@@ -85,7 +85,6 @@ statsRouter.get("/", async (c) => {
       ORDER BY 
         month;
     `;
-    
 
     // For parsing BigInts
     const safeData = {
@@ -118,7 +117,7 @@ statsRouter.get("/", async (c) => {
 
     return c.json(safeData);
 
-  } catch (error : any) {
+  } catch (error: any) {
     console.error("Error fetching stats:", error);
     c.status(403);
     return c.json({
