@@ -5,7 +5,7 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider   = "prisma-client-js"
   engineType = "library"
 }
 
@@ -15,34 +15,38 @@ datasource db {
 }
 
 model User {
-  id           String     @id @default(uuid())
-  email        String     @unique
-  name         String?
-  details      String?
-  profilePic   String?
-  password     String
-  creationDate DateTime  @default(now())
-  posts        Post[]
-  bookmarks    Bookmark[]
-  claps        Clap[]
-  comments     Comment[]
-  subscribers  Subscriber[] @relation("UserSubscribers")
-  subscribedTo Subscriber[] @relation("UserSubscribedTo")
+  id            String       @id @default(uuid())
+  email         String       @unique
+  name          String?
+  details       String?
+  profilePic    String?
+  googleId      String?      @unique
+  verifiedEmail Boolean      @default(false)
+  provider      String       @default("local")
+  password      String?
+  creationDate  DateTime     @default(now())
+  posts         Post[]
+  bookmarks     Bookmark[]
+  claps         Clap[]
+  comments      Comment[]
+  subscribers   Subscriber[] @relation("UserSubscribers")
+  subscribedTo  Subscriber[] @relation("UserSubscribedTo")
 }
 
 model Post {
-  id            String     @id @default(uuid())
+  id            String       @id @default(uuid())
   title         String
   content       String
-  publishedDate DateTime   @default(now())
-  published     Boolean    @default(false)
-  author        User       @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  publishedDate DateTime     @default(now())
+  published     Boolean      @default(false)
+  author        User         @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId      String
   bookmarks     Bookmark[]
   claps         Clap[]
   comments      Comment[]
   tagsOnPost    TagsOnPost[]
 }
+
 model Bookmark {
   id     String @id @default(uuid())
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -52,51 +56,51 @@ model Bookmark {
 }
 
 model Clap {
-  id     String @id @default(uuid())
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String
-  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
-  postId String
-  comment Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
-  commentId String? 
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId    String
+  comment   Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  commentId String?
 }
 
 model Comment {
-  id     String @id @default(uuid())
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String
-  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
-  postId String
-  message String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  parent Comment? @relation("ParentChild", fields: [parentId], references: [id], onDelete: Cascade)
-  children Comment[] @relation("ParentChild")
-  parentId String?
-  claps Clap[]
+  id        String    @id @default(uuid())
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  post      Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId    String
+  message   String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  parent    Comment?  @relation("ParentChild", fields: [parentId], references: [id], onDelete: Cascade)
+  children  Comment[] @relation("ParentChild")
+  parentId  String?
+  claps     Clap[]
 }
 
 model Tag {
-  id            String @id @default(uuid())
-  tagName       String
-  creationDate  DateTime     @default(now())
-  tagsOnPost    TagsOnPost[]
+  id           String       @id @default(uuid())
+  tagName      String
+  creationDate DateTime     @default(now())
+  tagsOnPost   TagsOnPost[]
 }
 
 model TagsOnPost {
-  id      String @id @default(uuid())
-  tag     Tag   @relation(fields: [tagId], references: [id], onDelete: Cascade)
-  tagId   String
-  post    Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
-  postId  String
+  id     String @id @default(uuid())
+  tag    Tag    @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  tagId  String
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId String
 }
 
 model Subscriber {
-  id            String   @id @default(uuid())
-  userId        String
-  subscriberId  String
-  creationDate  DateTime @default(now())
-  
-  user          User     @relation("UserSubscribers", fields: [userId], references: [id])
-  subscriber    User     @relation("UserSubscribedTo", fields: [subscriberId], references: [id])
+  id           String   @id @default(uuid())
+  userId       String
+  subscriberId String
+  creationDate DateTime @default(now())
+
+  user       User @relation("UserSubscribers", fields: [userId], references: [id])
+  subscriber User @relation("UserSubscribedTo", fields: [subscriberId], references: [id])
 }
