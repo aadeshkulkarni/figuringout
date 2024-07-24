@@ -22,8 +22,8 @@ tagRouter.get("/", async (c) => {
 		let query: any = {
 			select: {
 				id: true,
-				tagName: true,
-			},
+				tagName: true
+			}
 		};
 		const tags = await prisma.tag.findMany(query);
 		return c.json({
