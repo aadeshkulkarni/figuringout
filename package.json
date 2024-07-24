@@ -8,5 +8,8 @@
   "license": "MIT",
   "devDependencies": {
     "concurrently": "^8.2.2"
+  },
+  "dependencies": {
+    "@react-oauth/google": "^0.12.1"
   }
 }
