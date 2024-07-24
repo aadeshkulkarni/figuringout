@@ -23,22 +23,7 @@ tagRouter.get("/", async (c) => {
 			select: {
 				id: true,
 				tagName: true,
-				_count: {
-					select: {
-						tagsOnPost: true,
-					}
-				}
 			},
-			where: {
-				tagsOnPost: {
-					some: {},
-				}
-			},
-			orderBy:{
-				_count: {
-					tagsOnPost: 'desc'
-				},
-			}
 		};
 		const tags = await prisma.tag.findMany(query);
 		return c.json({
