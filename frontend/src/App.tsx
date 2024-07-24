@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import Spinner from './components/Spinner';
 import { ThemeProvider } from '@/components/theme-provider';
+import Stats from './pages/Stats';
 // const Home = lazy(() => import('./pages/Home'));
 const Signup = lazy(() => import('./pages/Signup'));
 const Signin = lazy(() => import('./pages/Signin'));
@@ -38,6 +39,7 @@ function App() {
               <Route path='*' element={<Error />} />
               {/* <Route path="/" element={<Home />} /> */}
               <Route path="/" element={<Blogs />} />
+              <Route path="/stats" element={<Stats />} />
             </Routes>
           </Suspense>
         </BrowserRouter>
