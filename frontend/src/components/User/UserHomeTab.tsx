@@ -23,7 +23,6 @@ const UserHomeTab = () => {
                 title={blog.title}
                 content={blog.content}
                 tagsOnPost={blog.tagsOnPost}
-                fullWidth
               />
             ))}
         </div>
