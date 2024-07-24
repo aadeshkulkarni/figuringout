@@ -58,7 +58,7 @@ const BlogsList = () => {
               />
             ))}
         </div>
-        <div className="col-span-12 md:col-span-4 md:py-4">
+        <div className="col-span-12 md:col-span-4 md:py-4 md:border-l">
           {recommendedSubscribers.length > 0 &&
             recommendedSubscribers.map((subscriber: User) => (
               <SubscriberCard

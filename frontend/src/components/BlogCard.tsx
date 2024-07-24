@@ -16,11 +16,10 @@ interface BlogCardProps {
   content: string;
   publishedDate: string;
   id: string;
-  fullWidth?: boolean;
   tagsOnPost: Array<any>;
 }
 
-const BlogCard: React.FC<BlogCardProps> = ({ author, title, content, publishedDate, id, fullWidth, tagsOnPost }) => {
+const BlogCard: React.FC<BlogCardProps> = ({ author, title, content, publishedDate, id, tagsOnPost }) => {
   // split and slice combination is added so that the string doesn't get trimmed in middle of a word
   const quillContent = getPlainTextFromHTML(content).split(' ')?.slice(0, 100).join(' ') + '...';
 
