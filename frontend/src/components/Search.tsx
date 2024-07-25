@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import debounce from 'lodash.debounce';
 import { BACKEND_URL } from '../config';
+import Spinner from './Spinner';
 
 interface SearchResult {
   posts: { title: string; id: string }[];
@@ -37,6 +38,17 @@ const Search: React.FC = () => {
     }
   };
 
+  const getHighlightedText = (text: string, query: string) => {
+    const parts = text.split(new RegExp(`(${query})`, 'gi'));
+    return (
+      <span>
+        {parts.map((part, index) => {
+          return part.toLowerCase() === query.toLowerCase() ? <b key={index}>{part}</b> : part;
+        })}
+      </span>
+    );
+  };
+
   const debouncedSearch = useCallback(debounce(handleSearch, 200), []);
 
   useEffect(() => {
@@ -48,6 +60,11 @@ const Search: React.FC = () => {
 
   return (
     <div className="hidden md:block relative md:w-[190px] lg:w-[400px]">
+      {loading && (
+        <div className="inline-block absolute opacity-70 md:top-3 lg:top-3 md:left-[80%] lg:left-[90%]">
+          <Spinner className="h-5 w-5" />
+        </div>
+      )}
       <input
         type="text"
         className="p-2 px-6 border rounded-full focus:outline-none focus:ring-black focus:ring-1 w-full bg-main text-main"
@@ -57,17 +74,19 @@ const Search: React.FC = () => {
       />
       {query && (
         <>
-          <div className="absolute top-9 left-0 right-0 bg-main border border-gray-100 dark:border-gray-700 shadow-lg rounded mt-1 z-10 md:w-[450px] lg:w-[600px]">
+          <div className="absolute top-9 left-0 right-0 bg-main border overflow-y-scroll no-scrollbar max-h-80 md:max-h-80 lg:max-h-96 border-gray-100 dark:border-gray-700 shadow-lg rounded-2xl mt-1 z-10 w-[230px] md:w-[400px] lg:w-[100%]">
             <div className="p-2">
               <h3 className="text-lg font-semibold py-2 pb-1">Posts</h3>
               {results.posts.length > 0 ? (
                 results.posts.map((post) => (
                   <Link key={post.id} to={`/blog/${post.id}`} className="block p-1 cursor-pointer hover:bg-sub">
-                    <div>{post.title}</div>
+                    <div className="border-gray-300 dark:border-gray-800 border-b pb-2 hover:bg-slate-100 hover:dark:bg-slate-800">
+                      {getHighlightedText(post.title, query)}
+                    </div>
                   </Link>
                 ))
               ) : (
-                <div className="p-1">{loading ? 'Loading...' : 'No posts found'} </div>
+                <div className="p-1">{loading ? 'loading...' : 'No posts found'} </div>
               )}
             </div>
             <div className="p-2">
@@ -75,7 +94,7 @@ const Search: React.FC = () => {
               {results.users.length > 0 ? (
                 results.users.map((user) => (
                   <Link key={user.id} to={`/profile/${user.id}`} className="block p-1 cursor-pointer hover:bg-sub">
-                    <div>{user.name}</div>
+                    <div>{getHighlightedText(user.name, query)}</div>
                   </Link>
                 ))
               ) : (
@@ -87,7 +106,7 @@ const Search: React.FC = () => {
               {results.tags.length > 0 ? (
                 results.tags.map((tag) => (
                   <Link key={tag.id} to={`/blogs?tag=${tag.id}`} className="block p-1 cursor-pointer hover:bg-sub">
-                    <div>{tag.tagName}</div>
+                    <div>{getHighlightedText(tag.tagName, query)}</div>
                   </Link>
                 ))
               ) : (
