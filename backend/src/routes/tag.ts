@@ -17,42 +17,38 @@ export const tagRouter = new Hono<{
 
 tagRouter.get("/", async (c) => {
 	try {
-		const prisma = getDBInstance(c);
+	  const prisma = getDBInstance(c);
 
-		let query: any = {
+	  const tags = await prisma.tag.findMany({
+		select: {
+		  id: true,
+		  tagName: true,
+		  _count: {
 			select: {
-				id: true,
-				tagName: true,
-				_count: {
-					select: {
-						tagsOnPost: true,
-					}
-				}
+			  tagsOnPost: true,
 			},
-			where: {
-				tagsOnPost: {
-					some: {},
-				}
-			},
-			orderBy:{
-				_count: {
-					tagsOnPost: 'desc'
-				},
-			}
-		};
-		const tags = await prisma.tag.findMany(query);
-		return c.json({
-			tags: tags,
-		});
+		  },
+		},
+	  });
+	  
+	  const sortedTags = tags.sort((a, b) => b._count.tagsOnPost - a._count.tagsOnPost);
+	  const transformedTags = sortedTags.map(tag => ({
+		id: tag.id,
+		tagName: tag.tagName,
+		postCount: tag._count.tagsOnPost, 
+	  }));
+	  return c.json({
+		tags: transformedTags,
+	  });
 	} catch (e) {
-		console.log(e);
-		c.status(411);
-		return c.json({
-			message: "Something went wrong while fetching tags.",
-		});
+	  console.error(e);
+	  c.status(500);
+	  return c.json({
+		message: "Something went wrong while fetching tags.",
+	  });
 	}
-});
-
+  });
+  
 tagRouter.get("/recommended", async (c) => {
 	try {
 		const prisma = getDBInstance(c);
