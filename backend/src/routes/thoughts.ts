@@ -51,9 +51,18 @@ thoughtRouter.use("/*", async (c, next) => {
           content: content.thought,
           authorId: userId,
         },
+        include: {
+            author: {
+                select: {
+                    id: true,
+                    email: true,
+                    profilePic: true,
+                },
+            },
+        },
       });
   
-      return c.json({ success: true, thought });
+      return c.json(thought);
     } catch (e: any) {
       console.error("Error creating thought:", e);
       c.status(500);
@@ -122,6 +131,15 @@ thoughtRouter.put("/:id", async (c) => {
         data: {
           content:content.newThought,
         },
+        include: {
+            author: {
+                select: {
+                    id: true,
+                    email: true,
+                    profilePic: true,
+                },
+            },
+        },
       });
   
       return c.json({ success: true });
@@ -138,7 +156,13 @@ thoughtRouter.get("/", async (c) => {
       const prisma = getDBInstance(c);
       const thoughts = await prisma.thought.findMany({
         include: {
-            author: true,
+            author: {
+                select: {
+                    id: true,
+                    email: true,
+                    profilePic: true,
+                },
+            },
         },
         });
 
@@ -160,7 +184,13 @@ thoughtRouter.get("/:id", async (c) => {
           id,
         },
         include: {
-            author: true,
+            author: {
+                select: {
+                    id: true,
+                    email: true,
+                    profilePic: true,
+                },
+            },
         },
 
         });
