@@ -13,8 +13,8 @@ export const userRouter = new Hono<{
     R2_SUBDOMAIN_URL: string;
   };
   Variables: {
-		userId: string;
-	};
+    userId: string;
+  };
 }>();
 
 userRouter.post("/signup", async (c) => {
@@ -44,7 +44,7 @@ userRouter.post("/signup", async (c) => {
       data: {
         email: body.email,
         password: body.password,
-        name: body.name
+        name: body.name,
       },
     });
     const token = await sign({ id: newUser.id }, c.env.JWT_SECRET);
@@ -52,11 +52,7 @@ userRouter.post("/signup", async (c) => {
     return c.json({
       message: "Sign up successful",
       jwt: token,
-      user: {
-        id: newUser.id,
-        email: newUser.email,
-        name: newUser.name
-      }
+      user: newUser,
     });
   } catch (ex) {
     return c.status(403);
@@ -108,6 +104,131 @@ userRouter.post("/signin", async (c) => {
   }
 });
 
+userRouter.post("/google/signin", async (c) => {
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL,
+  }).$extends(withAccelerate());
+  try {
+    const body = await c.req.json();
+    const { access_token } = body;
+
+    if (!access_token) {
+      return c.json({ error: "Access token is required" }, 400);
+    }
+
+    const response = await fetch(
+      "https://www.googleapis.com/oauth2/v1/userinfo",
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+          Accept: "application/json",
+        },
+      }
+    );
+    if (!response.ok) {
+      const errorData = await response.json();
+      // console.error("Error from Google API:", errorData);
+      return c.json({ error: errorData || "Failed to fetch user info" }, 502);
+    }
+
+    const userData = await response.json();
+
+    // console.log(userData);
+    const user = await prisma.user.findUnique({
+      where: {
+        email: userData.email,
+        provider: "google",
+      },
+    });
+    if (!user) {
+      c.status(403);
+      return c.json({
+        message: "Email not Found",
+      });
+    }
+    const token = await sign({ id: user.id }, c.env.JWT_SECRET);
+    //console.log(user, token);
+    return c.json({
+      message: "completed",
+      user: user,
+      jwt: token,
+    });
+  } catch (error) {
+    //console.error("Error during Google login:", error);
+    return c.json({ error: "Internal Server Error" }, 503);
+  }
+});
+userRouter.post("/google/signup", async (c) => {
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL,
+  }).$extends(withAccelerate());
+  try {
+    const body = await c.req.json();
+    const { access_token } = body;
+
+    if (!access_token) {
+      return c.json({ error: "Access token is required" }, 400);
+    }
+
+    const response = await fetch(
+      "https://www.googleapis.com/oauth2/v1/userinfo",
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+          Accept: "application/json",
+        },
+      }
+    );
+    if (!response.ok) {
+      const errorData = await response.json();
+      // console.error("Error from Google API:", errorData);
+      return c.json({ error: errorData || "Failed to fetch user info" }, 502);
+    }
+
+    const userData = await response.json();
+
+    //console.log(userData);
+    const user = await prisma.user.findUnique({
+      where: {
+        email: userData.email,
+        provider: "google",
+      },
+    });
+    if (user) {
+      c.status(409);
+      return c.json({
+        message: "Email already Exist",
+      });
+    }
+    const newUser = await prisma.user.create({
+      data: {
+        email: userData.email,
+        googleId: userData.id,
+        name: userData.name,
+        verifiedEmail: true,
+        provider: "google",
+        profilePic: userData.picture,
+      },
+    });
+    if (!newUser) {
+      c.status(500);
+      return c.json({
+        message: "Internal Server Error",
+      });
+    }
+    const token = await sign({ id: newUser.id }, c.env.JWT_SECRET);
+    return c.json({
+      message: "completed",
+      user: newUser,
+      jwt: token,
+    });
+  } catch (error) {
+    //console.error("Error during Google login:", error);
+    return c.json({ error: "Internal Server Error" }, 500);
+  }
+});
 userRouter.use("/*", async (c, next) => {
   try {
     const header = c.req.header("authorization") || "";
@@ -195,7 +316,7 @@ userRouter.post("/updateDetail", async (c) => {
         name: user.name,
         details: user.details,
         profilePic: user.profilePic,
-        email: user.email
+        email: user.email,
       });
     }
     c.status(411);

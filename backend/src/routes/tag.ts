@@ -40,6 +40,7 @@ tagRouter.get("/", async (c) => {
 	  return c.json({
 		tags: transformedTags,
 	  });
+    
 	} catch (e) {
 	  console.error(e);
 	  c.status(500);
