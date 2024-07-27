@@ -42,8 +42,8 @@ tagRouter.get("/", async (c) => {
 	  });
     
 	} catch (e) {
-	  console.error(e);
-	  c.status(500);
+	  console.log(e);
+	  c.status(411);
 	  return c.json({
 		message: "Something went wrong while fetching tags.",
 	  });
