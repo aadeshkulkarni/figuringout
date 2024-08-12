@@ -5,6 +5,8 @@ import TextField from '../TextField';
 import Avatar from '../Avatar';
 import { toast } from 'react-toastify';
 import { FF_IMAGE_UPLOADS } from '../../config';
+import { Input } from '../ui/input';
+import { Button } from '../ui/button';
 
 const UserAboutTab = () => {
   const { currentUser, editingDetails, isAuthorizedUser, editUserDetails } = useContext(UserProfileContext);
@@ -61,22 +63,22 @@ const UserAboutTab = () => {
                 </div>
                 <div className="mx-4 sm:w-fit w-[66%]">
                   <div>
-                    <button
+                    <Button
                       type="button"
                       className="text-green-700 py-2 border-none"
                       onClick={() => inputFile?.current?.click()}
                     >
                       Update
-                    </button>
-                    <button
+                    </Button> &nbsp;
+                    <Button
                       disabled={!editPicture}
                       type="button"
                       onClick={() => setEditPicture(null)}
                       className="text-red-700 px-4 py-2 border-none disabled:opacity-50"
                     >
                       Remove
-                    </button>
-                    <input
+                    </Button>
+                    <Input
                       type="file"
                       ref={inputFile}
                       className="invisible"
