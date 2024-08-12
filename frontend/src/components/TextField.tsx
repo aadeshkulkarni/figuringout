@@ -1,4 +1,5 @@
 import { ChangeEvent } from 'react';
+import { Input } from './ui/input';
 
 interface TextFieldType {
   id?: string;
@@ -16,14 +17,14 @@ const TextField = ({ id, label, suffix, name = 'txtField', value, type = 'text',
       <label htmlFor={id} className="block mb-2 text-sm font-medium text-main">
         {label}
       </label>
-      <input
+      <Input
         type={type}
         name={name}
-        className="w-full border rounded border-gray-100 resize-none p-3 mb-2 bg-sub"
+        className="w-full border rounded border-gray-500 resize-none p-3 mb-2 bg-sub"
         value={value}
         onChange={onChange}
       />
-      <label className="text-gray-600 text-xs">{suffix}</label>
+      <label className="text-gray-400 text-xs">{suffix}</label>
     </div>
   );
 };

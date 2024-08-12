@@ -5,6 +5,7 @@ import TextField from '../TextField';
 import Avatar from '../Avatar';
 import { toast } from 'react-toastify';
 import { FF_IMAGE_UPLOADS } from '../../config';
+import { Button } from '../ui/button';
 
 const UserAboutTab = () => {
   const { currentUser, editingDetails, isAuthorizedUser, editUserDetails } = useContext(UserProfileContext);
@@ -61,21 +62,21 @@ const UserAboutTab = () => {
                 </div>
                 <div className="mx-4 sm:w-fit w-[66%]">
                   <div>
-                    <button
+                    <Button
                       type="button"
                       className="text-green-700 py-2 border-none"
                       onClick={() => inputFile?.current?.click()}
                     >
                       Update
-                    </button>
-                    <button
+                    </Button>  &nbsp;&nbsp;
+                    <Button
                       disabled={!editPicture}
                       type="button"
                       onClick={() => setEditPicture(null)}
                       className="text-red-700 px-4 py-2 border-none disabled:opacity-50"
                     >
                       Remove
-                    </button>
+                    </Button>
                     <input
                       type="file"
                       ref={inputFile}
@@ -108,20 +109,20 @@ const UserAboutTab = () => {
             }}
             suffix="Appears on your Profile and next to your stories."
           />
-          <button
+          <Button
             type="submit"
             onClick={handleSubmit}
             className="cursor-pointer focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 mt-4"
           >
             {editingDetails ? <Spinner className="w-4 h-4" /> : <div>Save</div>}
-          </button>
-          <button
+          </Button>
+          <Button
             type="button"
             onClick={() => {}}
             className="ml-4 cursor-pointer focus:outline-none text-green-700 border border-green-700 hover:bg-green-800 hover:text-white focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 mt-4"
           >
             {editingDetails ? <Spinner className="w-4 h-4" /> : <div>Cancel</div>}
-          </button>
+          </Button>
         </>
       )}
     </form>

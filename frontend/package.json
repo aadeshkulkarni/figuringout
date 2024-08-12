@@ -25,6 +25,7 @@
     "@aadeshk/medium-common": "^1.0.2",
     "@radix-ui/react-dropdown-menu": "^2.1.1",
     "@radix-ui/react-slot": "^1.1.0",
+    "@react-oauth/google": "^0.12.1",
     "@types/quill": "^2.0.14",
     "animate.css": "^4.1.1",
     "axios": "^1.6.8",
@@ -43,8 +44,7 @@
     "tailwind-merge": "^2.3.0",
     "tailwind-scrollbar-hide": "^1.1.7",
     "tailwindcss-animate": "^1.0.7",
-    "typewriter-effect": "^2.21.0",
-    "@react-oauth/google": "^0.12.1"
+    "typewriter-effect": "^2.21.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.3.0",
