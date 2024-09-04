@@ -36,6 +36,7 @@
     "lucide-react": "^0.397.0",
     "quill": "^2.0.2",
     "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
     "react-confetti": "^6.1.0",
     "react-dom": "^18.2.0",
     "react-quill": "^2.0.0",

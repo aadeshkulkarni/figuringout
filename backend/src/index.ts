@@ -7,6 +7,7 @@ import { clapRouter } from "./routes/clap";
 import { tagRouter } from "./routes/tag";
 import { subscriberRouter } from "./routes/subscriber";
 import { commentRouter } from "./routes/comments";
+import { statsRouter } from "./routes/stats";
 
 const app = new Hono<{
   Bindings: {
@@ -22,5 +23,6 @@ app.route('/api/v1/clap', clapRouter)
 app.route('/api/v1/tag', tagRouter)
 app.route('/api/v1/subscriber', subscriberRouter)
 app.route("/api/v1/comments", commentRouter)
+app.route("/api/v1/stats", statsRouter)
 
 export default app;
