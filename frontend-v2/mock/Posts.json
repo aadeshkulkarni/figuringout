@@ -1,0 +1,42 @@
+[
+    {
+      "id": 10002,
+      "content": "If you want to share your awesome Github Repository, this is the sign",
+      "author": "Aadesh Kulkarni",
+      "likes": 20,
+      "comments": 5,
+      "reposts": 2
+    },
+    {
+      "id": 10003,
+      "content": "What is something crazy popular that you have no interest in?",
+      "author": "Sara Johnson",
+      "likes": 15,
+      "comments": 8,
+      "reposts": 1
+    },
+    {
+      "id": 10004,
+      "content": "What makes people age the most?",
+      "author": "Michael Smith",
+      "likes": 25,
+      "comments": 10,
+      "reposts": 3
+    },
+    {
+      "id": 10005,
+      "content": "How can I lose weight in a healthy way without exercising?",
+      "author": "Emily Davis",
+      "likes": 30,
+      "comments": 7,
+      "reposts": 4
+    },
+    {
+      "id": 10006,
+      "content": "What is the meaning of life? Let's hear your thoughts.",
+      "author": "David Brown",
+      "likes": 40,
+      "comments": 12,
+      "reposts": 5
+    }
+  ]
