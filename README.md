@@ -16,14 +16,10 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/aadeshkulkarni/medium-app">
-    <img src="frontend/public/logo.png" alt="Logo" width="80" height="80">
-  </a>
-
   <h3 align="center">Figuringout.Life</h3>
 
   <p align="center">
-    A Fullstack Javascript blog with Generative AI!
+    A Thought Journal App! This platform allows users to express themselves through journaling and engage with a community of fellow thinkers. Share your thoughts, ask intriguing questions, or drop a funny one-liner, and watch as your ideas resonate with others. The app is undergoing redesign, at the moment.
     <br />
     <a href="https://github.com/aadeshkulkarni/medium-app"><strong>Explore the docs »</strong></a>
     <br />
@@ -39,24 +35,14 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Screenshot 2024-06-02 at 6 32 27 AM](https://ucarecdn.com/bb958f8f-63b3-4209-a1c4-c5a21ceed7af/cover.jpeg)](https://figuringout.life)
+A NextJS frontend and Cloudflare workers backend application. 
 
-A React frontend and Cloudflare workers backend application offering features that replicate Medium, the popular blogging platform. 
-
-Features:
-* Token based Authentication.
-* Create, Read, Update, Delete Blogs.
-* Bookmark, Like, Search, Filter Blogs.
-* Autosave blog while writing.
+Features [TODO]:
+* Token based Authentication. 
+* Create, Read, Update, Delete Posts.
+* Like, Comment, Repost Posts.
 * User profiles.
-* Topics.
 * Subscribe profiles.
-* Comment.
-
-Unique Features:
-* Generate Blog using AI.
-* Chat with AI to deepen your understanding around a particular blog.
-* Voice over for blogs, so you can listen to blogs while working out / having food.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -75,8 +61,8 @@ Unique Features:
 
 - Backend: Contains server-side code and logic.
 - Common: Shared assets and modules used by frontend and backend. (NPM Library)
-- Frontend: Contains client-side code and logic.
-
+- Frontend-v2: Contains the latest code. (This is actively developed)
+- Frontend: Contains (legacy code) client-side code and logic. (This is deployed)
 
 ## Local Setup
 
@@ -105,6 +91,15 @@ npm run dev
 ```
 
 > Note: wrangler.toml is the environment configuration file for a serverless backend. .env is used by Prisma for connection pooling. Ensure you configure both environment files accordingly.
+
+#### Frontend-v2
+
+- Navigate into the frontend directory using 
+```bash
+
+cd frontend-v2
+npm install
+npm run dev
 
 #### Frontend
 
@@ -141,13 +136,6 @@ To make the developer experience smoother, you can now run both the frontend and
    This command will start both the frontend and backend servers simultaneously.
 
 For additional customization options and detailed information, please refer to the [concurrently documentation](https://www.npmjs.com/package/concurrently).
-
-#### AI based Article content generation
-
-- set `FF_ENABLE_AI` = true in config.ts
-- set `OPENAI_API_KEY` in wrangler.toml file in the backend. (https://platform.openai.com/api-keys)
-- The feature is enabled only when title is atleast 10 characters long.
-
 
 ## Contributing
 
