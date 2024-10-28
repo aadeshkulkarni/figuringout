@@ -16,7 +16,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import axios from "axios";
+import { toast } from "sonner";
 import { useSession } from "next-auth/react";
+import { formatDate } from "@/app/lib/util";
 
 const CreatePost = () => {
   const maxCharacters = 300;
@@ -36,6 +38,14 @@ const CreatePost = () => {
   };
   const createPost = async () => {
     if (content.trim() === "") {
+      console.log("True");
+      toast("Content cannot be empty", {
+        description: formatDate(new Date()),
+        action: {
+          label: "Undo",
+          onClick: () => console.log("Undo"),
+        },
+      });
       return;
     }
 
@@ -46,6 +56,13 @@ const CreatePost = () => {
     if (response) {
       setContent("");
       setOpen(false);
+      toast("Post has been created.", {
+        description: formatDate(new Date()),
+        action: {
+          label: "View",
+          onClick: () => console.log("TODO : Add a link to the new post "),
+        },
+      });
     }
 
     console.log("Response: ", response);
