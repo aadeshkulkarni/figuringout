@@ -1,3 +1,0 @@
-- `npm login`
-- `tsc -b` (Compile typescript and generate dist)
-- `npm publish --access public`

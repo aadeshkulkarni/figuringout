@@ -219,3 +219,15 @@ Discord: [https://discord.gg/JtTQkzFY89](https://discord.gg/JtTQkzFY89)
 
 
 
+### MongoDB Setup (Locally)
+
+#### Using Docker:
+
+```
+    docker run --name mongo -p 27017:27017 -v ./data/db:/data/db -d mongo mongod
+```
+
+Add connection string in .env file 
+```
+MONGODB_URI=mongodb://localhost:27017
+```
