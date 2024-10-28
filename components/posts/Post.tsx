@@ -6,7 +6,7 @@ import PostMenu from "./PostMenu";
 
 const Post: React.FC<PostProps> = ({ user, content, likes, comments }) => {
   return (
-    <Card className="w-[600px] text-lg">
+    <Card className="w-screen md:w-[600px] text-lg">
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between gap-4 text-primary font-semibold pr-4">
           {/* TODO: Add User Image here */}
@@ -17,10 +17,10 @@ const Post: React.FC<PostProps> = ({ user, content, likes, comments }) => {
           <PostMenu  />
         </div>
       </CardHeader>
-      <CardContent className="pl-[80px] pr-[40px]">
+      <CardContent className="md:pl-[80px] md:pr-[40px]">
         <p>{content}</p>
       </CardContent>
-      <CardFooter className="pl-[60px]">
+      <CardFooter className="md:pl-[60px]">
         <div className="flex gap-1">
           <Button variant="ghost">
             <Heart className="w-5 h-5" /> {likes?.length}

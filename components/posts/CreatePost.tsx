@@ -54,7 +54,7 @@ const CreatePost = () => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="h-fit">
-        <Card className="rounded-t-3xl w-[600px] cursor-pointer text-lg">
+        <Card className="rounded-t-3xl w-screen md:w-[600px] cursor-pointer text-lg">
           <CardContent className="flex items-center justify-between gap-4 p-4 pl-6 ">
             <Image
               src={session?.data?.user?.image || ""}
@@ -72,7 +72,7 @@ const CreatePost = () => {
           </CardContent>
         </Card>
       </DialogTrigger>
-      <DialogContent className="w-3/5">
+      <DialogContent className="w-screen md:w-3/5">
         <DialogHeader>
           <DialogTitle>New post</DialogTitle>
           <DialogDescription className="py-4">
