@@ -1,4 +1,4 @@
-import { Heart, Home, Plus, Search, User } from "lucide-react";
+import { Heart, Home, LockKeyhole, Plus, Search, User } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
@@ -29,6 +29,12 @@ const NavigationList = [
     href: "",
     component: User,
     className: "fill-black",
+  },
+  {
+    key: "polcies",
+    href: "/policies",
+    component: LockKeyhole,
+    className: "",
   },
 ];
 
