@@ -38,7 +38,6 @@ const CreatePost = () => {
   };
   const createPost = async () => {
     if (content.trim() === "") {
-      console.log("True");
       toast("Content cannot be empty", {
         description: formatDate(new Date()),
         action: {
@@ -64,8 +63,6 @@ const CreatePost = () => {
         },
       });
     }
-
-    console.log("Response: ", response);
   };
 
   return (

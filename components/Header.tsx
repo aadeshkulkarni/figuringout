@@ -15,7 +15,6 @@ import Image from "next/image";
 
 const Header = () => {
   const session = useSession();
-  console.log("Session: ", session);
   const isAuthenticated = session.status === "authenticated";
   return (
     <Sheet>
@@ -60,7 +59,7 @@ const Header = () => {
                   signIn("google", { callbackUrl: "/", redirect: true });
                 }}
               >
-                Sign up
+                Get started
               </Button>
             )}
           </SheetDescription>

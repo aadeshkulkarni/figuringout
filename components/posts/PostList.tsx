@@ -2,7 +2,6 @@ import Post, { NoPosts } from "./Post";
 import { fetchPosts } from "@/app/actions/posts";
 
 const PostList = async () => {
-  console.log("FetchPosts");
   const PostList: PostProps[] = await fetchPosts();
   if (PostList.length === 0) <NoPosts />;
 
