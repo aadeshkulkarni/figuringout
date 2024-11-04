@@ -1,5 +1,7 @@
 "use server";
 import mongoose from "mongoose";
+import { commentsSchema } from "./Comment";
+
 const Schema = mongoose.Schema;
 
 mongoose.connect(process.env.MONGODB_URI!);
@@ -12,13 +14,18 @@ const postSchema = new mongoose.Schema({
       timestamp: { type: Date, default: Date.now },
     },
   ],
-  comments: { type: Array, required: false },
-  share: { type: Array, required: false },
+  comments: [commentsSchema],
+  share: [
+    {
+      userId: { type: Schema.Types.ObjectId, ref: "User" },
+      timestamp: { type: Date, default: Date.now },
+    },
+  ],
   postAs: { type: String, required: true, default: "Anonymous" },
-  createdAt: { type: String, required: false },
+  createdAt: { type: Date, default: Date.now },
   region: { type: String, required: false },
   user: { type: Schema.Types.ObjectId, ref: "User" },
-});
+}, { timestamps: true });
 
 const Post = mongoose.models.Post || mongoose.model("Post", postSchema);
 

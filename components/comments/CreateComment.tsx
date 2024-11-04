@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useState, ChangeEvent } from "react";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -13,16 +12,20 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
-import { cn } from "@/lib/utils";
-import Image from "next/image";
 import axios from "axios";
 import { toast } from "sonner";
 import { useSession } from "next-auth/react";
 import { formatDate } from "@/app/lib/util";
-import { usePosts } from "@/app/contexts/PostsProvider";
+import { MessageSquare } from "lucide-react";
+import { usePost } from "@/app/contexts/PostProvider";
 
-const CreatePost = () => {
-  const postContext = usePosts();
+interface AddCommentProps {
+  postId: string;
+  total: number
+}
+
+const CreateComment: React.FC<AddCommentProps> = ({ postId, total }) => {
+  const postContext = usePost();
   const maxCharacters = 300;
   const [open, setOpen] = useState(false);
   const session = useSession();
@@ -38,7 +41,10 @@ const CreatePost = () => {
       setContent(value.substring(0, maxCharacters));
     }
   };
-  const createPost = async () => {
+
+  
+
+  const CreateComment = async () => {
     if (content.trim() === "") {
       toast("Content cannot be empty", {
         description: formatDate(new Date()),
@@ -50,48 +56,31 @@ const CreatePost = () => {
       return;
     }
 
-    const response = await axios.post("/api/post", {
-      content,
-    });
+    const response = await postContext?.addComment(postId, content);
 
     if (response) {
       setContent("");
       setOpen(false);
-      toast("Post has been created.", {
+      toast("Comment has been created.", {
         description: formatDate(new Date()),
         action: {
           label: "View",
-          onClick: () => console.log("TODO : Add a link to the new post "),
+          onClick: () => console.log("TODO : Add a link to the new comment "),
         },
       });
-      postContext?.getAllPosts();
     }
   };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="h-fit">
-        <Card className="rounded-t-3xl w-screen md:w-[600px] cursor-pointer text-lg">
-          <CardContent className="flex items-center justify-between gap-4 p-4 pl-6 ">
-            <Image
-              src={session?.data?.user?.image || ""}
-              className="w-[40px] h-[40px] bg-secondary border-2 border-secondary rounded-full"
-              width="40"
-              height="40"
-              alt="User profile picture"
-            />
-            <div className="flex-1 pt-2 text-left text-lg">What&apos;s new?</div>
-            <div
-              className={cn(buttonVariants({ variant: "outline", className: "mr-4 text-primary" }))}
-            >
-              Post
-            </div>
-          </CardContent>
-        </Card>
+        <Button variant="ghost">
+          <MessageSquare className="w-5 h-5" /> {total}
+        </Button>
       </DialogTrigger>
       <DialogContent className="w-screen md:w-3/5">
         <DialogHeader>
-          <DialogTitle>New post</DialogTitle>
+          <DialogTitle>New Comment</DialogTitle>
           <DialogDescription className="py-4">
             <Textarea
               onChange={onContentChange}
@@ -106,8 +95,8 @@ const CreatePost = () => {
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button variant="outline" onClick={createPost}>
-            Post
+          <Button variant="outline" onClick={CreateComment}>
+            Add comment
           </Button>
         </DialogFooter>
       </DialogContent>
@@ -115,4 +104,4 @@ const CreatePost = () => {
   );
 };
 
-export default CreatePost;
+export default CreateComment;

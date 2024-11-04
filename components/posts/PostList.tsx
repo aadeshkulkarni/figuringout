@@ -1,11 +1,16 @@
+"use client";
+
+import { usePosts } from "@/app/contexts/PostsProvider";
 import Post, { NoPosts } from "./Post";
-import { fetchPosts } from "@/app/actions/posts";
 
-const PostList = async () => {
-  const PostList: PostProps[] = await fetchPosts();
-  if (PostList.length === 0) <NoPosts />;
+const PostList = () => {
+  const postContext = usePosts();
 
-  return PostList.map(({ _id, ...data }: PostProps) => <Post key={_id} {...data} _id={_id} />);
+  if (postContext?.posts.length === 0) <NoPosts />;
+
+  return postContext?.posts.map(({ _id, ...data }: PostProps) => (
+    <Post key={_id} {...data} _id={_id} />
+  ));
 };
 
 export default PostList;

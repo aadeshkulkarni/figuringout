@@ -7,21 +7,28 @@ import PostMenu from "./PostMenu";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { usePosts } from "@/app/contexts/PostsProvider";
 
 const Post: React.FC<PostProps> = ({ _id, user, content, likes, comments }) => {
+  const postsContext = usePosts();
   const session = useSession();
+  const router = useRouter();
   // @ts-ignore
   const userId = session?.data?.user?.id;
 
-  const likePost = async () => {
-    if (userId) {
-      const data = await axios(`/api/post/like/${_id}`);
-      console.log(data);
+  const likePost = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    if (_id) {
+      await postsContext?.likePost(_id);
     }
   };
 
   return (
-    <Card className="w-screen md:w-[600px] text-lg">
+    <Card
+      className="w-screen md:w-[600px] text-lg cursor-pointer"
+      onClick={() => router.push(`/post/${_id}`)}
+    >
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between gap-4 text-primary font-semibold pr-4">
           <div className="flex items-center justify-between gap-4 text-primary font-semibold">
