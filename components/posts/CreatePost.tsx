@@ -71,8 +71,8 @@ const CreatePost = () => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="h-fit">
-        <Card className="rounded-t-3xl w-screen md:w-[600px] cursor-pointer text-lg">
-          <CardContent className="flex items-center justify-between gap-4 p-4 pl-6 ">
+        <Card className="rounded-t-3xl w-screen md:w-[680px] cursor-pointer text-lg">
+          <CardContent className="flex items-center justify-between gap-4 p-4 py-8 pl-6 ">
             <Image
               src={session?.data?.user?.image || ""}
               className="w-[40px] h-[40px] bg-secondary border-2 border-secondary rounded-full"
@@ -80,16 +80,16 @@ const CreatePost = () => {
               height="40"
               alt="User profile picture"
             />
-            <div className="flex-1 pt-2 text-left text-lg">What&apos;s new?</div>
+            <div className="flex-1 pt-2 text-left cursor-text text-gray-500">What&apos;s new?</div>
             <div
-              className={cn(buttonVariants({ variant: "outline", className: "mr-4 text-primary" }))}
+              className={cn(buttonVariants({ variant: "outline", className: "mr-4 font-bold" }))}
             >
               Post
             </div>
           </CardContent>
         </Card>
       </DialogTrigger>
-      <DialogContent className="w-screen md:w-3/5">
+      <DialogContent className="w-screen h-full md:h-fit md:w-3/5">
         <DialogHeader>
           <DialogTitle>New post</DialogTitle>
           <DialogDescription className="py-4">
@@ -97,7 +97,7 @@ const CreatePost = () => {
               onChange={onContentChange}
               value={content}
               rows={8}
-              className="text-lg"
+              className="text-lg focus:outline-none focus:border-0"
               placeholder="What's new?"
             ></Textarea>
             <div className="mt-2 text-gray-600 text-right">

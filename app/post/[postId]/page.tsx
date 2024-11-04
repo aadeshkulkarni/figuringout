@@ -18,7 +18,7 @@ const Page = async ({ params }: { params: Promise<{ postId: string }> }) => {
       <PostProvider value={postData}>
         <div>
           <GoBack />
-          <Card className="w-full md:w-[600px] md:min-h-[600px] md:rounded-3xl">
+          <Card className="w-full md:w-[680px] md:min-h-[680px] md:rounded-3xl">
             <CardHeader className="pb-4">
               <PostHeader />
             </CardHeader>

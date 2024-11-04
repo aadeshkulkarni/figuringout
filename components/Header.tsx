@@ -14,6 +14,17 @@ import { Kanban } from "lucide-react";
 import Image from "next/image";
 
 const Header = () => {
+  return (
+    <>
+      <div className="md:hidden absolute top-6 left-6 flex items-center gap-4 text-xl font-bold text-foreground">
+        <Image src="/logo.svg" alt="Logo" width="42" height="42" />
+      </div>
+      <Nav />
+    </>
+  );
+};
+
+const Nav = () => {
   const session = useSession();
   const isAuthenticated = session.status === "authenticated";
   return (
@@ -23,7 +34,10 @@ const Header = () => {
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>Figuringout.life</SheetTitle>
+          <SheetTitle className="flex items-center gap-4 ">
+            <Image src="/logo.svg" alt="Logo" width="48" height="48" />
+            Figuringout.life
+          </SheetTitle>
           <SheetDescription>
             {isAuthenticated ? (
               <div className="py-8">
@@ -67,7 +81,7 @@ const Header = () => {
       </SheetContent>
     </Sheet>
   );
-  return;
+
 };
 
 export default Header;

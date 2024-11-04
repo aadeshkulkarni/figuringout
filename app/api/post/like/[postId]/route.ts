@@ -15,14 +15,17 @@ export const GET = async (request: Request, { params }: { params: Promise<{ slug
   if (!post) {
     return NextResponse.json({ message: "Post not found" });
   }
-  const alreadyLiked = post.likes.some((like: { userId: { equals: (arg0: any) => any } }) =>
-    like.userId.equals(userId)
-  );
-  if (!alreadyLiked) {
+  const likeIndex = post.likes.findIndex((like: { userId: { equals: (arg0: any) => any; }; }) => like.userId.equals(userId));
+  if (likeIndex === -1) {
+    // User hasn't liked the post yet, add the like
     post.likes.push({ userId, timestamp: new Date() });
     await post.save();
     return NextResponse.json(post);
   } else {
-    return NextResponse.json({ message: "Post already liked" });
+    // User has already liked the post, remove the like
+    post.likes.splice(likeIndex, 1);
+    await post.save();
+    return NextResponse.json(post);
   }
+
 };

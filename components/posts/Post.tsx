@@ -26,7 +26,7 @@ const Post: React.FC<PostProps> = ({ _id, user, content, likes, comments }) => {
 
   return (
     <Card
-      className="w-screen md:w-[600px] text-lg cursor-pointer"
+      className="w-screen md:w-[680px] text-lg cursor-pointer"
       onClick={() => router.push(`/post/${_id}`)}
     >
       <CardHeader className="pb-4">
@@ -74,7 +74,7 @@ const Post: React.FC<PostProps> = ({ _id, user, content, likes, comments }) => {
 
 export const NoPosts: React.FC = () => {
   return (
-    <Card className="w-[600px] flex flex-col justify-center items-center p-4">
+    <Card className="w-[680px] flex flex-col justify-center items-center p-4">
       <CardDescription className="h-[100px] flex items-center">No Posts available</CardDescription>
     </Card>
   );
@@ -82,7 +82,7 @@ export const NoPosts: React.FC = () => {
 
 export const PostSchimmer: React.FC = () => {
   return (
-    <Card className="w-[600px] text-lg">
+    <Card className="w-[680px] text-lg">
       <CardHeader>
         <CardDescription className="flex items-center gap-4 text-primary font-semibold">
           <div className="w-[40px] h-[40px] bg-secondary border-2 border-secondary rounded-full"></div>

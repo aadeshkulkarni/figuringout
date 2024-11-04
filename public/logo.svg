@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1"  viewBox="0 0 455 455" xml:space="preserve" width="512" height="512">
+<g>
+	<!-- <polygon style="fill:#FFD572;" points="455,124.4 362.62,124.4 382.62,52.02  "/> -->
+    <polygon style="fill:#fac955;" points="455,124.4 362.62,124.4 382.62,52.02  "/>
+    
+    <polygon style="fill:#f5ce73;" points="382.62,124.4 382.62,205.56 305.84,128.79 382.62,52.02  "/>
+	<polygon style="fill:#f5ce73;" points="261.98,326.21 185.2,402.98 185.2,249.43 225.2,249.43  "/>
+	<path style="fill:#f5ce73;" d="M241.29,64.23l-80.64,120.65h-40C120.64,184.88,0,64.23,0,64.23H241.29z"/>
+	<!-- <polygon style="fill:#FFE3A1;" points="382.62,124.4 382.62,205.56 305.84,128.79 382.62,52.02  "/>
+	<polygon style="fill:#FFE3A1;" points="261.98,326.21 185.2,402.98 185.2,249.43 225.2,249.43  "/>
+	<path style="fill:#FFE3A1;" d="M241.29,64.23l-80.64,120.65h-40C120.64,184.88,0,64.23,0,64.23H241.29z"/> -->
+	<!-- <path style="fill:#FFD572;" d="M241.29,64.23L120.65,184.88l141.33,141.33l120.64-120.64C382.62,205.56,241.29,64.23,241.29,64.23z   "/> -->
+    <path style="fill:#fac955;" d="M241.29,64.23L120.65,184.88l141.33,141.33l120.64-120.64C382.62,205.56,241.29,64.23,241.29,64.23z   "/>
+    
+	<circle style="fill:#FFB914;" cx="253.768" cy="247.019" r="7.5"/>
+	<circle style="fill:#FFB914;" cx="273.768" cy="207.019" r="7.5"/>
+</g>
+</svg>

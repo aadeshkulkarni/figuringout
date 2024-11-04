@@ -7,12 +7,19 @@ import {
 import { Ellipsis } from "lucide-react";
 
 import React from "react";
+import { toast } from "sonner";
 
 interface PostMenuProps {
   isAuthor: boolean;
 }
 
 const PostMenu: React.FC<PostMenuProps> = ({ isAuthor }) => {
+
+  const editPost = (e: React.MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
+    toast("The action is recorded. Feature is under development.")
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -21,9 +28,9 @@ const PostMenu: React.FC<PostMenuProps> = ({ isAuthor }) => {
       <DropdownMenuContent>
         {/* <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator /> */}
-        {isAuthor && <DropdownMenuItem>Edit this post</DropdownMenuItem>}
-        {isAuthor && <DropdownMenuItem>Delete this post</DropdownMenuItem>}
-        <DropdownMenuItem>Report it</DropdownMenuItem>
+        {isAuthor && <DropdownMenuItem onClick={editPost}>Edit this post</DropdownMenuItem>}
+        {isAuthor && <DropdownMenuItem onClick={editPost}>Delete this post</DropdownMenuItem>}
+        <DropdownMenuItem onClick={editPost}>Report it</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
