@@ -49,13 +49,19 @@ cp .env.example .env
 npm install
 ```
 
-3. Start the development server
+3. Generate keys for PWA and store them in .env file
+
+```
+node generate-vapid-keys.js
+```
+
+4. Start the development server
 
 ```
 npm run dev
 ```
 
-4. Open your browser and visit http://localhost:3000.
+4. Open your browser and visit https://localhost:3000.
 
 
 ### Database Setup (MongoDB):

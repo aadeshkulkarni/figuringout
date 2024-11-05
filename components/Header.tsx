@@ -12,6 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Kanban } from "lucide-react";
 import Image from "next/image";
+import InstallPrompt from "./InstallPrompt";
 
 const Header = () => {
   return (
@@ -40,7 +41,7 @@ const Nav = () => {
           </SheetTitle>
           <SheetDescription>
             {isAuthenticated ? (
-              <div className="py-8">
+              <div className="pt-8">
                 <div className="py-4 flex gap-2 md:gap-8 items-center">
                   <Image
                     src={session?.data?.user?.image || ""}
@@ -67,7 +68,7 @@ const Nav = () => {
               </div>
             ) : (
               <Button
-                className="w-full my-8"
+                className="w-full mt-8"
                 onClick={(e) => {
                   e.preventDefault();
                   signIn("google", { callbackUrl: "/", redirect: true });
@@ -76,6 +77,8 @@ const Nav = () => {
                 Get started
               </Button>
             )}
+            {/* <PushNotificationManager /> */}
+            <InstallPrompt />
           </SheetDescription>
         </SheetHeader>
       </SheetContent>
