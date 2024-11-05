@@ -12,7 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Kanban } from "lucide-react";
 import Image from "next/image";
-import InstallPrompt from "./InstallPrompt";
+import InstallPrompt from "./pwa/InstallPrompt";
 
 const Header = () => {
   return (
