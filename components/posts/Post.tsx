@@ -26,7 +26,7 @@ const Post: React.FC<PostProps> = ({ _id, user, content, likes, comments }) => {
 
   return (
     <Card
-      className="w-screen md:w-[680px] text-lg cursor-pointer"
+      className="w-screen md:w-[680px] text-lg cursor-pointer active:shadow-lg active:bg-accent"
       onClick={() => router.push(`/post/${_id}`)}
     >
       <CardHeader className="pb-4">
@@ -57,13 +57,13 @@ const Post: React.FC<PostProps> = ({ _id, user, content, likes, comments }) => {
             />{" "}
             {Object.keys(likes)?.length}
           </Button>
-          <Button variant="ghost">
+          <Button variant="ghost" onClick={() => router.push(`/post/${_id}`)}>
             <MessageSquare className="w-5 h-5" /> {comments?.length}
           </Button>
-          <Button variant="ghost">
+          <Button variant="ghost" disabled>
             <Repeat className="w-5 h-5" /> 4
           </Button>
-          <Button variant="ghost">
+          <Button variant="ghost" disabled>
             <Send className="w-5 h-5" />
           </Button>
         </div>

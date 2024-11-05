@@ -2,6 +2,7 @@ import { Heart, Home, LockKeyhole, Plus, Search, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { ThemeToggle } from "./ThemeToggle";
 
 const NavigationList = [
   {
@@ -48,6 +49,7 @@ const SideNavbar = () => {
       <div className="hidden md:block absolute top-4 left-4">
         <Image src="/logo.svg" alt="Logo" width="48" height="48" />
       </div>
+      <ThemeToggle />
 
       {NavigationList.map(({ key, href, className = "", component: Component }) => (
         <Link key={key} href={href} className={`hover:opacity-50 ${className}`}>
