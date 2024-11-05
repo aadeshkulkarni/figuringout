@@ -46,7 +46,7 @@ export default function InstallPrompt() {
         Install App <FastForward />
       </Button>
       {isIOS && (
-        <p>
+        <p className="pt-4 text-sm">
           To install this app on your iOS device, tap the share button
           <span role="img" aria-label="share icon">
             {" "}
