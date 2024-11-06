@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-
+import { Analytics } from "@vercel/analytics/react"
 import { Providers } from "./providers";
 import SideNavbar from "@/components/SideNavbar";
 import Header from "@/components/Header";
@@ -41,6 +41,7 @@ export default function RootLayout({
             <Toaster />
           </>
         </Providers>
+        <Analytics />        
       </body>
     </html>
   );
