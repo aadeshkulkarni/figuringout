@@ -21,7 +21,7 @@ import { useSession } from "next-auth/react";
 import { formatDate } from "@/app/lib/util";
 import { usePosts } from "@/app/contexts/PostsProvider";
 
-const CreatePost = ({ openOnLoad = false }: {openOnLoad: boolean}) => {
+const CreatePost = ({ openOnLoad = false }: { openOnLoad?: boolean }) => {
   const postContext = usePosts();
   const maxCharacters = 300;
   const [open, setOpen] = useState(openOnLoad);
