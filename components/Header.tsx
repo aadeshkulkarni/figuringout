@@ -13,12 +13,14 @@ import { Button } from "@/components/ui/button";
 import { Kanban } from "lucide-react";
 import Image from "next/image";
 import InstallPrompt from "./pwa/InstallPrompt";
+import { ThemeToggle } from "./ThemeToggle";
 
 const Header = () => {
   return (
     <>
       <div className="md:hidden absolute top-6 left-6 flex items-center gap-4 text-xl font-bold text-foreground">
         <Image src="/logo.svg" alt="Logo" width="42" height="42" />
+        <ThemeToggle />
       </div>
       <Nav />
     </>

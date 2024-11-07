@@ -19,7 +19,7 @@ const NavigationList = [
   },
   {
     key: "plus",
-    href: "",
+    href: "/create",
     component: Plus,
     className: "",
   },
@@ -48,8 +48,8 @@ const SideNavbar = () => {
     <div className="z-50 fixed bottom-0 left-0 w-screen md:w-fit md:h-screen p-6 flex md:flex-col justify-between md:justify-center items-center gap-8 bg-primary-foreground md:bg-transparent border md:border-0 md:shadow-none">
       <div className="hidden md:block absolute top-4 left-4">
         <Image src="/logo.svg" alt="Logo" width="48" height="48" />
+        <ThemeToggle />
       </div>
-      <ThemeToggle />
 
       {NavigationList.map(({ key, href, className = "", component: Component }) => (
         <Link key={key} href={href} className={`hover:opacity-50 ${className}`}>

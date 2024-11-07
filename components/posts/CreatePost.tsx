@@ -21,10 +21,10 @@ import { useSession } from "next-auth/react";
 import { formatDate } from "@/app/lib/util";
 import { usePosts } from "@/app/contexts/PostsProvider";
 
-const CreatePost = () => {
+const CreatePost = ({ openOnLoad = false }: {openOnLoad: boolean}) => {
   const postContext = usePosts();
   const maxCharacters = 300;
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(openOnLoad);
   const session = useSession();
   const [content, setContent] = useState<string>("");
   const isAuthenticated = session.status == "authenticated";

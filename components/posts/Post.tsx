@@ -4,11 +4,12 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader } from "@/co
 import { Heart, MessageSquare, Repeat, Send } from "lucide-react";
 import { Button } from "..//ui/button";
 import PostMenu from "./PostMenu";
-import axios from "axios";
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { usePosts } from "@/app/contexts/PostsProvider";
+import { toast } from "sonner";
+import { formatDate } from "@/app/lib/util";
 
 const Post: React.FC<PostProps> = ({ _id, user, content, likes, comments }) => {
   const postsContext = usePosts();
@@ -19,6 +20,15 @@ const Post: React.FC<PostProps> = ({ _id, user, content, likes, comments }) => {
 
   const likePost = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
+    if(!userId) {
+      toast("You need to sign up to perform this task", {
+        description: formatDate(new Date()),
+        action: {
+          label: "Get started",
+          onClick: () => signIn(),
+        },
+      });
+    }
     if (_id) {
       await postsContext?.likePost(_id);
     }
