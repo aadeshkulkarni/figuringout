@@ -40,7 +40,7 @@ const Post: React.FC<PostProps> = ({ _id, user, content, likes, comments }) => {
 
   return (
     <Card
-      className="w-screen md:w-[680px] text-lg cursor-pointer active:shadow-lg active:bg-accent"
+      className="w-full md:w-[680px] text-lg cursor-pointer active:shadow-lg active:bg-accent hover:bg-opacity-20"
       onClick={() => {
         setLoading(true);
         router.push(`/post/${_id}`);

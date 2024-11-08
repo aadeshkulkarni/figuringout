@@ -19,10 +19,10 @@ const Search = async () => {
   const suggestions = await fetchSearchSuggestions();
   
   return (
-    <div className="grid items-center justify-items-center  min-h-screen py-20 font-[family-name:var(--font-geist-sans)] shadow-md">
-      <Command className="rounded-3xl border p-4 shadow-md md:max-w-[680px]">
+    <div className="grid items-center justify-items-center pt-20 md:pt-0 min-h-screen font-[family-name:var(--font-geist-sans)] shadow-md">
+      <Command className="rounded-3xl border p-4 shadow-md md:max-w-[680px]  md:max-h-[680px]">
         <CommandInput className="rounded-2xl p-4 tracking-wider text-md" placeholder="Search" />
-        <CommandList className="p-4">
+        <CommandList className="p-4 md:max-h-[600px]">
           <CommandEmpty>No results found.</CommandEmpty>
           <CommandGroup heading="Suggestions">
             {suggestions.map((user) => (

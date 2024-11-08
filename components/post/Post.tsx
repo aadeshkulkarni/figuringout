@@ -24,9 +24,9 @@ const Post = ({ postId }: { postId: string }) => {
   if (!post) return <PostShimmer />;
   return (
     <PostProvider value={post}>
-      <div>
+      <div className="w-full p-4 md:p-0 md:w-fit">
         <GoBack />
-        <Card className="w-full md:w-[680px] md:min-h-[680px] md:rounded-3xl">
+        <Card className="w-full md:w-[680px] md:min-h-[680px]">
           <CardHeader className="pb-4">
             <PostHeader />
           </CardHeader>
