@@ -1,17 +1,19 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader } from "@/components/ui/card";
 import { Heart, MessageSquare, Repeat, Send } from "lucide-react";
 import { Button } from "..//ui/button";
 import PostMenu from "./PostMenu";
 import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { usePosts } from "@/app/contexts/PostsProvider";
 import { toast } from "sonner";
 import { formatDate } from "@/app/lib/util";
+import { useRouter } from "next/navigation";
+import PostShimmer from "../shimmer/PostShimmer";
 
 const Post: React.FC<PostProps> = ({ _id, user, content, likes, comments }) => {
+  const [isLoading, setLoading] = useState(false);
   const postsContext = usePosts();
   const session = useSession();
   const router = useRouter();
@@ -20,7 +22,7 @@ const Post: React.FC<PostProps> = ({ _id, user, content, likes, comments }) => {
 
   const likePost = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    if(!userId) {
+    if (!userId) {
       toast("You need to sign up to perform this task", {
         description: formatDate(new Date()),
         action: {
@@ -34,10 +36,15 @@ const Post: React.FC<PostProps> = ({ _id, user, content, likes, comments }) => {
     }
   };
 
+  if (isLoading) <PostShimmer />;
+
   return (
     <Card
       className="w-screen md:w-[680px] text-lg cursor-pointer active:shadow-lg active:bg-accent"
-      onClick={() => router.push(`/post/${_id}`)}
+      onClick={() => {
+        setLoading(true);
+        router.push(`/post/${_id}`);
+      }}
     >
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between gap-4 text-primary font-semibold pr-4">
