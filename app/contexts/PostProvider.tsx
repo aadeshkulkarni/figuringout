@@ -41,6 +41,7 @@ export const PostProvider = ({ value, children }: { value: Object; children: Rea
 
   let values = {
     currentPost,
+    setCurrentPost,
     getPostById,
     likePost,
     addComment

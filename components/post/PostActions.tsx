@@ -12,10 +12,17 @@ const PostActions = () => {
   //@ts-ignore
   const userId = session?.data?.user.id;
   //@ts-ignore
-  const { currentPost } = postContext;
+  const { currentPost, setCurrentPost } = postContext;
   
-  const likePost = async () => {
+  const likePost = async (event:any) => {
     if (currentPost?._id) {
+      if(currentPost.likes[userId]) {
+        const { userId, ...rest } = currentPost.likes
+        setCurrentPost({...currentPost, likes: [...rest]})
+      }
+      else {
+        setCurrentPost({...currentPost, likes: [...currentPost.likes, userId]})
+      }
       await postContext?.likePost(currentPost?._id);
     }
   };

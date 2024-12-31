@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { ThemeToggle } from "./ThemeToggle";
+import CreatePost from "./posts/CreatePost";
 
 const NavigationList = [
   {
@@ -19,8 +20,8 @@ const NavigationList = [
   },
   {
     key: "plus",
-    href: "/create",
-    component: Plus,
+    href: "/",
+    component: () => <CreatePost><Plus /></CreatePost>,
     className: "",
   },
   {
@@ -34,13 +35,7 @@ const NavigationList = [
     href: "/profile",
     component: User,
     className: "fill-black ",
-  },
-  // {
-  //   key: "polcies",
-  //   href: "/policies",
-  //   component: LockKeyhole,
-  //   className: "hidden md:block",
-  // },
+  }
 ];
 
 const SideNavbar = () => {

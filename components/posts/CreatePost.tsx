@@ -21,7 +21,7 @@ import { useSession } from "next-auth/react";
 import { formatDate } from "@/app/lib/util";
 import { usePosts } from "@/app/contexts/PostsProvider";
 
-const CreatePost = ({ openOnLoad = false }: { openOnLoad?: boolean }) => {
+const CreatePost = ({ openOnLoad = false, children}: { openOnLoad?: boolean, children?: React.ReactElement }) => {
   const postContext = usePosts();
   const maxCharacters = 300;
   const [open, setOpen] = useState(openOnLoad);
@@ -71,23 +71,7 @@ const CreatePost = ({ openOnLoad = false }: { openOnLoad?: boolean }) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="h-fit">
-        <Card className="rounded-t-3xl w-screen md:w-[680px] cursor-pointer text-lg">
-          <CardContent className="flex items-center justify-between gap-4 p-4 py-8 pl-6 ">
-            <Image
-              src={session?.data?.user?.image || ""}
-              className="w-[40px] h-[40px] bg-secondary border-2 border-secondary rounded-full"
-              width="40"
-              height="40"
-              alt="User profile picture"
-            />
-            <div className="flex-1 pt-2 text-left cursor-text text-gray-500">What&apos;s new?</div>
-            <div
-              className={cn(buttonVariants({ variant: "outline", className: "mr-4 font-bold" }))}
-            >
-              Post
-            </div>
-          </CardContent>
-        </Card>
+        {children}
       </DialogTrigger>
       <DialogContent className="w-screen h-full md:h-fit md:w-3/5">
         <DialogHeader>
