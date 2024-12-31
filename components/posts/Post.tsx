@@ -12,13 +12,14 @@ import { formatDate } from "@/app/lib/util";
 import { useRouter } from "next/navigation";
 import PostShimmer from "../shimmer/PostShimmer";
 
-const Post: React.FC<PostProps> = ({ _id, user, content, likes, comments }) => {
+const Post: React.FC<PostProps> = ({ _id, user, content, likes, comments, createdAt }) => {
   const [isLoading, setLoading] = useState(false);
   const postsContext = usePosts();
   const session = useSession();
   const router = useRouter();
   // @ts-ignore
   const userId = session?.data?.user?.id;
+  const formattedCreatedDate = createdAt ? new Date(createdAt).toLocaleDateString('en-US') : "";
 
   const likePost = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
@@ -47,8 +48,8 @@ const Post: React.FC<PostProps> = ({ _id, user, content, likes, comments }) => {
       }}
     >
       <CardHeader className="pb-4">
-        <div className="flex items-center justify-between gap-4 text-primary font-semibold pr-4">
-          <div className="flex items-center justify-between gap-4 text-primary font-semibold">
+        <div className="flex items-center justify-between gap-4 text-primary pr-4">
+          <div className="flex items-center justify-between gap-4 text-primary ">
             <Image
               className="w-[40px] h-[40px] bg-secondary border-2 border-secondary rounded-full"
               width="40"
@@ -56,7 +57,8 @@ const Post: React.FC<PostProps> = ({ _id, user, content, likes, comments }) => {
               src={user.profilePic}
               alt={user.name}
             />
-            <div>{user?.name}</div>
+            <div className="font-semibold">{user?.name}</div>
+            <div className="text-sm text-muted-foreground">{formattedCreatedDate}</div>
           </div>
           <PostMenu isAuthor={userId === user._id} />
         </div>

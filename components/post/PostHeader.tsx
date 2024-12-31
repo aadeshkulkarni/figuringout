@@ -13,9 +13,10 @@ const PostHeader = () => {
   const userId = session?.data?.user.id;
   //@ts-ignore
   const { currentPost } = postContext;
+  const formattedCreatedDate = currentPost.createdAt ? new Date(currentPost.createdAt).toLocaleDateString('en-US') : "";
   return (
-    <div className="flex items-center justify-between gap-4 text-primary font-semibold pr-4">
-      <div className="flex items-center justify-between gap-4 text-primary font-semibold">
+    <div className="flex items-center justify-between gap-4 text-primary pr-4">
+      <div className="flex items-center justify-between gap-4 text-primary">
         <Image
           className="w-[40px] h-[40px] bg-secondary border-2 border-secondary rounded-full"
           width="40"
@@ -23,7 +24,8 @@ const PostHeader = () => {
           src={currentPost.user?.profilePic}
           alt={currentPost.user?.name}
         />
-        <div>{currentPost.user?.name}</div>
+        <div className="font-semibold">{currentPost?.user?.name}</div>
+        <div className="text-sm text-muted-foreground">{formattedCreatedDate}</div>
       </div>
       <PostMenu isAuthor={userId === session?.data?.user?.id} />
     </div>
